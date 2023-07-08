@@ -3,6 +3,9 @@
 ### Xcode ###
 ## User settings
 xcuserdata/
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
 
 ## Xcode 8 and earlier
 *.xcscmblueprint
