@@ -9,6 +9,7 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+    var player:Player = Player()
     var displacement:Double = 0
     
     override func didMove(to view: SKView) {
@@ -72,7 +73,7 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         if displacement > 0 || displacement < 0{
-            movePlayer(displacement: displacement)
+            player.playerMove(displacement: displacement)
         }
     }
 }
