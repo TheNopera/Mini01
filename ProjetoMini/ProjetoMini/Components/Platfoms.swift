@@ -14,9 +14,8 @@ class Platform: SKSpriteNode {
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color , size: size)
-        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
-        self.physicsBody?.categoryBitMask = physicsCategory.platform.rawValue
-        self.physicsBody?.collisionBitMask = physicsCategory.player.rawValue
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,6 +27,10 @@ class LongPlatform: Platform {
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
+        self.physicsBody?.categoryBitMask = physicsCategory.platform.rawValue
+        self.physicsBody?.collisionBitMask = physicsCategory.player.rawValue
+        
         self.color = .blue
         self.size = CGSize(width: 100, height: 20)
     }

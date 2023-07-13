@@ -8,13 +8,14 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     var player:Player = Player()
     var displacement:Double = 0
     var scenario: Scenario = Scenario()
-
+    
     override func didMove(to view: SKView) {
         
+        self.physicsWorld.contactDelegate = self
         scenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         addChild(scenario)
         scenario.addChild(player)

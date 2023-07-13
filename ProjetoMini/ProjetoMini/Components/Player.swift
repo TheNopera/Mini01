@@ -20,7 +20,9 @@ class Player:SKSpriteNode{
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue
+        
         self.position = CGPoint(x: -100, y: 0)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
