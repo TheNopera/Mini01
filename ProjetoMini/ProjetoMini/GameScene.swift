@@ -11,14 +11,19 @@ import GameplayKit
 class GameScene: SKScene {
     var player:Player = Player()
     var displacement:Double = 0
-    
+    var scenario: Scenario = Scenario()
+
     override func didMove(to view: SKView) {
-        addChild(player)
+        
+        scenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+        addChild(scenario)
+        scenario.addChild(player)
         addChild(jbase)
         addChild(jhandle)
         
-        //MARK: Use to test the movement of the player while theres no  platform
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
+        //MARK: Use to test the movement of the player while theres no platform
+//        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
     }
     

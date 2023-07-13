@@ -11,5 +11,5 @@ import SpriteKit
 //MARK: Physics categories go here, call this enum to set categories.
 enum physicsCategory:UInt32{
     case player = 0x1
-    case platform
+    case platform = 0x2
 }
