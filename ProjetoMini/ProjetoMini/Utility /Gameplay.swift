@@ -12,5 +12,4 @@ import SpriteKit
 enum physicsCategory:UInt32{
     case player = 0x1
     case platform
-    case enemy
 }

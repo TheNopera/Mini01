@@ -16,6 +16,10 @@ class GameScene: SKScene {
         addChild(player)
         addChild(jbase)
         addChild(jhandle)
+        
+        //MARK: Use to test the movement of the player while theres no  platform
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
     }
     
     

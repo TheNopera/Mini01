@@ -64,17 +64,33 @@
 			isa = PBXGroup;
 			children = (
 				62580CBE2A5764F6003A882C /* AppDelegate.swift */,
-				62CEF93C2A5DDF34006F9784 /* JoystickHandle.swift */,
-				62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */,
-				62CEF9382A5DD48F006F9784 /* Player.swift */,
-				62CEF93E2A5DE233006F9784 /* Gameplay.swift */,
+				6291BB422A6064C4008DBFB9 /* Components */,
 				62580CC42A5764F6003A882C /* GameScene.swift */,
+				6291BB432A60654A008DBFB9 /* Utility  */,
 				62580CC62A5764F6003A882C /* GameViewController.swift */,
 				62580CC82A5764F6003A882C /* Main.storyboard */,
 				62580CCB2A5764F6003A882C /* Assets.xcassets */,
 				62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */,
 			);
 			path = ProjetoMini;
+			sourceTree = "<group>";
+		};
+		6291BB422A6064C4008DBFB9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				62CEF93C2A5DDF34006F9784 /* JoystickHandle.swift */,
+				62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */,
+				62CEF9382A5DD48F006F9784 /* Player.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		6291BB432A60654A008DBFB9 /* Utility  */ = {
+			isa = PBXGroup;
+			children = (
+				62CEF93E2A5DE233006F9784 /* Gameplay.swift */,
+			);
+			path = "Utility ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,8 +323,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -335,8 +351,8 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
