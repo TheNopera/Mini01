@@ -61,7 +61,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 jhandle.position = location
                 jbase.position = location
             }
-            
         }
     }
     

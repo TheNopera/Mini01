@@ -71,14 +71,12 @@
 		62580CBD2A5764F6003A882C /* ProjetoMini */ = {
 			isa = PBXGroup;
 			children = (
-				62580CBE2A5764F6003A882C /* AppDelegate.swift */,
+				E06B279A2A606A5100B21DFD /* App */,
+				E06B279B2A606A6600B21DFD /* Cena1 */,
 				6291BB422A6064C4008DBFB9 /* Components */,
-				62580CC42A5764F6003A882C /* GameScene.swift */,
 				6291BB432A60654A008DBFB9 /* Utility  */,
 				62580CC62A5764F6003A882C /* GameViewController.swift */,
-				62580CC82A5764F6003A882C /* Main.storyboard */,
 				62580CCB2A5764F6003A882C /* Assets.xcassets */,
-				62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */,
 			);
 			path = ProjetoMini;
 			sourceTree = "<group>";
@@ -103,6 +101,24 @@
 				62CEF93E2A5DE233006F9784 /* Gameplay.swift */,
 			);
 			path = "Utility ";
+			sourceTree = "<group>";
+		};
+		E06B279A2A606A5100B21DFD /* App */ = {
+			isa = PBXGroup;
+			children = (
+				62580CBE2A5764F6003A882C /* AppDelegate.swift */,
+				62580CC82A5764F6003A882C /* Main.storyboard */,
+				62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E06B279B2A606A6600B21DFD /* Cena1 */ = {
+			isa = PBXGroup;
+			children = (
+				62580CC42A5764F6003A882C /* GameScene.swift */,
+			);
+			path = Cena1;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
