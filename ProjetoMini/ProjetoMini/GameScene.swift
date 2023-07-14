@@ -12,68 +12,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player:Player = Player()
     var displacement:Double = 0
-    let scenario: SKScene = SKScene(fileNamed: "ScenarioTileMap")!
-    let camada: SKNode = SKNode()
+    
+    //MARK: file that contains all designed platforms
+    let tileMapScenario: SKScene = SKScene(fileNamed: "ScenarioTileMap")!
+    
+    // MARK: instance of class LayerScenario
+    let layerScenario = LayerScenario()
 
     
     override func didMove(to view: SKView) {
         
+        // MARK: add physics to the world
         self.physicsWorld.contactDelegate = self
         
-        if let tilemapNode = scenario.childNode(withName: "TileMapNode") as? SKTileMapNode {
+            // MARK: verify if tileMapScenario has a SKTileMapNode child
+        if let tilemapNode = tileMapScenario.childNode(withName: "TileMapNode") as? SKTileMapNode {
             
-            createTileMapColliders(tilemapNode)
+            layerScenario.createTileMapColliders(tilemapNode)
         }
 
-
-        camada.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
-        self.addChild(camada)
-//        camada.addChild(scenario)
-        camada.addChild(player)
+        // MARK: center the scenario position in GameScene
+        layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+        self.addChild(layerScenario)
+        layerScenario.addChild(player)
         addChild(jbase)
         addChild(jhandle)
         
-        
-        //MARK: Use to test the movement of the player while theres no platform
-//        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        
     }
     
-    func createTileMapColliders(_ tilemap: SKTileMapNode) {
-        let tileSize = CGSize(width: tilemap.numberOfColumns, height: tilemap.numberOfRows)
-        
-        let scaleX = 0.1
-        let scaleY = 0.1
-        
-        for y in 0..<Int(tileSize.height) {
-            for x in 0..<Int(tileSize.width) {
-                let definition = tilemap.tileDefinition(atColumn: x, row: y)
-                let textures = definition?.textures
-                let tilePos = tilemap.centerOfTile(atColumn: x, row: y)
-                
-                if let textures = textures {
-                    for texture in textures {
-                        let textureSize = texture.size()
-                        let scaledSize = CGSize(width: textureSize.width * scaleX, height: textureSize.height * scaleY)
-                        let scaledPos = CGPoint(x: tilePos.x * scaleX, y: tilePos.y * scaleY)
-                        
-                        let square = SKSpriteNode(color: .white, size: scaledSize)
-//                        square.strokeColor = UIColor.white.withAlphaComponent(0)
-                        square.position = scaledPos
-                        square.physicsBody = SKPhysicsBody(rectangleOf: scaledSize)
-                        square.physicsBody?.isDynamic = false
-                        square.physicsBody?.affectedByGravity = false
-                        square.physicsBody?.allowsRotation = false
-                        square.name = "Chao"
-                        square.physicsBody?.categoryBitMask = 2
-                        camada.addChild(square)
-                        
-                    }
-                }
-            }
-        }
-        
-    }
     
     func touchDown(atPoint pos : CGPoint) {
         
