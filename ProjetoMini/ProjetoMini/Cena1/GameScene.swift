@@ -43,7 +43,6 @@ class GameScene: SKScene {
                 jhandle.position = location
                 jbase.position = location
             }
-            
         }
     }
     
