@@ -41,8 +41,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         player.setupSwipeHandler()
 
-        addChild(joystick)
-
         self.camera = cameraPlayer
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
@@ -91,6 +89,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+       // print("contato começou ")
+        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+       // print("contactMask: \(contactMask)")
+        let plataformaNormal = physicsCategory.player.rawValue + physicsCategory.platform.rawValue
+ 
+        
+        if contactMask == plataformaNormal{ // Player and platform collision
+//            goDown = false
+            if !player.hasContact{
+                player.hasContact = true
+            }
+        }
+        
+            
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        //print("contato terminou ")
+        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+        
+        if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
+            if player.hasContact{
+                player.hasContact = false
+            }
+        
+        }
+       // print(hasContact)
+    }
+    
+    
+    
     
     override func update(_ currentTime: TimeInterval) {
         if joystick.getDisplacement() != 0{

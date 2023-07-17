@@ -20,6 +20,7 @@ class Player:SKSpriteNode{
         self.color = .green
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
+        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue
         self.name = "player"
         self.physicsBody?.allowsRotation = false
@@ -50,8 +51,10 @@ class Player:SKSpriteNode{
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if !hasContact {
+            print("no contact")
             return
         }else{
+            print("Jump")
             self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
         }
         
