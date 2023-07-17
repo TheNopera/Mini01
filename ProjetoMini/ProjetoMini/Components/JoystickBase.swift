@@ -8,14 +8,54 @@
 import Foundation
 import SpriteKit
 
-var jbase:SKSpriteNode = {
-    var base =  SKSpriteNode(imageNamed: "Jbase")
-    //makes joystick invisible
-    //base.alpha = 0.0
-    base.size = CGSize(width: 100, height: 100)
-    //initial position
-    base.position = CGPoint(x: 100, y: 100)
-    base.zPosition = 2
-    return base
-}()
+class Joystick:SKNode{
+    private var displacement:Double
+    private var jBase:SKSpriteNode
+    private var jHandle:SKSpriteNode
+    
+    override init(){
+        displacement = 0
+        jBase = SKSpriteNode(imageNamed: "Jbase")
+        jHandle = SKSpriteNode(imageNamed: "Jhandle")
+        super.init()
+        
+        jBase.size = CGSize(width: 100, height: 100)
+        jBase.position = CGPoint(x: 100, y: 100)
+        
+        jHandle.size = CGSize(width: 40, height: 40)
+        jHandle.position = CGPoint(x: 100, y: 100)
+        self.addChild(jBase)
+        self.addChild(jHandle)
+    }
+    
+    func getDisplacement() -> Double{
+        return self.displacement
+    }
+    
+    func setDisplacement(value:Double){
+        self.displacement = value
+    }
+    
+    func moveJoystickToTouch(newPosition:CGPoint){
+        self.jBase.position = newPosition
+        self.jHandle.position = newPosition
+    }
+    
+    func calculateDisplacement(touchLocation:CGPoint){
+        let joystickMiddle = jBase.size.width * 0.5
+        
+        self.displacement = touchLocation.x - self.jHandle.position.x
+        
+        // Limit the handle's movement within the defined range
+        let displacementLimited = max(-joystickMiddle, min(joystickMiddle, self.displacement))
+        
+        // Update the position of the handle
+        self.jHandle.position = CGPoint(x: self.jBase.position.x + displacementLimited, y: self.jBase.position.y)
+        
+    }
 
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
