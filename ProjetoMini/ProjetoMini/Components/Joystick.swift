@@ -19,11 +19,11 @@ class Joystick:SKNode{
         jHandle = SKSpriteNode(imageNamed: "Jhandle")
         super.init()
         
-        jBase.size = CGSize(width: 100, height: 100)
+        jBase.size = CGSize(width: 0, height: 0)
         jBase.position = CGPoint(x: 100, y: 100)
-        
+
         jHandle.size = CGSize(width: 40, height: 40)
-        jHandle.position = CGPoint(x: 100, y: 100)
+        jHandle.position = CGPoint(x: 0, y: 0)
         self.addChild(jBase)
         self.addChild(jHandle)
     }
