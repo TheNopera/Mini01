@@ -38,9 +38,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(layerScenario)
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
+
+        player.setupSwipeHandler()
+
         self.camera = cameraPlayer
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
+
     }
     
     
@@ -62,6 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //MARK: Makes the "joystick" appear where the user touched if it`s on the left side of the screen
             if location.x < 0 {
                 joystick.moveJoystickToTouch(newPosition: location)
+                joystick.jPosition = t
             }
         }
     }
@@ -79,16 +84,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        joystick.setDisplacement(value: 0)
+        print("Touch ended")
+        for t in touches{
+            if t == joystick.jPosition{
+                joystick.setDisplacement(value: 0)
+                print("Touch ended2")
+            }
+        }
+     
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        print("Touch cancelled1")
+        for t in touches{
+            if t == joystick.jPosition {
+                print("Touch cancelled2")
+                joystick.setDisplacement(value: 0)
+            }
+        }
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+       // print("contato começou ")
+        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+       // print("contactMask: \(contactMask)")
+        let plataformaNormal = physicsCategory.player.rawValue + physicsCategory.platform.rawValue
+ 
+        
+        if contactMask == plataformaNormal{ // Player and platform collision
+//            goDown = false
+            if !player.hasContact{
+                player.hasContact = true
+            }
+        }
+        
+            
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        //print("contato terminou ")
+        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+        
+        if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
+            if player.hasContact{
+                player.hasContact = false
+            }
+        
+        }
+       // print(hasContact)
+    }
+    
+    
+    
+    
     override func update(_ currentTime: TimeInterval) {
-        if joystick.getDisplacement() != 0{
-            player.playerMove(displacement: joystick.getDisplacement())
+        if joystick.displacement != 0{
+            player.playerMove(displacement: joystick.displacement)
         }
         cameraPlayer.position = player.position
     }

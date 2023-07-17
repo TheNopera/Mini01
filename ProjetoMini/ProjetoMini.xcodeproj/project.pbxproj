@@ -17,8 +17,9 @@
 		62580CCA2A5764F6003A882C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CC82A5764F6003A882C /* Main.storyboard */; };
 		62580CCC2A5764F6003A882C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCB2A5764F6003A882C /* Assets.xcassets */; };
 		62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */; };
+		62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */; };
+		62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5E2A65CC330028DB76 /* Joystick.swift */; };
 		62CEF9392A5DD48F006F9784 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF9382A5DD48F006F9784 /* Player.swift */; };
-		62CEF93B2A5DDEF7006F9784 /* JoystickBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */; };
 		62CEF93F2A5DE233006F9784 /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF93E2A5DE233006F9784 /* Gameplay.swift */; };
 		E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigo.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
@@ -36,8 +37,9 @@
 		62580CC92A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		62580CCB2A5764F6003A882C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		62580CCE2A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeHandler.swift; sourceTree = "<group>"; };
+		62938E5E2A65CC330028DB76 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		62CEF9382A5DD48F006F9784 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickBase.swift; sourceTree = "<group>"; };
 		62CEF93E2A5DE233006F9784 /* Gameplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gameplay.swift; sourceTree = "<group>"; };
 		E06B27A82A65C2B200B21DFD /* Inimigo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigo.swift; sourceTree = "<group>"; };
 		E06B27AA2A65C2D900B21DFD /* Operadores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operadores.swift; sourceTree = "<group>"; };
@@ -86,7 +88,8 @@
 		6291BB422A6064C4008DBFB9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */,
+				62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */,
+				62938E5E2A65CC330028DB76 /* Joystick.swift */,
 				62CEF9382A5DD48F006F9784 /* Player.swift */,
 				E06B27A82A65C2B200B21DFD /* Inimigo.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
@@ -198,10 +201,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */,
+				62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */,
 				62CEF93F2A5DE233006F9784 /* Gameplay.swift in Sources */,
 				62CEF9392A5DD48F006F9784 /* Player.swift in Sources */,
 				62580CC52A5764F6003A882C /* GameScene.swift in Sources */,
-				62CEF93B2A5DDEF7006F9784 /* JoystickBase.swift in Sources */,
 				E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */,
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
 				E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */,
@@ -353,7 +357,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SRXHT55569;
+				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
