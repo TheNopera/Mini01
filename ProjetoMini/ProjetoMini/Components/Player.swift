@@ -12,6 +12,7 @@ class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
     var SwipeHandler: CustomSwipeHandler!
+    var hasContact:Bool = false
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
@@ -43,12 +44,17 @@ class Player:SKSpriteNode{
         self.playerSpeed = displacement > 0 ? 5 : -5
         // Apply the movement to the player's position
         let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
-     
+        
         self.position = newPosition
     }
-        
+    
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
+        if !hasContact {
+            return
+        }else{
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
+        }
         
     }
     
@@ -57,24 +63,22 @@ class Player:SKSpriteNode{
     }
     
     func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
-            switch direction {
-            case .right:
-                print("dash to the right")
-                // Handle right swipe
-            case .left:
-                print("dash to the left")
-                // Handle left swipe
-            case .up:
-                self.playerJump()
-                // Handle up swipe
-            case .down:
-                print("Godown activated")
-                // Handle down swipe
-            default:
-                break
-            }
+        switch direction {
+        case .right:
+            print("dash to the right")
+            // Handle right swipe
+        case .left:
+            print("dash to the left")
+            // Handle left swipe
+        case .up:
+            self.playerJump()
+            // Handle up swipe
+        case .down:
+            print("Godown activated")
+            // Handle down swipe
+        default:
+            break
+        }
         
-           // Handle the swipe here based on the direction
-          
-       }
+    }
 }
