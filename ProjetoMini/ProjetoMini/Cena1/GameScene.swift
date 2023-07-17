@@ -12,6 +12,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player:Player = Player()
     var joystick:Joystick = Joystick()
+    let cameraPlayer = SKCameraNode()
     var displacement:Double = 0
     
     //MARK: file that contains all designed platforms
@@ -35,9 +36,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // MARK: center the scenario position in GameScene
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         self.addChild(layerScenario)
+        layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
-
-        addChild(joystick)
+        self.camera = cameraPlayer
+        cameraPlayer.addChild(joystick)
+        joystick.position = CGPoint(x: 0, y: 0)
     }
     
     
@@ -54,10 +57,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches{
-            let location = t.location(in: self)
+            let location = t.location(in: cameraPlayer)
             
             //MARK: Makes the "joystick" appear where the user touched if it`s on the left side of the screen
-            if location.x <= (view?.bounds.size.width)! * 0.5{
+            if location.x < 0 {
                 joystick.moveJoystickToTouch(newPosition: location)
             }
         }
@@ -67,10 +70,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Takes the first touch if there is one
         guard let touch = touches.first else { return }
         // Saves the location of first touch
-        let location = touch.location(in: touch.view)
+        let location = touch.location(in: cameraPlayer)
         
         // Checks if is on teh left side of the screen
-        if location.x < view!.bounds.size.width * 0.5{
+        if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
         }
     }
@@ -87,5 +90,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if joystick.getDisplacement() != 0{
             player.playerMove(displacement: joystick.getDisplacement())
         }
+        cameraPlayer.position = player.position
     }
 }
