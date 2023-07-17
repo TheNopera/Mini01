@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 class Joystick:SKNode{
-    private var displacement:Double
+    var displacement:Double
     private var jBase:SKSpriteNode
     private var jHandle:SKSpriteNode
     var jPosition:UITouch
@@ -47,7 +47,7 @@ class Joystick:SKNode{
     func calculateDisplacement(touchLocation:CGPoint){
         let joystickMiddle = jBase.size.width * 0.5
         
-        self.displacement = touchLocation.x - self.jHandle.position.x
+        self.displacement = touchLocation.x - self.jBase.position.x
         
         // Limit the handle's movement within the defined range
         let displacementLimited = max(-joystickMiddle, min(joystickMiddle, self.displacement))

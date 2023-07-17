@@ -84,17 +84,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("Touch ended")
         for t in touches{
             if t == joystick.jPosition{
                 joystick.setDisplacement(value: 0)
+                print("Touch ended2")
             }
         }
      
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("Touch cancelled1")
         for t in touches{
-            if t == joystick.jPosition{
+            if t == joystick.jPosition {
+                print("Touch cancelled2")
                 joystick.setDisplacement(value: 0)
             }
         }
@@ -134,8 +138,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
-        if joystick.getDisplacement() != 0{
-            player.playerMove(displacement: joystick.getDisplacement())
+        if joystick.displacement != 0{
+            player.playerMove(displacement: joystick.displacement)
         }
         cameraPlayer.position = player.position
     }
