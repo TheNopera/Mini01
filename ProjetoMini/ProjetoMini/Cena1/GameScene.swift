@@ -36,6 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         self.addChild(layerScenario)
         layerScenario.addChild(player)
+        player.setupSwipeHandler()
 
         addChild(joystick)
     }

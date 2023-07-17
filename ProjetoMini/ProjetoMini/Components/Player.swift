@@ -11,7 +11,7 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
-    
+    var SwipeHandler: CustomSwipeHandler!
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
@@ -28,6 +28,12 @@ class Player:SKSpriteNode{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    func setupSwipeHandler() {
+        guard let scene = scene else {
+            return // The scene is not set yet, can't initialize the swipe handler
+        }
+        SwipeHandler = CustomSwipeHandler(scene: scene, player: self)
+    }
     
     //MARK: PLAYER MOVEMENT FUNCTION
     func playerMove(displacement:Double){
@@ -40,9 +46,35 @@ class Player:SKSpriteNode{
      
         self.position = newPosition
     }
-    
+        
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         
     }
+    
+    func playerGodown(){
+        
+    }
+    
+    func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
+            switch direction {
+            case .right:
+                print("dash to the right")
+                // Handle right swipe
+            case .left:
+                print("dash to the left")
+                // Handle left swipe
+            case .up:
+                self.playerJump()
+                // Handle up swipe
+            case .down:
+                print("Godown activated")
+                // Handle down swipe
+            default:
+                break
+            }
+        
+           // Handle the swipe here based on the direction
+          
+       }
 }
