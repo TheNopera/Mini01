@@ -66,6 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //MARK: Makes the "joystick" appear where the user touched if it`s on the left side of the screen
             if location.x < 0 {
                 joystick.moveJoystickToTouch(newPosition: location)
+                joystick.jPosition = t
             }
         }
     }
@@ -83,11 +84,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        joystick.setDisplacement(value: 0)
+        for t in touches{
+            if t == joystick.jPosition{
+                joystick.setDisplacement(value: 0)
+            }
+        }
+     
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        for t in touches{
+            if t == joystick.jPosition{
+                joystick.setDisplacement(value: 0)
+            }
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
