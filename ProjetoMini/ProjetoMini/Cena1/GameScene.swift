@@ -11,7 +11,6 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player:Player = Player()
-    var joystick:Joystick = Joystick()
     var displacement:Double = 0
     
     //MARK: file that contains all designed platforms
@@ -36,8 +35,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         self.addChild(layerScenario)
         layerScenario.addChild(player)
-
-        addChild(joystick)
+        addChild(jbase)
+        addChild(jhandle)
+        
     }
     
     
@@ -58,7 +58,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //MARK: Makes the "joystick" appear where the user touched if it`s on the left side of the screen
             if location.x <= (view?.bounds.size.width)! * 0.5{
-                joystick.moveJoystickToTouch(newPosition: location)
+                jhandle.position = location
+                jbase.position = location
             }
         }
     }
@@ -71,12 +72,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Checks if is on teh left side of the screen
         if location.x < view!.bounds.size.width * 0.5{
-            joystick.calculateDisplacement(touchLocation: location)
+            //the how much you moved the handle
+            displacement = location.x - jbase.position.x
+            
+            // Limit the handle's movement within the defined range
+            let displacementLimited = max(-jbase.size.width/2, min(jbase.size.width/2, displacement))
+            
+            // Update the position of the handle
+            jhandle.position = CGPoint(x: jbase.position.x + displacementLimited, y: jbase.position.y)
+      
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        joystick.setDisplacement(value: 0)
+        displacement = 0 
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -84,8 +93,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if joystick.getDisplacement() != 0{
-            player.playerMove(displacement: joystick.getDisplacement())
+        if displacement > 0 || displacement < 0{
+            player.playerMove(displacement: displacement)
         }
     }
 }
