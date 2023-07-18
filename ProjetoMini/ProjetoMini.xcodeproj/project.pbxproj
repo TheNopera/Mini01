@@ -20,6 +20,8 @@
 		62CEF9392A5DD48F006F9784 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF9382A5DD48F006F9784 /* Player.swift */; };
 		62CEF93B2A5DDEF7006F9784 /* JoystickBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */; };
 		62CEF93F2A5DE233006F9784 /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF93E2A5DE233006F9784 /* Gameplay.swift */; };
+		9C62C8B82A65B6CE000ABB6C /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C62C8B72A65B6CE000ABB6C /* MenuScene.swift */; };
+		9C62C8BA2A65BCDC000ABB6C /* ConfiguracaoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C62C8B92A65BCDC000ABB6C /* ConfiguracaoScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		62CEF9382A5DD48F006F9784 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		62CEF93A2A5DDEF7006F9784 /* JoystickBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickBase.swift; sourceTree = "<group>"; };
 		62CEF93E2A5DE233006F9784 /* Gameplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gameplay.swift; sourceTree = "<group>"; };
+		9C62C8B72A65B6CE000ABB6C /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		9C62C8B92A65BCDC000ABB6C /* ConfiguracaoScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfiguracaoScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				62580CC42A5764F6003A882C /* GameScene.swift */,
+				9C62C8B72A65B6CE000ABB6C /* MenuScene.swift */,
+				9C62C8B92A65BCDC000ABB6C /* ConfiguracaoScene.swift */,
 			);
 			path = Cena1;
 			sourceTree = "<group>";
@@ -197,6 +203,8 @@
 				62580CC52A5764F6003A882C /* GameScene.swift in Sources */,
 				62CEF93B2A5DDEF7006F9784 /* JoystickBase.swift in Sources */,
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
+				9C62C8BA2A65BCDC000ABB6C /* ConfiguracaoScene.swift in Sources */,
+				9C62C8B82A65B6CE000ABB6C /* MenuScene.swift in Sources */,
 				02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */,
 				62580CBF2A5764F6003A882C /* AppDelegate.swift in Sources */,
 			);
