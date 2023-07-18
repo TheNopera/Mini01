@@ -36,9 +36,13 @@ class LayerScenario: SKNode {
                         square.physicsBody = SKPhysicsBody(rectangleOf: scaledSize)
                         square.physicsBody?.isDynamic = false
                         square.physicsBody?.affectedByGravity = false
+                        square.physicsBody?.restitution = 0.0
                         square.physicsBody?.allowsRotation = false
+                        square.physicsBody?.usesPreciseCollisionDetection = true
                         square.name = "platform"
                         square.physicsBody?.categoryBitMask = physicsCategory.platform.rawValue
+                        square.physicsBody?.collisionBitMask = physicsCategory.player.rawValue
+                        square.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
                         
                         // MARK: add all squares to the class LayerScenario
                         self.addChild(square)
