@@ -63,8 +63,11 @@ class Player:SKSpriteNode{
     }
     
     func playerGodown(){
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -120))
-        goDown = true
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -60))
+        if self.physicsBody!.velocity.dy == 0{
+            goDown = true
+        }
+        
     }
     
     func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
@@ -76,7 +79,10 @@ class Player:SKSpriteNode{
             print("dash to the left")
             // Handle left swipe
         case .up:
-            self.playerJump()
+            if self.physicsBody!.velocity.dy == 0{
+                self.playerJump()
+            }
+         
             // Handle up swipe
         case .down:
             self.playerGodown()
