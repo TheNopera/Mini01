@@ -84,54 +84,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("Touch ended")
         for t in touches{
             if t == joystick.jPosition{
                 joystick.setDisplacement(value: 0)
-                print("Touch ended2")
             }
         }
      
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("Touch cancelled1")
         for t in touches{
             if t == joystick.jPosition {
-                print("Touch cancelled2")
                 joystick.setDisplacement(value: 0)
             }
         }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-       // print("contato começou ")
+       print("contato começou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
-       // print("contactMask: \(contactMask)")
+       //print("contactMask: \(contactMask)")
         let plataformaNormal = physicsCategory.player.rawValue + physicsCategory.platform.rawValue
  
         
         if contactMask == plataformaNormal{ // Player and platform collision
-//            goDown = false
-            if !player.hasContact{
-                player.hasContact = true
-            }
+            player.goDown = false
+            player.hasContact = true
+            player.jumps = 0
         }
-        
             
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
-        //print("contato terminou ")
+        print("contato terminou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
         
         if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
-            if player.hasContact{
-                player.hasContact = false
-            }
-        
+     
+            player.hasContact = false
+
         }
-       // print(hasContact)
+      
     }
     
     
@@ -142,5 +135,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.playerMove(displacement: joystick.displacement)
         }
         cameraPlayer.position = player.position
+        
+        if player.physicsBody?.velocity.dy != 0 && player.hasContact == false{
+            player.jumps = 1
+        }
     }
+    
+    
 }
