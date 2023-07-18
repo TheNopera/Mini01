@@ -13,3 +13,7 @@ enum physicsCategory:UInt32{
     case player = 0x1
     case platform
 }
+
+// MARK: Setup screen size
+let screenWidth: CGFloat = 852
+let screenHeight: CGFloat = 393

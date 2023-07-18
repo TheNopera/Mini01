@@ -20,7 +20,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: instance of class LayerScenario
     let layerScenario = LayerScenario()
-
+    
+    // MARK: instance of class HUDNode
+    let hudNode = HUDNode()
     
     override func didMove(to view: SKView) {
         
@@ -31,8 +33,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let tilemapNode = tileMapScenario.childNode(withName: "TileMapNode") as? SKTileMapNode {
             
             layerScenario.createTileMapColliders(tilemapNode)
+            hudNode.setupGameOver()
         }
-
+        
         // MARK: center the scenario position in GameScene
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         self.addChild(layerScenario)
@@ -41,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = cameraPlayer
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
+        cameraPlayer.addChild(hudNode)
     }
     
     
@@ -91,5 +95,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.playerMove(displacement: joystick.getDisplacement())
         }
         cameraPlayer.position = player.position
+    }
+}
+
+
+// MARK: - GameOver
+extension GameScene {
+    
+    private func gameOver() {
+        //player morre
+        hudNode.setupGameOver()
     }
 }
