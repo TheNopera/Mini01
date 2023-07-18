@@ -15,8 +15,37 @@ class HUDNode: SKNode {
     
     var menuNode: SKSpriteNode!
     var againNode: SKSpriteNode!
+    
+    var IsHome = false {
+        didSet {
+            
+        }
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let touch = touches.first else { return }
+        let node = atPoint(touch.location(in: self))
+        
+        if node.name == "Menu" {
+            print("MenuButton")
+        }
+        
+        if node.name == "PlayAgain" {
+            print("AgainButton")
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        guard let touch = touches.first else { return }
+        
+        if let parent = menuNode?.parent {
+            
+        }
+    }
 }
-
 
 // MARK: GameOver
 
@@ -28,6 +57,8 @@ extension HUDNode {
         gameOverShape.zPosition = 49.0
         gameOverShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
         addChild(gameOverShape)
+        
+        isUserInteractionEnabled = true
         
         // MARK: GameOver Node
         gameOverNode = SKSpriteNode(imageNamed: "panel-gameOver")
