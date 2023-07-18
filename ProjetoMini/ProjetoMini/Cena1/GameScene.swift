@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
         cameraPlayer.addChild(hudNode)
-
+        hudNode.position = CGPoint(x: -852*0.5, y: -393*0.5)
 
 
 
