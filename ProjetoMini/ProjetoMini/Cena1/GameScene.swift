@@ -119,7 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("contato terminou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
         
-        if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue {// Player and platform collision
+        if contactMask == physicsCategory.player.rawValue + physicsCategory.platform.rawValue {// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
                 player.goDown = false
                 player.hasContact = false

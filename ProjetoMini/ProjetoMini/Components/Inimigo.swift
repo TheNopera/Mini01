@@ -17,9 +17,12 @@ class Inimigo:SKSpriteNode{
         
         self.size.width = 32
         self.size.height = 36
-        name = "inimigo"
         
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
+        name = "enemy"
+        physicsBody = SKPhysicsBody(rectangleOf: self.size)
+        physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
+        physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
+        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
         physicsBody?.allowsRotation = false
         physicsBody?.affectedByGravity = true
         physicsBody?.isDynamic = true
@@ -41,13 +44,14 @@ class Inimigo:SKSpriteNode{
     
     func attack(){
         let bullet = SKShapeNode(circleOfRadius: 2)
+        bullet.name = "enemyBullet"
         bullet.fillColor = SKColor(ciColor: .red)
-//        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 2)
-//        bullet.physicsBody?.categoryBitMask = Collision.bullet.rawValue
-//        bullet.physicsBody?.contactTestBitMask = Collision.player.rawValue
-//        bullet.physicsBody?.collisionBitMask = Collision.none.rawValue
-//        bullet.physicsBody?.isDynamic = false
-//        bullet.physicsBody?.affectedByGravity = false
+        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 2)
+        bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
+        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
+        bullet.physicsBody?.collisionBitMask = physicsCategory.player.rawValue
+        bullet.physicsBody?.isDynamic = false
+        bullet.physicsBody?.affectedByGravity = false
         
         let variantion = CGFloat.random(in: 1...10)
         let variantDirection = Int.random(in: 1...2)
