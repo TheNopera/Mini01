@@ -25,6 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hudNode = HUDNode()
     
     override func didMove(to view: SKView) {
+        print("teste")
         
         // MARK: add physics to the world
         self.physicsWorld.contactDelegate = self
@@ -40,6 +41,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(layerScenario)
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
+        
+        let inimigo = Inimigo(target: player)
+        layerScenario.addChild(inimigo)
 
         player.setupSwipeHandler()
 
@@ -109,31 +113,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-       print("contato começou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
-       //print("contactMask: \(contactMask)")
-        let plataformaNormal = physicsCategory.player.rawValue + physicsCategory.platform.rawValue
- 
         
-        if contactMask == plataformaNormal{ // Player and platform collision
-            
+        switch contactMask{
+        case physicsCategory.player.rawValue + physicsCategory.platform.rawValue: // player e plataforma
             player.hasContact = true
             player.jumps = 0
-        }
             
+        case  physicsCategory.player.rawValue + physicsCategory.enemyBullet.rawValue: // player e disparo inimigo
+            
+            if contact.bodyA.node?.name == "player"{
+                _ = contact.bodyA.node
+                let enemyBullet = contact.bodyB.node
+                
+                enemyBullet?.removeFromParent()
+                
+            } else{
+                _ = contact.bodyB.node
+                let enemyBullet = contact.bodyA.node
+                
+                enemyBullet?.removeFromParent()
+            }
+            
+        case physicsCategory.enemy.rawValue + physicsCategory.playerBullet.rawValue: // inimigo e disparo do player
+            print("player acertou o inimigo")
+            
+        case physicsCategory.player.rawValue + physicsCategory.enemy.rawValue: // player e inimigo
+            print("inimigo e player se encostaram")
+            
+        case physicsCategory.enemy.rawValue + physicsCategory.enemyBullet.rawValue:
+            print("bala bateu no inimigo")
+            
+        default: // contato não corresponde a nenhum caso
+            print("no functional contact")
+        }
+        
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
-        print("contato terminou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
         
-        if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue {// Player and platform collision
+        
+        switch contactMask{
+    case physicsCategory.player.rawValue + physicsCategory.platform.rawValue:// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
                 player.goDown = false
                 player.hasContact = false
             }
-
-
+    default:
+            print("no functional end contact")
         }
       
     }

@@ -15,17 +15,23 @@ class Inimigo:SKSpriteNode{
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         
-        self.size.width = 32
-        self.size.height = 36
-        name = "inimigo"
+        self.size.height = 64
+        self.size.width = 64
         
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width, height: self.size.height))
+        name = "enemy"
+        physicsBody = SKPhysicsBody(rectangleOf: self.size)
+        physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
+        physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
+        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
         physicsBody?.allowsRotation = false
         physicsBody?.affectedByGravity = true
         physicsBody?.isDynamic = true
+        physicsBody?.restitution = 0.0
+        
         let ataque = SKAction.run {
             self.attack()
         }
+        
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 2.0)])))
     }
     
@@ -40,19 +46,22 @@ class Inimigo:SKSpriteNode{
     }
     
     func attack(){
-        let bullet = SKShapeNode(circleOfRadius: 2)
+        let bullet = SKShapeNode(circleOfRadius: 12)
+        bullet.name = "enemyBullet"
         bullet.fillColor = SKColor(ciColor: .red)
-//        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 2)
-//        bullet.physicsBody?.categoryBitMask = Collision.bullet.rawValue
-//        bullet.physicsBody?.contactTestBitMask = Collision.player.rawValue
-//        bullet.physicsBody?.collisionBitMask = Collision.none.rawValue
-//        bullet.physicsBody?.isDynamic = false
-//        bullet.physicsBody?.affectedByGravity = false
+        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
+        bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
+        bullet.physicsBody?.collisionBitMask = physicsCategory.none.rawValue
+        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
+        bullet.physicsBody?.isDynamic = true
+        bullet.physicsBody?.affectedByGravity = false
+        bullet.physicsBody?.restitution = 0.0
         
         let variantion = CGFloat.random(in: 1...10)
         let variantDirection = Int.random(in: 1...2)
         
         if variantDirection == 1{
+            
             let offset = CGPoint(x: target!.position.x, y: target!.position.y + variantion) - bullet.position
             let direction = offset.normalized()
             let shootAmount = direction * 1000
@@ -62,7 +71,6 @@ class Inimigo:SKSpriteNode{
             let done = SKAction.removeFromParent()
             
             self.addChild(bullet)
-            print("\(self.position), \(bullet.position)")
             bullet.run(.sequence([mover,done]))
             
         } else{
@@ -75,7 +83,6 @@ class Inimigo:SKSpriteNode{
             let done = SKAction.removeFromParent()
             
             self.addChild(bullet)
-            print("\(self.position), \(bullet.position)")
             bullet.run(.sequence([mover,done]))
         }
     }
