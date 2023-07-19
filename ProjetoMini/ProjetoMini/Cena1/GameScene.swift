@@ -119,7 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if contactMask == plataformaNormal{ // Player and platform collision
-            player.goDown = false
+
             player.hasContact = true
             player.jumps = 0
         }
@@ -129,11 +129,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didEnd(_ contact: SKPhysicsContact) {
         print("contato terminou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
-        
+ 
         if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
             
             player.hasContact = false
             
+
+        if contactMask == physicsCategory.player.rawValue + physicsCategory.platform.rawValue {// Player and platform collision
+            if player.physicsBody!.velocity.dy != 0{
+                player.goDown = false
+                player.hasContact = false
+            }
+
         }
         
     }
@@ -147,6 +154,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if player.physicsBody?.velocity.dy != 0 && player.hasContact == false{
             player.jumps = 1
         }
+        
+        if let body = player.physicsBody {
+            let dy = body.velocity.dy
+//            print(dy)
+            if dy > 0 {
+                // Prevent collisions if the hero is jumping
+                body.collisionBitMask = physicsCategory.player.rawValue
+                //print("\((body.collisionBitMask))")
+
+            } else if dy < 0  && player.goDown{
+                body.collisionBitMask = physicsCategory.player.rawValue
+            }
+            else {
+                // Allow collisions if the hero is falling
+                body.collisionBitMask |= physicsCategory.platform.rawValue
+               // print("\((body.collisionBitMask))")
+
+            }
+        }
+
     }
     
 }

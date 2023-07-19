@@ -22,8 +22,8 @@ class Player:SKSpriteNode{
         self.color = .green
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
-        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue
-        self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue
+        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
+        self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.restitution = 0.0
         self.name = "player"
         self.physicsBody?.allowsRotation = false
@@ -63,8 +63,11 @@ class Player:SKSpriteNode{
     }
     
     func playerGodown(){
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -120))
-        goDown = true
+        if self.physicsBody!.velocity.dy == 0{
+            goDown = true
+        }
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -60))
+        
     }
     
     func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
@@ -76,7 +79,10 @@ class Player:SKSpriteNode{
             print("dash to the left")
             // Handle left swipe
         case .up:
-            self.playerJump()
+            if self.physicsBody!.velocity.dy == 0{
+                self.playerJump()
+            }
+    
             // Handle up swipe
         case .down:
             self.playerGodown()
