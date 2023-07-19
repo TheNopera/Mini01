@@ -108,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
  
         
         if contactMask == plataformaNormal{ // Player and platform collision
-            
+
             player.hasContact = true
             player.jumps = 0
         }

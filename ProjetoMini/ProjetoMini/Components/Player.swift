@@ -63,10 +63,10 @@ class Player:SKSpriteNode{
     }
     
     func playerGodown(){
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -60))
         if self.physicsBody!.velocity.dy == 0{
             goDown = true
         }
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -60))
         
     }
     
@@ -82,7 +82,7 @@ class Player:SKSpriteNode{
             if self.physicsBody!.velocity.dy == 0{
                 self.playerJump()
             }
-         
+    
             // Handle up swipe
         case .down:
             self.playerGodown()
