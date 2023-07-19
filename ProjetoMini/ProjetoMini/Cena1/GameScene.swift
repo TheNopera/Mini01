@@ -118,13 +118,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 _ = contact.bodyA.node
                 let enemyBullet = contact.bodyB.node
                 
-                enemyBullet?.removeFromParent()
+                enemyBullet!.removeFromParent()
+                player.tomouDano()
+                print(player.vidas)
+                if player.vidas == 0{
+                    
+                }
                 
             } else{
                 _ = contact.bodyB.node
                 let enemyBullet = contact.bodyA.node
                 
-                enemyBullet?.removeFromParent()
+                enemyBullet!.removeFromParent()
+                player.tomouDano()
+                if player.vidas == 0{
+                    
+                }
+                print(player.vidas)
             }
             
         case physicsCategory.enemy.rawValue + physicsCategory.playerBullet.rawValue: // inimigo e disparo do player
@@ -191,6 +201,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
     }
-    
-    
 }
