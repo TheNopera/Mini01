@@ -33,7 +33,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let tilemapNode = tileMapScenario.childNode(withName: "TileMapNode") as? SKTileMapNode {
             
             layerScenario.createTileMapColliders(tilemapNode)
-            hudNode.setupGameOver()
         }
         
         // MARK: center the scenario position in GameScene
@@ -48,6 +47,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
         cameraPlayer.addChild(hudNode)
+        hudNode.skView = view
+        hudNode.easeGameScene = self
         hudNode.position = CGPoint(x: -852*0.5, y: -393*0.5)
 
 
@@ -179,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 extension GameScene {
     
     private func gameOver() {
-        //player morre
+        //func player morre
         hudNode.setupGameOver()
     }
 }

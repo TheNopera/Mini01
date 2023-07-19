@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		027282CE2A68646900A97503 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027282CD2A68646900A97503 /* MenuScene.swift */; };
 		0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290CDA82A65D878003CDE14 /* HUDNode.swift */; };
 		02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B6427C2A606C5D00CA5C18 /* Scenario.swift */; };
 		02ED2B262A61B7C7005C5D1B /* ScenarioTileMap.sks in Resources */ = {isa = PBXBuildFile; fileRef = 02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		027282CD2A68646900A97503 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		0290CDA82A65D878003CDE14 /* HUDNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDNode.swift; sourceTree = "<group>"; };
 		02B6427C2A606C5D00CA5C18 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
 		02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ScenarioTileMap.sks; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				62580CC42A5764F6003A882C /* GameScene.swift */,
+				027282CD2A68646900A97503 /* MenuScene.swift */,
 			);
 			path = Cena1;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
 				E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */,
 				02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */,
+				027282CE2A68646900A97503 /* MenuScene.swift in Sources */,
 				62580CBF2A5764F6003A882C /* AppDelegate.swift in Sources */,
 				0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */,
 			);
