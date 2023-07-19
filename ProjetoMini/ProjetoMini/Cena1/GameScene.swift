@@ -11,6 +11,7 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player:Player = Player()
+    //var inimigo:Inimigo = Inimigo()
     var joystick:Joystick = Joystick()
     let cameraPlayer = SKCameraNode()
     var displacement:Double = 0
@@ -20,31 +21,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: instance of class LayerScenario
     let layerScenario = LayerScenario()
-
+    
     
     override func didMove(to view: SKView) {
         
         // MARK: add physics to the world
         self.physicsWorld.contactDelegate = self
         
-            // MARK: verify if tileMapScenario has a SKTileMapNode child
+        // MARK: verify if tileMapScenario has a SKTileMapNode child
         if let tilemapNode = tileMapScenario.childNode(withName: "TileMapNode") as? SKTileMapNode {
             
             layerScenario.createTileMapColliders(tilemapNode)
         }
-
+        
         // MARK: center the scenario position in GameScene
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         self.addChild(layerScenario)
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
-
+        
         player.setupSwipeHandler()
-
+        
         self.camera = cameraPlayer
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
-
+        
+        for xp in(0...10){
+            for yp in(0...4){
+                let inimigo = Inimigo()
+                inimigo.position.x = CGFloat(xp*48)
+                inimigo.position.y = CGFloat(yp*48)
+                inimigo.target = player
+                layerScenario.addChild(inimigo)
+            }
+            
+        }
     }
     
     
@@ -89,7 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 joystick.setDisplacement(value: 0)
             }
         }
-     
+        
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -101,18 +112,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-       print("contato começou ")
+        print("contato começou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
-       //print("contactMask: \(contactMask)")
+        //print("contactMask: \(contactMask)")
         let plataformaNormal = physicsCategory.player.rawValue + physicsCategory.platform.rawValue
- 
+        
         
         if contactMask == plataformaNormal{ // Player and platform collision
             player.goDown = false
             player.hasContact = true
             player.jumps = 0
         }
-            
+        
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
@@ -120,15 +131,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
         
         if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
-     
+            
             player.hasContact = false
-
+            
         }
-      
+        
     }
-    
-    
-    
     
     override func update(_ currentTime: TimeInterval) {
         if joystick.displacement != 0{
@@ -141,5 +149,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
 }
+
+
