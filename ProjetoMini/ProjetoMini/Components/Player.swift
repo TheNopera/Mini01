@@ -11,6 +11,7 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
+    var vidas = 3
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
     var hasContact:Bool = false
@@ -91,5 +92,9 @@ class Player:SKSpriteNode{
             break
         }
         
+    }
+    
+    func tomouDano(){
+        self.vidas -= 1
     }
 }
