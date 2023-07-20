@@ -33,7 +33,7 @@ class Inimigo:SKSpriteNode{
             self.attack()
         }
         
-        self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 2.0)])))
+        // self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 2.0)])))
     }
     
     convenience init (target: SKSpriteNode){
@@ -59,9 +59,10 @@ class Inimigo:SKSpriteNode{
         bullet.physicsBody?.restitution = 0.0
         
         let variantion = CGFloat.random(in: 1...10)
-        let variantDirection = Int.random(in: 1...2)
+        let variantDirection = 1 // Int.random(in: 1...2)
         
         if variantDirection == 1{
+            
             
             let offset = CGPoint(x: target!.position.x, y: target!.position.y + variantion) - bullet.position
             let direction = offset.normalized()

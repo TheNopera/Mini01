@@ -41,9 +41,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        let inimigo = Inimigo(target: player)
-        layerScenario.addChild(inimigo)
-
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -53,15 +50,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.InimigoSpawn(target: player)
         
         /*for xp in(0...4){
-            for yp in(0...10){
-                let inimigo = Inimigo()
-                inimigo.position.x = CGFloat(frame.midX)
-                inimigo.position.y = CGFloat(frame.midX)
-                inimigo.target = player
-                layerScenario.addChild(inimigo)
-            }
-            
-        }*/
+         for yp in(0...10){
+         let inimigo = Inimigo()
+         inimigo.position.x = CGFloat(frame.midX)
+         inimigo.position.y = CGFloat(frame.midX)
+         inimigo.target = player
+         layerScenario.addChild(inimigo)
+         }
+         
+         }*/
     }
     
     func addEnemiesFromTileMap(){ }
@@ -120,16 +117,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        print("contato começou ")
-        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
-        //print("contactMask: \(contactMask)")
-        let plataformaNormal = physicsCategory.player.rawValue + physicsCategory.platform.rawValue
-        
-        
-        if contactMask == plataformaNormal{ // Player and platform collision
-            
-            player.hasContact = true
-            player.jumps = 0
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
         
         switch contactMask{
@@ -177,30 +164,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-        func didEnd(_ contact: SKPhysicsContact) {
-            let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
-            
-            if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
-                
-                player.hasContact = false
-                
-                
-                if contactMask == physicsCategory.player.rawValue + physicsCategory.platform.rawValue {// Player and platform collision
-                    if player.physicsBody!.velocity.dy != 0{
-                        player.goDown = false
-                        player.hasContact = false
-                    }
-                    
-                }
-            }
-        }
+    func didEnd(_ contact: SKPhysicsContact) {
+        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+        
         switch contactMask{
-    case physicsCategory.player.rawValue + physicsCategory.platform.rawValue:// Player and platform collision
+        case physicsCategory.player.rawValue + physicsCategory.platform.rawValue:// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
                 player.goDown = false
                 player.hasContact = false
             }
-    default:
+        default:
             print("no functional end contact")
         }
     }
@@ -232,9 +205,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
-        
+        if layerScenario.inimigosAR != nil{
+            for enemies in layerScenario.inimigosAR{
+                attack(inimigo: enemies)
+            }
+        }
     }
-
+//MARK: teste
+    func attack(inimigo: SKSpriteNode){
+        let bullet = SKShapeNode(circleOfRadius: 12)
+        bullet.position = inimigo.position
+        bullet.name = "enemyBullet"
+        bullet.fillColor = SKColor(ciColor: .red)
+        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
+        bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
+        bullet.physicsBody?.collisionBitMask = physicsCategory.none.rawValue
+        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
+        bullet.physicsBody?.isDynamic = true
+        bullet.physicsBody?.affectedByGravity = false
+        bullet.physicsBody?.restitution = 0.0
+        
+        let variantion = CGFloat.random(in: 1...10)
+        let variantDirection = 1 // Int.random(in: 1...2)
+        
+        if variantDirection == 1{
+            
+            
+            let offset = CGPoint(x: player.position.x, y: player.position.y + variantion) - bullet.position
+            let direction = offset.normalized()
+            let shootAmount = direction * 1000
+            let realDest = shootAmount + bullet.position
+            
+            let mover = SKAction.move(to: realDest, duration: 2)
+            let done = SKAction.removeFromParent()
+            
+            inimigo.addChild(bullet)
+            bullet.run(.sequence([mover,done]))
+            
+        } else{
+            let offset = CGPoint(x: player.position.x, y: player.position.y - variantion) - bullet.position
+            let direction = offset.normalized()
+            let shootAmount = direction * 1000
+            let realDest = shootAmount + bullet.position
+            
+            let mover = SKAction.move(to: realDest, duration: 2)
+            let done = SKAction.removeFromParent()
+            
+            self.addChild(bullet)
+            bullet.run(.sequence([mover,done]))
+        }
+    }
+    
 }
 
 
