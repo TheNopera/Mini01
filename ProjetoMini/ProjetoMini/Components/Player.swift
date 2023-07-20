@@ -11,11 +11,12 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
-    var vidas = 3
+    var vidas:Int = 3
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
     var hasContact:Bool = false
     var goDown:Bool = false
+    var isDashing:Bool = false
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
@@ -71,14 +72,34 @@ class Player:SKSpriteNode{
         
     }
     
+    func dash(direction: UISwipeGestureRecognizer.Direction){
+        self.isDashing = true
+        let imortal = SKAction.run {
+            self.physicsBody?.categoryBitMask = physicsCategory.none.rawValue
+        }
+        let mortal = SKAction.run {
+            self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
+        }
+        
+        if direction == .left{
+            let move = SKAction.move(to: CGPoint(x: self.position.x - 180, y: self.position.y) , duration: 0.2)
+            
+            self.run(.sequence([imortal,move,mortal]))
+            
+        } else {
+            let move = SKAction.move(to: CGPoint(x: self.position.x + 180, y: self.position.y) , duration: 0.2)
+            
+            self.run(.sequence([imortal,move,mortal]))
+        }
+        self.isDashing = false
+    }
+    
     func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
         switch direction {
         case .right:
-            print("dash to the right")
-            // Handle right swipe
+            dash(direction: .right)
         case .left:
-            print("dash to the left")
-            // Handle left swipe
+            dash(direction: .left)
         case .up:
             if self.physicsBody!.velocity.dy == 0{
                 self.playerJump()

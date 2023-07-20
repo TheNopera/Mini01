@@ -191,8 +191,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             } else if dy < 0  && player.goDown{
                 body.collisionBitMask = physicsCategory.player.rawValue
-            }
-            else {
+            }else {
                 // Allow collisions if the hero is falling
                 body.collisionBitMask |= physicsCategory.platform.rawValue
                // print("\((body.collisionBitMask))")
