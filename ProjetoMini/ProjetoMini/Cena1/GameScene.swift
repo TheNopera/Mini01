@@ -46,17 +46,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
         
-        for xp in(0...10){
-            for yp in(0...4){
+        layerScenario.InimigoSpawn(target: player)
+        
+        /*for xp in(0...4){
+            for yp in(0...10){
                 let inimigo = Inimigo()
-                inimigo.position.x = CGFloat(xp*48)
-                inimigo.position.y = CGFloat(yp*48)
+                inimigo.position.x = CGFloat(frame.midX)
+                inimigo.position.y = CGFloat(frame.midX)
                 inimigo.target = player
                 layerScenario.addChild(inimigo)
             }
             
-        }
+        }*/
     }
+    
+    func addEnemiesFromTileMap(){ }
     
     
     func touchDown(atPoint pos : CGPoint) {
@@ -119,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if contactMask == plataformaNormal{ // Player and platform collision
-
+            
             player.hasContact = true
             player.jumps = 0
         }
@@ -129,22 +133,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didEnd(_ contact: SKPhysicsContact) {
         print("contato terminou ")
         let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
- 
+        
         if contactMask == physicsCategory.player.rawValue | physicsCategory.platform.rawValue { // Player and platform collision
             
             player.hasContact = false
             
-
-        if contactMask == physicsCategory.player.rawValue + physicsCategory.platform.rawValue {// Player and platform collision
-            if player.physicsBody!.velocity.dy != 0{
-                player.goDown = false
-                player.hasContact = false
+            
+            if contactMask == physicsCategory.player.rawValue + physicsCategory.platform.rawValue {// Player and platform collision
+                if player.physicsBody!.velocity.dy != 0{
+                    player.goDown = false
+                    player.hasContact = false
+                }
+                
             }
-
+            
         }
-        
     }
-    
     override func update(_ currentTime: TimeInterval) {
         if joystick.displacement != 0{
             player.playerMove(displacement: joystick.displacement)
@@ -157,23 +161,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if let body = player.physicsBody {
             let dy = body.velocity.dy
-//            print(dy)
+            //            print(dy)
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
                 body.collisionBitMask = physicsCategory.player.rawValue
                 //print("\((body.collisionBitMask))")
-
+                
             } else if dy < 0  && player.goDown{
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
                 // Allow collisions if the hero is falling
                 body.collisionBitMask |= physicsCategory.platform.rawValue
-               // print("\((body.collisionBitMask))")
-
+                // print("\((body.collisionBitMask))")
+                
             }
         }
-
+        
     }
     
 }

@@ -17,6 +17,7 @@ class Inimigo:SKSpriteNode{
         
         self.size.width = 32
         self.size.height = 36
+        self.color = .red
         
         name = "enemy"
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
