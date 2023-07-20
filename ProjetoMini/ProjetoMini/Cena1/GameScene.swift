@@ -41,6 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(player)
         
         let inimigo = Inimigo(target: player)
+        inimigo.position.y = 20
         layerScenario.addChild(inimigo)
 
         player.setupSwipeHandler()
@@ -84,7 +85,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Checks if is on teh left side of the screen
         if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
+            let xDirection: CGFloat = joystick.displacement < 0 ? -1 : 1
+                            player.xScale = xDirection
         }
+        
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -105,14 +110,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         switch contactMask{
-        case physicsCategory.player.rawValue + physicsCategory.platform.rawValue: // player e plataforma
+        case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
             player.hasContact = true
             player.jumps = 0
             
-        case  physicsCategory.player.rawValue + physicsCategory.enemyBullet.rawValue: // player e disparo inimigo
+        case  physicsCategory.player.rawValue | physicsCategory.enemyBullet.rawValue: // player e disparo inimigo
             
             if contact.bodyA.node?.name == "player"{
                 _ = contact.bodyA.node
@@ -137,13 +142,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print(player.vidas)
             }
             
-        case physicsCategory.enemy.rawValue + physicsCategory.playerBullet.rawValue: // inimigo e disparo do player
+        case physicsCategory.enemy.rawValue | physicsCategory.playerBullet.rawValue: // inimigo e disparo do player
             print("player acertou o inimigo")
             
-        case physicsCategory.player.rawValue + physicsCategory.enemy.rawValue: // player e inimigo
+        case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
             print("inimigo e player se encostaram")
             
-        case physicsCategory.enemy.rawValue + physicsCategory.enemyBullet.rawValue:
+        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
             print("bala bateu no inimigo")
             
         default: // contato não corresponde a nenhum caso
@@ -153,11 +158,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didEnd(_ contact: SKPhysicsContact) {
-        let contactMask = contact.bodyA.categoryBitMask + contact.bodyB.categoryBitMask
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         
         switch contactMask{
-    case physicsCategory.player.rawValue + physicsCategory.platform.rawValue:// Player and platform collision
+    case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
                 player.goDown = false
                 player.hasContact = false
