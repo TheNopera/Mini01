@@ -16,6 +16,13 @@ class HUDNode: SKNode {
     
     private var startNode: SKSpriteNode!
     
+    private var inGamePauseNode: SKSpriteNode!
+    
+    private var pauseNodeShape: SKShapeNode!
+    private var pauseNode: SKSpriteNode!
+    private var resumeNode: SKSpriteNode!
+    private var quitNode: SKSpriteNode!
+    
     private var gameOverShape: SKShapeNode!
     private var gameOverNode: SKSpriteNode!
     
@@ -36,6 +43,21 @@ class HUDNode: SKNode {
             updateBtn(node: startNode, event: isStart)
         }
     }
+    private var isPause = false {
+        didSet {
+            updateBtn(node: inGamePauseNode, event: isPause)
+        }
+    }
+    private var isResume = false {
+        didSet {
+            updateBtn(node: resumeNode, event: isResume)
+        }
+    }
+    private var isQuit = false {
+        didSet {
+            updateBtn(node: quitNode, event: isQuit)
+        }
+    }
     private var IsHome = false {
         didSet {
         updateBtn(node: homeNode, event: IsHome)
@@ -54,11 +76,28 @@ class HUDNode: SKNode {
         guard let touch = touches.first else { return }
         let node = atPoint(touch.location(in: self))
         
+        // Start of the game
         if node.name == "Start" && !isStart {
             isStart = true
             print("StartButton")
         }
+        // Paused Game
         
+        if node.name == "pause" && !isPause {
+            isPause = true
+            print("PauseButton")
+            
+        }
+        
+        if node.name == "resume" && !isResume {
+            isResume = true
+          
+        }
+        
+        if node.name == "quit" && !isQuit {
+           isQuit = true
+        }
+        // Gameover
         if node.name == "Home" && !IsHome {
             IsHome = true
             print("HomeButton")
@@ -84,6 +123,35 @@ class HUDNode: SKNode {
             }
         }
         
+        // Paused Game
+        
+        if isPause {
+            if isPaused { return }
+            print("Botão Pause foi clicado")
+            setupPausePanel()
+            isPaused = true
+            isPause = false
+            
+        }
+        
+        if isResume {
+            pauseNode.removeFromParent()
+            pauseNodeShape.removeFromParent()
+            resumeNode.removeFromParent()
+            quitNode.removeFromParent()
+            isPaused = false
+            isResume = false
+            
+        }
+        
+        if isQuit {
+            isQuit = false
+            if let _ = easeGameScene {
+                let scene = MenuScene(size: CGSize(width: screenWidth, height: screenHeight))
+                scene.scaleMode = .aspectFill
+                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+            }
+        }
         if IsHome {
             IsHome = false
             print("Home = false")
@@ -91,7 +159,8 @@ class HUDNode: SKNode {
                 let scene = MenuScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
                 skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
-            }        }
+            }
+        }
         
         if isAgain {
             isAgain = false
@@ -113,6 +182,17 @@ class HUDNode: SKNode {
             isStart = startNode.contains(touch.location(in: parent))
         }
         
+        if let parent = pauseNode?.parent {
+            isPause = pauseNode.contains(touch.location(in: parent))
+        }
+        
+        if let parent = resumeNode?.parent {
+            isResume = resumeNode.contains(touch.location(in: parent))
+        }
+        
+        if let parent = quitNode?.parent {
+            isQuit = quitNode.contains(touch.location(in: parent))
+        }
         if let parent = homeNode?.parent {
             IsHome = homeNode.contains(touch.location(in: parent))
         }
@@ -249,5 +329,54 @@ extension HUDNode {
         startNode.name = "Start"
         addChild(startNode)
         
+    }
+}
+
+//MARK: Pause
+extension HUDNode {
+    
+    func setupPauseNode() {
+        inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
+//        inGamePauseNode.zPosition = 57.0
+        inGamePauseNode.name = "pause"
+        inGamePauseNode.position = CGPoint(
+            x: screenWidth - 50,
+            y: screenHeight - 50)
+        addChild(inGamePauseNode)
+        isUserInteractionEnabled = true
+
+    }
+    
+    func setupPausePanel() {
+        pauseNodeShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
+        pauseNodeShape.zPosition = 49.0
+        pauseNodeShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
+        addChild(pauseNodeShape)
+        
+        isUserInteractionEnabled = true
+        
+        // MARK: Pause Node
+        pauseNode = SKSpriteNode()
+        pauseNode.zPosition = 49.0
+        pauseNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
+        addChild(pauseNode)
+        
+        // MARK: Quit Node
+        quitNode = SKSpriteNode(imageNamed: "menu-button")
+        quitNode.zPosition = 55.0
+        quitNode.position = CGPoint(
+            x: pauseNode.frame.minX + 80,
+            y: pauseNode.frame.minY + quitNode.frame.height/2 + 5)
+        quitNode.name = "Quit"
+        addChild(quitNode)
+        
+        // MARK: Resume Node
+        resumeNode = SKSpriteNode(imageNamed: "again-button")
+        resumeNode.zPosition = 55.0
+        resumeNode.position = CGPoint(
+            x: pauseNode.frame.maxX - 80,
+            y: pauseNode.frame.minY + quitNode.frame.height/2 + 5)
+        resumeNode.name = "Resume"
+        addChild(resumeNode)
     }
 }
