@@ -67,9 +67,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         layerScenario.InimigoSpawn(target: player)
         
+        let cameraBounds = self.frame.width/2
+        let bounds = self.calculateAccumulatedFrame().width / 2 - cameraBounds
         
+        let cameraConstraint = SKConstraint.positionX(.init(lowerLimit: -bounds, upperLimit: bounds))
+        
+        self.camera?.constraints = [cameraConstraint]
     }
     
+    override func sceneDidLoad() {
+        super.sceneDidLoad()
+        
+    
+    }
     func addEnemiesFromTileMap(){ }
     
     
