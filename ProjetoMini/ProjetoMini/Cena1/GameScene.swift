@@ -21,8 +21,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: instance of class LayerScenario
     let layerScenario = LayerScenario()
+
     
+    // MARK: instance of class HUDNode
+    let hudNode = HUDNode()
     
+    var inGamePauseNode: SKSpriteNode!
+
     override func didMove(to view: SKView) {
         print("teste")
         
@@ -33,6 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let tilemapNode = tileMapScenario.childNode(withName: "TileMapNode") as? SKTileMapNode {
             
             layerScenario.createTileMapColliders(tilemapNode)
+
         }
         
         // MARK: center the scenario position in GameScene
@@ -46,19 +52,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.camera = cameraPlayer
         cameraPlayer.addChild(joystick)
         joystick.position = CGPoint(x: 0, y: 0)
+
+        cameraPlayer.addChild(hudNode)
+        hudNode.skView = view
+        hudNode.easeGameScene = self
+        hudNode.position = CGPoint(x: -852*0.5, y: -393*0.5)
+        startGame()
+
         
         layerScenario.InimigoSpawn(target: player)
         
-        /*for xp in(0...4){
-         for yp in(0...10){
-         let inimigo = Inimigo()
-         inimigo.position.x = CGFloat(frame.midX)
-         inimigo.position.y = CGFloat(frame.midX)
-         inimigo.target = player
-         layerScenario.addChild(inimigo)
-         }
-         
-         }*/
+
     }
     
     func addEnemiesFromTileMap(){ }
@@ -86,7 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //Takes the first touch if there is one
         guard let touch = touches.first else { return }
@@ -105,7 +109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 joystick.setDisplacement(value: 0)
             }
         }
-        
+
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -134,7 +138,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.tomouDano()
                 print(player.vidas)
                 if player.vidas == 0{
-                    
+                    gameOver()
+                    isPaused = true
                 }
                 
             } else{
@@ -144,7 +149,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemyBullet!.removeFromParent()
                 player.tomouDano()
                 if player.vidas == 0{
-                    
+                    gameOver()
+                    isPaused = true
                 }
                 print(player.vidas)
             }
@@ -207,6 +213,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+    }
+}
+
+
+
+// MARK: - GameOver
+extension GameScene {
+    
+    private func gameOver() {
+        hudNode.setupGameOver()
+    }
+}
+
+
+extension GameScene {
+    
+    private func startGame() {       
+        hudNode.setupPauseNode()
     }
 }
 
