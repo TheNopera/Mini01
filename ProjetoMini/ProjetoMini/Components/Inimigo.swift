@@ -14,11 +14,9 @@ class Inimigo:SKSpriteNode{
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
-        self.size.width = 32
-        self.size.height = 36
-        self.color = .red
         self.size.height = 64
         self.size.width = 64
+        self.color = .red
         name = "enemy"
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
         physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
@@ -33,7 +31,7 @@ class Inimigo:SKSpriteNode{
             self.attack()
         }
         
-        // self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 2.0)])))
+        self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 1.0)])))
     }
     
     convenience init (target: SKSpriteNode){
@@ -47,45 +45,106 @@ class Inimigo:SKSpriteNode{
     }
     
     func attack(){
-        let bullet = SKShapeNode(circleOfRadius: 12)
+        let bullet = SKShapeNode(circleOfRadius: 6)
         bullet.name = "enemyBullet"
         bullet.fillColor = SKColor(ciColor: .red)
+        
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
         bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
         bullet.physicsBody?.collisionBitMask = physicsCategory.none.rawValue
-        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
-        bullet.physicsBody?.isDynamic = true
+        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue 
         bullet.physicsBody?.affectedByGravity = false
-        bullet.physicsBody?.restitution = 0.0
+        bullet.physicsBody?.isDynamic = true
         
-        let variantion = CGFloat.random(in: 1...10)
-        let variantDirection = 1 // Int.random(in: 1...2)
+        if self.position.x > 0{
+            
+            if self.position.y > 0{
+                var dx = (bullet.position.x) + self.position.x
+                var dy = (bullet.position.y) - self.position.y
+                
+                
+                dx = dx + target!.position.x
+                dy = dy + target!.position.y
+
+                let angle = atan2(dy, dx)
+                let velocityX = cos(angle)
+                let velocityY = sin(angle)
+
+                let movement = SKAction.run {
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                }
+                
+                self.addChild(bullet)
+                let done = SKAction.removeFromParent()
+                bullet.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+            }
+            //Caso funciona
+            if self.position.y < 0 {
+
+                var dx = (bullet.position.x) - self.position.x
+                var dy = (bullet.position.y) - self.position.y
+                
+                dx = dx + target!.position.x
+                dy = dy + target!.position.y
+
+                let angle = atan2(dy, dx)
+                let velocityX = cos(angle)
+                let velocityY = sin(angle)
+
+                let movement = SKAction.run {
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                }
+                self.addChild(bullet)
+                let done = SKAction.removeFromParent()
+                bullet.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+            }
+        }
         
-        if variantDirection == 1{
-            
-            
-            let offset = CGPoint(x: target!.position.x, y: target!.position.y + variantion) - bullet.position
-            let direction = offset.normalized()
-            let shootAmount = direction * 1000
-            let realDest = shootAmount + bullet.position
-            
-            let mover = SKAction.move(to: realDest, duration: 2)
-            let done = SKAction.removeFromParent()
-            
-            self.addChild(bullet)
-            bullet.run(.sequence([mover,done]))
-            
-        } else{
-            let offset = CGPoint(x: target!.position.x, y: target!.position.y - variantion) - bullet.position
-            let direction = offset.normalized()
-            let shootAmount = direction * 1000
-            let realDest = shootAmount + bullet.position
-            
-            let mover = SKAction.move(to: realDest, duration: 2)
-            let done = SKAction.removeFromParent()
-            
-            self.addChild(bullet)
-            bullet.run(.sequence([mover,done]))
+        if self.position.x < 0{
+            //Caso funciona
+            if self.position.y > 0 {
+                
+                var dx = (bullet.position.x) + self.position.x
+                var dy = (bullet.position.y) - self.position.y
+                
+                dx = dx + target!.position.x
+                dy = dy + target!.position.y
+
+                let angle = atan2(dy, dx)
+
+                let velocityX = cos(angle)
+                let velocityY = sin(angle)
+
+                let movement = SKAction.run {
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                }
+                
+                self.addChild(bullet)
+                let done = SKAction.removeFromParent()
+                bullet.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+            }
+            //caso funciona
+            if self.position.y < 0 {
+                
+                var dx = (bullet.position.x) - self.position.x
+                var dy = (bullet.position.y) - self.position.y
+                
+                dx = dx + target!.position.x
+                dy = dy + target!.position.y
+
+                let angle = atan2(dy, dx)
+
+                let velocityX = cos(angle)
+                let velocityY = sin(angle)
+
+                let movement = SKAction.run {
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                }
+                
+                self.addChild(bullet)
+                let done = SKAction.removeFromParent()
+                bullet.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+            }
         }
     }
 }
