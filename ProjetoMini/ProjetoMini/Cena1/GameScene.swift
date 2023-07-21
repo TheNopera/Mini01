@@ -213,6 +213,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+        
+        if layerScenario.inimigosAR != nil{
+            for inimigo in layerScenario.inimigosAR {
+                inimigo.mover()
+            }
+        }
     }
 }
 

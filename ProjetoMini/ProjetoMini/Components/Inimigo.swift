@@ -52,7 +52,7 @@ class Inimigo:SKSpriteNode{
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
         bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
         bullet.physicsBody?.collisionBitMask = physicsCategory.none.rawValue
-        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue 
+        bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
         bullet.physicsBody?.affectedByGravity = false
         bullet.physicsBody?.isDynamic = true
         
@@ -65,11 +65,11 @@ class Inimigo:SKSpriteNode{
                 
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
-
+                
                 let angle = atan2(dy, dx)
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
-
+                
                 let movement = SKAction.run {
                     bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
@@ -80,17 +80,17 @@ class Inimigo:SKSpriteNode{
             }
             //Caso funciona
             if self.position.y < 0 {
-
+                
                 var dx = (bullet.position.x) - self.position.x
                 var dy = (bullet.position.y) - self.position.y
                 
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
-
+                
                 let angle = atan2(dy, dx)
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
-
+                
                 let movement = SKAction.run {
                     bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
@@ -109,12 +109,12 @@ class Inimigo:SKSpriteNode{
                 
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
-
+                
                 let angle = atan2(dy, dx)
-
+                
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
-
+                
                 let movement = SKAction.run {
                     bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
@@ -131,12 +131,12 @@ class Inimigo:SKSpriteNode{
                 
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
-
+                
                 let angle = atan2(dy, dx)
-
+                
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
-
+                
                 let movement = SKAction.run {
                     bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
@@ -145,6 +145,24 @@ class Inimigo:SKSpriteNode{
                 let done = SKAction.removeFromParent()
                 bullet.run(.sequence([movement,.wait(forDuration: 10.0),done]))
             }
+        }
+    }
+    
+    func mover(){
+        
+        // Calcula a distancia entre o player e o inimigo
+        let dx = self.position.x - target!.position.x
+        let dy = (target!.position.y) - self.position.y
+        let angle = atan2(dy, dx) // calcula o angulo interno entre eles
+        
+
+        
+        if dx > 10{
+           
+            
+            
+        } else {
+            self.position = CGPoint(x: self.position.x - 5, y: self.position.y)
         }
     }
 }
