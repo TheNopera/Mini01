@@ -16,6 +16,7 @@ class Player:SKSpriteNode{
     var jumps:Int = 0
     var hasContact:Bool = false
     var goDown:Bool = false
+    var isTurningLeft:Bool = false
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
@@ -91,7 +92,7 @@ class Player:SKSpriteNode{
             if self.physicsBody!.velocity.dy == 0{
                 self.playerJump()
             }
-    
+            
             // Handle up swipe
         case .down:
             self.playerGodown()
@@ -119,23 +120,26 @@ class Player:SKSpriteNode{
         bullet.physicsBody?.collisionBitMask = physicsCategory.enemy.rawValue
         bullet.physicsBody?.restitution = 0.0
         
-        if self.xScale == 1{
+        if self.isTurningLeft{
+        
+            bullet.position.x = bullet.position.x - self.size.width/2 + 15
+            let mover = SKAction.run {
+                bullet.physicsBody?.applyImpulse(CGVector(dx: -5, dy: 0))
+            }
+            let done = SKAction.removeFromParent()
+          
+            self.addChild(bullet)
+            bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
+        } else{
+            
             bullet.position.x = bullet.position.x + self.size.width/2 + 15
-            let mover = SKAction.move(to: CGPoint(x: bullet.position.x + 1000, y: bullet.position.y) , duration: 2)
+            let mover = SKAction.run {
+                bullet.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
+            }
             let done = SKAction.removeFromParent()
             
             self.addChild(bullet)
-            bullet.run(.sequence([mover,done]))
-            
-        }
-        if self.xScale == -1 {
-            bullet.position.x = bullet.position.x + self.size.width/2 + 15
-            let mover = SKAction.move(to: CGPoint(x: bullet.position.x + 1000, y: bullet.position.y) , duration: 2)
-            let done = SKAction.removeFromParent()
-            
-            self.addChild(bullet)
-            bullet.run(.sequence([mover,done]))
-            
+            bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
         }
     }
 }

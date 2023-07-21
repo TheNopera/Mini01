@@ -101,8 +101,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Checks if is on teh left side of the screen
         if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
-            let xDirection: CGFloat = joystick.displacement < 0 ? -1 : 1
-            player.xScale = xDirection
+            player.isTurningLeft = joystick.displacement < 0 ? true : false
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "PlayerE")
+            }else{
+                player.texture = SKTexture(imageNamed: "Player")
+            }
+            
         }
         
         
@@ -160,6 +165,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         case physicsCategory.enemy.rawValue | physicsCategory.playerBullet.rawValue: // inimigo e disparo do player
             print("player acertou o inimigo")
+            if contact.bodyA.node?.name == "enemy"{
+                _ = contact.bodyA.node
+                let playerBullet = contact.bodyB.node
+                
+                playerBullet!.removeFromParent()
+                
+            } else{
+                _ = contact.bodyB.node
+                let playerBullet = contact.bodyA.node
+                
+                playerBullet!.removeFromParent()
+        
+            }
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
             print("inimigo e player se encostaram")
