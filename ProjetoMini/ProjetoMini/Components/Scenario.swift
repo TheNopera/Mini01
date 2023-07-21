@@ -85,6 +85,8 @@ class LayerScenario: SKNode {
                 let inimigo = Inimigo()
                 inimigo.position = spawnPoint.position
                 self.addChild(inimigo)
+                
+                self.inimigosAR.append(inimigo)
                 inimigo.target = target
                 self.inimigosAR.append(inimigo)
             }
