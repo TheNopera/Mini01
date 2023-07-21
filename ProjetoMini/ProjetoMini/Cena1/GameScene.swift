@@ -45,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         inimigo.position.y = 20
         layerScenario.addChild(inimigo)
         
+
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -123,7 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+    //MARK: Physics Contact
     func didBegin(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -172,7 +173,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -186,6 +186,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("no functional end contact")
         }
     }
+    
+    //MARK: Update
     override func update(_ currentTime: TimeInterval) {
         if joystick.displacement != 0{
             player.playerMove(displacement: joystick.displacement)
@@ -214,9 +216,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
-        
     }
-    
+
 }
 
 
