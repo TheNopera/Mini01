@@ -19,15 +19,15 @@ class LayerScenario: SKNode {
     
     override init() {
         super.init()
-        spawnPoint1 = SKSpriteNode(texture: SKTexture(imageNamed: "SpawnPointAsset"))
+        spawnPoint1 = SKSpriteNode()
              spawnPoint1.name = "spawnPoint" // precisa do nome para conseguir coloca-los na scene
         spawnPoint1.position = CGPoint(x: frame.midX + 200, y: frame.minY)
              addChild(spawnPoint1)
-        spawnPoint2 = SKSpriteNode(texture: SKTexture(imageNamed: "SpawnPointAsset"))
+        spawnPoint2 = SKSpriteNode()
              spawnPoint2.name = "spawnPoint" // precisa do nome para conseguir coloca-los na scene
         spawnPoint2.position = CGPoint(x: frame.midX - 200, y: frame.minY)
              addChild(spawnPoint2)
-        spawnPoint3 = SKSpriteNode(texture: SKTexture(imageNamed: "SpawnPointAsset"))
+        spawnPoint3 = SKSpriteNode()
              spawnPoint3.name = "spawnPoint" // precisa do nome para conseguir coloca-los na scene
         spawnPoint3.position = CGPoint(x: frame.midX, y: frame.minY)
              addChild(spawnPoint3)
