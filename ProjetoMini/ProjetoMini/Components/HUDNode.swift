@@ -37,6 +37,12 @@ class HUDNode: SKNode {
     private var highscoreLbl: SKLabelNode!
     private var highscoreTitleLbl: SKLabelNode!
     
+    // MARK: InGame Timer
+    var renderTime: TimeInterval = 0.0
+    var changeTime: TimeInterval = 1.0
+    var seconds: Int = 0
+    var minutes: Int = 0
+    var timerLabel: SKLabelNode!
     
     // MARK: TRANSITION Properties
     var easeMenuScene: MenuScene?
@@ -248,15 +254,15 @@ extension HUDNode {
         // MARK: GameOver Node
         gameOverNode = SKSpriteNode(imageNamed: "panel-gameOver")
         gameOverNode.zPosition = 50.0
-        gameOverNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
+        gameOverNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(gameOverNode)
         
         // MARK: Menu Node
         homeNode = SKSpriteNode(imageNamed: "menu-button")
         homeNode.zPosition = 55.0
         homeNode.position = CGPoint(
-            x: gameOverNode.frame.minX + 80,
-            y: gameOverNode.frame.minY + homeNode.frame.height/2 + 5)
+            x: screenWidth*0.40,
+            y: screenHeight*0.32)
         homeNode.name = "Home"
         addChild(homeNode)
         
@@ -264,8 +270,8 @@ extension HUDNode {
         againNode = SKSpriteNode(imageNamed: "again-button")
         againNode.zPosition = 55.0
         againNode.position = CGPoint(
-            x: gameOverNode.frame.maxX - 80,
-            y: gameOverNode.frame.minY + homeNode.frame.height/2 + 5)
+            x: screenWidth*(0.60),
+            y: screenHeight*0.32)
         againNode.name = "Again"
         addChild(againNode)
         
@@ -332,15 +338,15 @@ extension HUDNode {
         // MARK: Menu Node
         menuNode = SKSpriteNode(imageNamed: "panel-menu")
         menuNode.zPosition = 50.0
-        menuNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
+        menuNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(menuNode)
         
         // MARK: Start Node
         startNode = SKSpriteNode(imageNamed: "start-button")
         startNode.zPosition = 55.0
         startNode.position = CGPoint(
-            x: menuNode.frame.maxX - 80,
-            y: menuNode.frame.minY + startNode.frame.height/2 + 5)
+            x: screenWidth*0.5,
+            y: screenHeight*0.4)
         startNode.name = "Start"
         addChild(startNode)
         
@@ -353,11 +359,11 @@ extension HUDNode {
     // MARK: Enter the In Game Pause Button
     func setupPauseNode() {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
-//        inGamePauseNode.zPosition = 57.0
+        inGamePauseNode.zPosition = 57.0
         inGamePauseNode.name = "pause"
         inGamePauseNode.position = CGPoint(
-            x: screenWidth - 50,
-            y: screenHeight - 50)
+            x: screenWidth*0.93,
+            y: screenHeight*0.90)
         addChild(inGamePauseNode)
         isUserInteractionEnabled = true
 
@@ -375,7 +381,7 @@ extension HUDNode {
         // MARK: Pause Node
         pauseNode = SKSpriteNode()
         pauseNode.zPosition = 49.0
-        pauseNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
+        pauseNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(pauseNode)
         
         // MARK: Quit Node
@@ -395,5 +401,17 @@ extension HUDNode {
             y: pauseNode.frame.minY + quitNode.frame.height/2 + 5)
         resumeNode.name = "Resume"
         addChild(resumeNode)
+    }
+}
+
+// MARK: InGame Timer
+extension HUDNode {
+    
+    func setupInGameTimer() {
+        timerLabel = SKLabelNode()
+        timerLabel.zPosition = 57.0
+        timerLabel.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.90)
+        timerLabel.name = "Timer-label"
+        addChild(timerLabel)
     }
 }

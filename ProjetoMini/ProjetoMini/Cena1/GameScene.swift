@@ -56,7 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraPlayer.addChild(hudNode)
         hudNode.skView = view
         hudNode.easeGameScene = self
-        hudNode.position = CGPoint(x: -852*0.5, y: -393*0.5)
+        hudNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
         startGame()
 
         
@@ -213,6 +213,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+        
+        if currentTime > hudNode.renderTime {
+            if hudNode.renderTime > 0 {
+                hudNode.seconds += 1
+                
+                if hudNode.seconds == 60 {
+                    hudNode.seconds = 0
+                    hudNode.minutes += 1
+                }
+                
+                let secondsText = (hudNode.seconds < 10) ? "0\(hudNode.seconds)" : "\(hudNode.seconds)"
+                let minutesText = (hudNode.minutes < 10) ? "0\(hudNode.minutes)" : "\(hudNode.minutes)"
+                hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
+            }
+            hudNode.renderTime = currentTime + hudNode.changeTime
+        }
     }
 }
 
@@ -231,6 +247,7 @@ extension GameScene {
     
     private func startGame() {       
         hudNode.setupPauseNode()
+        hudNode.setupInGameTimer()
     }
 }
 
