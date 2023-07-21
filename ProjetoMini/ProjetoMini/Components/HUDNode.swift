@@ -9,13 +9,15 @@ import SpriteKit
 
 class HUDNode: SKNode {
     
-    // MARK: Properties
+    // MARK: PROPERTIES
     
+    // MARK: Menu Panel
     private var menuShape: SKShapeNode!
     private var menuNode: SKSpriteNode!
     
     private var startNode: SKSpriteNode!
     
+    // MARK: Paused Panel
     private var inGamePauseNode: SKSpriteNode!
     
     private var pauseNodeShape: SKShapeNode!
@@ -23,6 +25,7 @@ class HUDNode: SKNode {
     private var resumeNode: SKSpriteNode!
     private var quitNode: SKSpriteNode!
     
+    // MARK: GameOver Panel
     private var gameOverShape: SKShapeNode!
     private var gameOverNode: SKSpriteNode!
     
@@ -34,6 +37,8 @@ class HUDNode: SKNode {
     private var highscoreLbl: SKLabelNode!
     private var highscoreTitleLbl: SKLabelNode!
     
+    
+    // MARK: TRANSITION Properties
     var easeMenuScene: MenuScene?
     var easeGameScene: GameScene?
     var skView: SKView!
@@ -70,19 +75,21 @@ class HUDNode: SKNode {
         }
     }
     
+    
     // MARK: In touchesBegan, the buttons activate when pressed
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         guard let touch = touches.first else { return }
         let node = atPoint(touch.location(in: self))
         
-        // Start of the game
+        // START GAME
         if node.name == "Start" && !isStart {
             isStart = true
             print("StartButton")
         }
-        // Paused Game
         
+        // PAUSED GAME
         if node.name == "pause" && !isPause {
             isPause = true
             print("PauseButton")
@@ -96,7 +103,8 @@ class HUDNode: SKNode {
         if node.name == "quit" && !isQuit {
            isQuit = true
         }
-        // Gameover
+        
+        // GAMEOVER
         if node.name == "Home" && !IsHome {
             IsHome = true
             print("HomeButton")
@@ -108,9 +116,13 @@ class HUDNode: SKNode {
         }
     }
     
-    // MARK: In touchesEnded, the buttons return to default configuration
+    
+    // MARK: In touchesEnded, the buttons take action and return to default configuration
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
             super.touchesEnded(touches, with: event)
+        
+        //START GAME
         if isStart {
             isStart = false
             print("Start = false")
@@ -122,15 +134,12 @@ class HUDNode: SKNode {
             }
         }
         
-        // Paused Game
-        
+        //PAUSED GAME
         if isPause {
             print("Botão Pause foi clicado")
             setupPausePanel()
             isPause = false
             scene?.isPaused = true
-//            && ((scene?.view?.isPaused) != nil) == false
-            
         }
         
         if isResume {
@@ -151,6 +160,8 @@ class HUDNode: SKNode {
                 skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
             }
         }
+        
+        //GAME OVER
         if IsHome {
             IsHome = false
             print("Home = false")
@@ -172,7 +183,9 @@ class HUDNode: SKNode {
         }
     }
     
+    
     // MARK: In touchesMoved, when the user presses away from button, the action is cancelled
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         guard let touch = touches.first else { return }
@@ -219,8 +232,10 @@ extension HUDNode {
 
 
 // MARK: GameOver
+
 extension HUDNode {
     
+    // MARK: Enter the GameOver Panel
     func setupGameOver() {
         
         gameOverShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
@@ -304,6 +319,7 @@ extension HUDNode {
 // MARK: Menu
 extension HUDNode {
     
+    // MARK: Enter the Menu Panel
     func setupMenu() {
         
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
@@ -334,6 +350,7 @@ extension HUDNode {
 //MARK: Pause
 extension HUDNode {
     
+    // MARK: Enter the In Game Pause Button
     func setupPauseNode() {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
 //        inGamePauseNode.zPosition = 57.0
@@ -346,6 +363,7 @@ extension HUDNode {
 
     }
     
+    // MARK: Enter the Paused Panel
     func setupPausePanel() {
         pauseNodeShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         pauseNodeShape.zPosition = 49.0

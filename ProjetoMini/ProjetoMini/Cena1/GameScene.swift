@@ -222,7 +222,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 extension GameScene {
     
     private func gameOver() {
-        //func player morre
         hudNode.setupGameOver()
     }
 }
@@ -230,8 +229,7 @@ extension GameScene {
 
 extension GameScene {
     
-    private func startGame() {
-       
+    private func startGame() {       
         hudNode.setupPauseNode()
     }
 }
