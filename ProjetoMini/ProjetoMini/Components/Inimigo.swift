@@ -14,10 +14,11 @@ class Inimigo:SKSpriteNode{
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
-        
+        self.size.width = 32
+        self.size.height = 36
+        self.color = .red
         self.size.height = 64
         self.size.width = 64
-        
         name = "enemy"
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
         physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
