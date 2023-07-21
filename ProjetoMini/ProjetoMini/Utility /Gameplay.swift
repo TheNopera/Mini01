@@ -17,3 +17,7 @@ enum physicsCategory:UInt32{
     case playerBullet = 0x00001000 // 8
     case enemyBullet = 0x00010000 // 16
 }
+
+// MARK: Setup screen size
+let screenWidth: CGFloat = 852
+let screenHeight: CGFloat = 393
