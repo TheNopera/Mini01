@@ -43,7 +43,7 @@ class HUDNode: SKNode {
             updateBtn(node: startNode, event: isStart)
         }
     }
-    private var isPause = false {
+     var isPause = false {
         didSet {
             updateBtn(node: inGamePauseNode, event: isPause)
         }
@@ -86,7 +86,6 @@ class HUDNode: SKNode {
         if node.name == "pause" && !isPause {
             isPause = true
             print("PauseButton")
-            
         }
         
         if node.name == "resume" && !isResume {
@@ -126,11 +125,11 @@ class HUDNode: SKNode {
         // Paused Game
         
         if isPause {
-            if isPaused { return }
             print("Botão Pause foi clicado")
             setupPausePanel()
-            isPaused = true
             isPause = false
+            scene?.isPaused = true
+//            && ((scene?.view?.isPaused) != nil) == false
             
         }
         
@@ -139,7 +138,7 @@ class HUDNode: SKNode {
             pauseNodeShape.removeFromParent()
             resumeNode.removeFromParent()
             quitNode.removeFromParent()
-            isPaused = false
+            scene?.isPaused = false
             isResume = false
             
         }
