@@ -11,13 +11,15 @@ import SpriteKit
 class Inimigo:SKSpriteNode{
     var target: SKSpriteNode?
     var isShotting: Bool = false
+    var vidas = 2
+    var ID:UUID = UUID()
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         self.size.height = 64
         self.size.width = 64
         self.color = .red
-        name = "enemy"
+        name = ID.uuidString
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
         physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
         physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
@@ -43,7 +45,9 @@ class Inimigo:SKSpriteNode{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    func inimigoTomouDano(){
+        self.vidas -= 1
+    }
     func attack(){
         let bullet = SKShapeNode(circleOfRadius: 6)
         bullet.name = "enemyBullet"

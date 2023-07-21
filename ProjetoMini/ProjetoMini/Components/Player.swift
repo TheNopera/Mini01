@@ -11,16 +11,16 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
-    var vidas = 3
+    var vidas = 1000
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
     var hasContact:Bool = false
     var goDown:Bool = false
+    var isTurningLeft:Bool = false
+    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
-        self.size = CGSize(width: 64, height: 64)
-        self.color = .green
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
         self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
@@ -29,6 +29,17 @@ class Player:SKSpriteNode{
         self.physicsBody?.restitution = 0.0
         self.name = "player"
         self.physicsBody?.allowsRotation = false
+        
+        let atirar = SKAction.run {
+            self.atirando()
+        }
+        
+        self.run(.repeatForever(.sequence([atirar,.wait(forDuration: 1.0)])))
+    }
+    
+    convenience init (){
+        let tex = SKTexture(imageNamed: "Player")
+        self.init(texture:tex, color: UIColor.white, size: tex.size())
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -59,9 +70,6 @@ class Player:SKSpriteNode{
             self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
             jumps += 1
         }
-           
-        
-        
     }
     
     func playerGodown(){
@@ -84,7 +92,7 @@ class Player:SKSpriteNode{
             if self.physicsBody!.velocity.dy == 0{
                 self.playerJump()
             }
-    
+            
             // Handle up swipe
         case .down:
             self.playerGodown()
@@ -97,5 +105,41 @@ class Player:SKSpriteNode{
     
     func tomouDano(){
         self.vidas -= 1
+    }
+    
+    func atirando(){
+        
+        let bullet = SKShapeNode(circleOfRadius: 6)
+        bullet.fillColor = SKColor(ciColor: .red)
+        bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
+        bullet.physicsBody?.isDynamic = true
+        bullet.physicsBody?.allowsRotation = false
+        bullet.physicsBody?.affectedByGravity = false
+        bullet.physicsBody?.categoryBitMask = physicsCategory.playerBullet.rawValue
+        bullet.physicsBody?.contactTestBitMask = physicsCategory.enemy.rawValue
+        bullet.physicsBody?.collisionBitMask = physicsCategory.enemy.rawValue
+        bullet.physicsBody?.restitution = 0.0
+        
+        if self.isTurningLeft{
+        
+            bullet.position.x = bullet.position.x - self.size.width/2 + 15
+            let mover = SKAction.run {
+                bullet.physicsBody?.applyImpulse(CGVector(dx: -5, dy: 0))
+            }
+            let done = SKAction.removeFromParent()
+          
+            self.addChild(bullet)
+            bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
+        } else{
+            
+            bullet.position.x = bullet.position.x + self.size.width/2 + 15
+            let mover = SKAction.run {
+                bullet.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
+            }
+            let done = SKAction.removeFromParent()
+            
+            self.addChild(bullet)
+            bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
+        }
     }
 }
