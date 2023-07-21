@@ -15,7 +15,7 @@ class LayerScenario: SKNode {
     var spawnPoint1: SKSpriteNode!
     var spawnPoint2: SKSpriteNode!
     var spawnPoint3: SKSpriteNode!
-    var inimigosAR: [Inimigo]!
+    var inimigosAR: [Inimigo] = []
     
     override init() {
         super.init()
@@ -85,6 +85,8 @@ class LayerScenario: SKNode {
                 let inimigo = Inimigo()
                 inimigo.position = spawnPoint.position
                 self.addChild(inimigo)
+                
+                self.inimigosAR.append(inimigo)
                 inimigo.target = target
             }
             
