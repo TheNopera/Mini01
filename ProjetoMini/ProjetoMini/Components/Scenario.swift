@@ -88,7 +88,6 @@ class LayerScenario: SKNode {
                 
                 self.inimigosAR.append(inimigo)
                 inimigo.target = target
-                self.inimigosAR.append(inimigo)
             }
             
         }
