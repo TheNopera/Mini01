@@ -241,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 body.collisionBitMask = physicsCategory.player.rawValue
                 //print("\((body.collisionBitMask))")
                 
-            } else if dy < 0  && player.goDown{
+            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
