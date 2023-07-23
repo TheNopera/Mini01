@@ -47,9 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        let inimigo = Inimigo(target: player)
-        inimigo.position.y = 20
-        //        layerScenario.addChild(inimigo)
         
         
         player.setupSwipeHandler()
@@ -133,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    //MARK: Physics Contact
+    //MARK: DidBegin
     func didBegin(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -183,6 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerBullet = contact.bodyA
                 
             }
+            
             playerBullet.node?.removeFromParent()
             
             
@@ -190,7 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
-                        i.removeFromParent()
+                        i.morreu()
                     }
                 }
             }
@@ -209,7 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
+    //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -254,11 +252,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if layerScenario.inimigosAR != nil{
-            for inimigo in layerScenario.inimigosAR {
-                inimigo.mover()
-            }
-        }
+//        for inimigo in layerScenario.inimigosAR {
+//            inimigo.mover()
+//        }
     }
     
 }
