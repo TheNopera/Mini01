@@ -105,7 +105,7 @@ class Player:SKSpriteNode{
     
     func tomouTiro(){
         if !isImortal{
-            self.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
+            
         }
         self.tomouDano()
     }
