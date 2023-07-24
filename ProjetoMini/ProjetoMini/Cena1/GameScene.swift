@@ -51,9 +51,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        let inimigo = Inimigo(target: player)
-        inimigo.position.y = 20
-        //        layerScenario.addChild(inimigo)
         
         
         player.setupSwipeHandler()
@@ -146,7 +143,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    //MARK: Physics Contact
+    //MARK: DidBegin
     func didBegin(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -160,8 +157,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if contact.bodyA.node?.name == "player"{
                 _ = contact.bodyA.node
                 let enemyBullet = contact.bodyB.node
-                
-                enemyBullet!.removeFromParent()
+                if !player.isImortal{
+                    enemyBullet!.removeFromParent()
+                }
                 player.tomouDano()
                 print(player.vidas)
                 if player.vidas == 0{
@@ -173,7 +171,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 _ = contact.bodyB.node
                 let enemyBullet = contact.bodyA.node
                 
-                enemyBullet!.removeFromParent()
+                if !player.isImortal{
+                    enemyBullet!.removeFromParent()
+                }
                 player.tomouDano()
                 if player.vidas == 0{
                     gameOver()
@@ -196,6 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerBullet = contact.bodyA
                 
             }
+            
             playerBullet.node?.removeFromParent()
             
             
@@ -203,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
-                        i.removeFromParent()
+                        i.morreu()
                     }
                 }
             }
@@ -212,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
-            print("inimigo e player se encostaram")
+            player.encostouNoInimigo(direção: joystick.displacement)
             
         case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
             print("bala bateu no inimigo")
@@ -222,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
+    //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -256,7 +257,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 body.collisionBitMask = physicsCategory.player.rawValue
                 //print("\((body.collisionBitMask))")
                 
-            } else if dy < 0  && player.goDown{
+            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+                print(player.physicsBody?.velocity.dy)
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
@@ -281,13 +283,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 timerInSeconds += 1
 
-//                let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
-//                if timerInSeconds > highscore {
-//                    UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
-//                }
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
         }
+
     }
     
 }

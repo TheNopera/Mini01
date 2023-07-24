@@ -32,3 +32,18 @@ extension CGPoint {
     return self / length()
   }
 }
+
+func distance(a:CGPoint, b:CGPoint) -> CGFloat{
+    let dx = pow(a.x - b.x, 2)
+    let dy = pow(a.y - b.y, 2)
+    let dab = sqrt(dx + dy)
+    
+    return dab
+}
+
+func distanceX(a:CGPoint, b:CGPoint) -> CGFloat{
+    let dx = pow(a.x - b.x, 2)
+    let dab = sqrt(dx)
+    
+    return dab
+}

@@ -17,6 +17,7 @@ class Player:SKSpriteNode{
     var hasContact:Bool = false
     var goDown:Bool = false
     var isTurningLeft:Bool = false
+    var isImortal = false
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
@@ -25,7 +26,6 @@ class Player:SKSpriteNode{
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
         self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.physicsBody?.restitution = 0.0
         self.name = "player"
         self.physicsBody?.allowsRotation = false
@@ -104,7 +104,27 @@ class Player:SKSpriteNode{
     }
     
     func tomouDano(){
-        self.vidas -= 1
+        
+        let imortal = SKAction.run {
+            self.isImortal = true
+        }
+        let mortal = SKAction.run {
+            self.isImortal = false
+        }
+        
+        if !isImortal{
+            self.vidas -= 1
+            self.run(.sequence([imortal,.wait(forDuration: 1.5),mortal]))
+        }
+        
+    }
+    func encostouNoInimigo(direção:Double){
+        let impulse = direção > 0 ? -25 : 25
+        if !self.isImortal{
+            self.physicsBody?.applyImpulse(CGVector(dx: impulse, dy: 25))
+            self.tomouDano()
+        }
+        
     }
     
     func atirando(){
@@ -121,13 +141,13 @@ class Player:SKSpriteNode{
         bullet.physicsBody?.restitution = 0.0
         
         if self.isTurningLeft{
-        
+            
             bullet.position.x = bullet.position.x - self.size.width/2 + 15
             let mover = SKAction.run {
                 bullet.physicsBody?.applyImpulse(CGVector(dx: -5, dy: 0))
             }
             let done = SKAction.removeFromParent()
-          
+            
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
         } else{
