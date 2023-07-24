@@ -11,12 +11,13 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
-    var vidas = 1000
+    var vidas = 3 
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
     var hasContact:Bool = false
     var goDown:Bool = false
     var isTurningLeft:Bool = false
+    var isImortal = false
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
@@ -103,7 +104,19 @@ class Player:SKSpriteNode{
     }
     
     func tomouDano(){
-        self.vidas -= 1
+     
+        let imortal = SKAction.run {
+            self.isImortal = true
+        }
+        let mortal = SKAction.run {
+            self.isImortal = false
+        }
+        
+        if !isImortal{
+            self.vidas -= 1
+            self.run(.sequence([imortal,.wait(forDuration: 5),mortal]))
+        }
+        
     }
     
     func atirando(){
