@@ -103,11 +103,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
             player.isTurningLeft = joystick.displacement < 0 ? true : false
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
+            if !player.isImortal{
+                if player.isTurningLeft{
+                    player.texture = SKTexture(imageNamed: "PlayerE")
+                }else{
+                    player.texture = SKTexture(imageNamed: "Player")
+                }
             }else{
-                player.texture = SKTexture(imageNamed: "Player")
+                if player.isTurningLeft{
+                    player.texture = SKTexture(imageNamed: "danoE")
+                }else{
+                    player.texture = SKTexture(imageNamed: "danoD")
+                }
             }
+            
             
         }
         
@@ -256,9 +265,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-//        for inimigo in layerScenario.inimigosAR {
-//            inimigo.mover()
-//        }
+        //        for inimigo in layerScenario.inimigosAR {
+        //            inimigo.mover()
+        //        }
     }
     
 }
