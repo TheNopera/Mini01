@@ -65,9 +65,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hudNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
         startGame()
         
-        
-        layerScenario.InimigoSpawn(target: player)
-        
         let cameraBounds = self.frame.width/2
         let bounds = self.calculateAccumulatedFrame().width / 2 - cameraBounds
         let cameraConstraint = SKConstraint.positionX(.init(lowerLimit: -bounds, upperLimit: bounds))
