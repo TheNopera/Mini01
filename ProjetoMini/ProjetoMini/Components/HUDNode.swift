@@ -87,6 +87,10 @@ class HUDNode: SKNode {
     var menuBoat = SKSpriteNode(imageNamed: "menu-barco")
     var menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
     var menuSettings = SKSpriteNode(imageNamed: "menu-settings")
+    var menuLogo = SKSpriteNode(imageNamed: "logo")
+    var menuCloudEmitter1 = CloudEmitter(back: false, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var menuCloudEmitter2 = CloudEmitter(back: true, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var starEmitter = SKEmitterNode(fileNamed: "Stars")
     
     // MARK: In touchesBegan, the buttons activate when pressed
     
@@ -335,6 +339,7 @@ extension HUDNode {
     func setupMenu() {
         
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
+        menuShape.strokeColor = SKColor(ciColor: .clear)
         menuShape.zPosition = 56.0
         menuShape.name = "Start"
         addChild(menuShape)
@@ -343,20 +348,32 @@ extension HUDNode {
         
         // MARK: Menu Node
         menuSky = SKSpriteNode(imageNamed: "menu-ceu")
-        menuSky.zPosition = 50.0
+        menuSky.zPosition = 49.0
         menuSky.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(menuSky)
         
-        menuStars = SKSpriteNode(imageNamed: "menu-estrelas")
-        menuStars.zPosition = 51.0
-        menuStars.setScale(0.90)
-        menuStars.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
-        addChild(menuStars)
+        
+        starEmitter?.zPosition = 50.0
+        starEmitter?.position = CGPoint(x: 0, y: screenHeight)
+        if let emissor = starEmitter{
+            emissor.advanceSimulationTime(60.0)
+            addChild(emissor)
+        }
+        
+//        menuStars = SKSpriteNode(imageNamed: "menu-estrelas")
+//        menuStars.zPosition = 50.0
+//        menuStars.setScale(0.90)
+//        menuStars.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+//        addChild(menuStars)
         
         menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
-        menuBehindSea.zPosition = 52.0
+        menuBehindSea.zPosition = 51.0
         menuBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuBehindSea)
+        
+        menuCloudEmitter2.zPosition = 52.0
+        menuCloudEmitter2.position = CGPoint(x: 0 - menuCloudEmitter2.size.width, y: screenWidth*0.15)
+        addChild(menuCloudEmitter2)
         
         menuBoat = SKSpriteNode(imageNamed: "menu-barco")
         menuBoat.zPosition = 53.0
@@ -369,6 +386,12 @@ extension HUDNode {
         menuFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuFrontSea)
         
+        
+        menuCloudEmitter1.zPosition = 55.0
+        menuCloudEmitter1.position = CGPoint(x: 0 - menuCloudEmitter1.size.width, y: screenHeight*0.1)
+        addChild(menuCloudEmitter1)
+        
+        
         // MARK: Menu Settings
         menuSettings = SKSpriteNode(imageNamed: "menu-settings")
         menuSettings.zPosition = 55.0
@@ -376,9 +399,17 @@ extension HUDNode {
         menuSettings.position = CGPoint(x: screenWidth*0.93, y: screenHeight*0.90)
         addChild(menuSettings)
         
+        menuLogo = SKSpriteNode(imageNamed: "logo")
+        menuLogo.zPosition = 56.0
+        menuLogo.setScale(0.75)
+        menuLogo.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.65)
+        addChild(menuLogo)
+        
+        
         // MARK: Start LabelNode
         startNode = SKLabelNode(text: "Toque em qualquer lugar da tela para começar")
-        startNode.zPosition = 55.0
+        startNode.fontName = "JupiterCrashBRK"
+        startNode.zPosition = 59.0
         startNode.position = CGPoint(
             x: screenWidth*0.5,
             y: screenHeight*0.25)
