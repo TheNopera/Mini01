@@ -97,10 +97,10 @@
 				62CEF9382A5DD48F006F9784 /* Player.swift */,
 				E06B27A82A65C2B200B21DFD /* Inimigo.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
+				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
 				02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */,
 				02ED2B272A61B89E005C5D1B /* MyTileSet.sks */,
 				02ED2B282A61B89E005C5D1B /* Assets.xcassets */,
-				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

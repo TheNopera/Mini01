@@ -47,9 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        let inimigo = Inimigo(target: player)
-        inimigo.position.y = 20
-        //        layerScenario.addChild(inimigo)
         
         
         player.setupSwipeHandler()
@@ -106,12 +103,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
             player.isTurningLeft = joystick.displacement < 0 ? true : false
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
-            }else{
-                player.texture = SKTexture(imageNamed: "Player")
-            }
-            
         }
         
         
@@ -133,7 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    //MARK: Physics Contact
+    //MARK: DidBegin
     func didBegin(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -147,8 +138,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if contact.bodyA.node?.name == "player"{
                 _ = contact.bodyA.node
                 let enemyBullet = contact.bodyB.node
-                
-                enemyBullet!.removeFromParent()
+                if !player.isImortal{
+                    enemyBullet!.removeFromParent()
+                }
                 player.tomouDano()
                 print(player.vidas)
                 if player.vidas == 0{
@@ -160,7 +152,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 _ = contact.bodyB.node
                 let enemyBullet = contact.bodyA.node
                 
-                enemyBullet!.removeFromParent()
+                if !player.isImortal{
+                    enemyBullet!.removeFromParent()
+                }
                 player.tomouDano()
                 if player.vidas == 0{
                     gameOver()
@@ -183,6 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 playerBullet = contact.bodyA
                 
             }
+            
             playerBullet.node?.removeFromParent()
             
             
@@ -209,6 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 }
                             }*/
                         }
+                        i.morreu()
                     }
                 }
             }
@@ -217,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
-            print("inimigo e player se encostaram")
+            player.encostouNoInimigo(direção: joystick.displacement)
             
         case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
             print("bala bateu no inimigo")
@@ -227,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
+    //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
@@ -261,7 +257,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 body.collisionBitMask = physicsCategory.player.rawValue
                 //print("\((body.collisionBitMask))")
                 
-            } else if dy < 0  && player.goDown{
+            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+                print(player.physicsBody?.velocity.dy)
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
@@ -271,6 +268,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+        //MARK: Checks if plyer is imortal and use respective Texture
+        if !player.isImortal{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "PlayerE")
+            }else{
+                player.texture = SKTexture(imageNamed: "Player")
+            }
+        }else{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "danoE")
+            }else{
+                player.texture = SKTexture(imageNamed: "danoD")
+            }
+        }
+        
+        
+        //        for inimigo in layerScenario.inimigosAR {
+        //            inimigo.mover()
+        //        }
     }
     
 }
