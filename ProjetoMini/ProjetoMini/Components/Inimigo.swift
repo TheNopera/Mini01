@@ -13,11 +13,13 @@ class Inimigo:SKSpriteNode{
     var isShotting: Bool = false
     var vidas = 3
     var ID:UUID = UUID()
-    var animationD = [
+    var animation = [
         SKTexture(imageNamed: "inimigoD1"),
         SKTexture(imageNamed: "inimigoD2")
     ]
     var velocity = Int.random(in: 2...4)
+    var isAlive = true
+
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
@@ -39,7 +41,7 @@ class Inimigo:SKSpriteNode{
         }
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 1.0)])),withKey: "vivo2")
-        self.run(.repeatForever(.animate(with: animationD, timePerFrame: 0.5)),withKey: "animacaoD")
+        self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
     }
     
     convenience init (){
@@ -54,7 +56,7 @@ class Inimigo:SKSpriteNode{
         self.vidas -= 1
     }
     func attack(){
-        let bullet = SKSpriteNode(imageNamed: "enemytiro")
+        let bullet = SKSpriteNode(imageNamed: "enemyTiro")
         bullet.name = "enemyBullet"
         
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
@@ -184,13 +186,28 @@ class Inimigo:SKSpriteNode{
     }
     
     func morreu(){
+        self.isAlive = false
+        self.animation = []
         self.texture = nil
         self.physicsBody = nil
-        self.removeAction(forKey: "vivo1")
-        self.removeAction(forKey: "vivo2")
-        self.removeAction(forKey: "animacaoD")
-        
-        
+        self.removeAllActions()
         self.run(.sequence([.wait(forDuration: 10),.removeFromParent()]))
+    }
+    
+    func verificaTargetPosition(){
+//        if isAlive{
+//            if target!.position.x > self.position.x{
+//                self.animation = [
+//                    SKTexture(imageNamed: "inimigoL1"),
+//                    SKTexture(imageNamed: "inimigoL2")
+//                ]
+//            } else {
+//                self.animation = [
+//                    SKTexture(imageNamed: "inimigoD1"),
+//                    SKTexture(imageNamed: "inimigoD2")
+//                ]
+//            }
+//            self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+//        }
     }
 }

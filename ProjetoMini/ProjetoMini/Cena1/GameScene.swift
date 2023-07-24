@@ -245,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //print("\((body.collisionBitMask))")
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
-                print(player.physicsBody?.velocity.dy)
+                //                print(player.physicsBody?.velocity.dy)
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
@@ -256,9 +256,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-//        for inimigo in layerScenario.inimigosAR {
-//            inimigo.mover()
-//        }
+        for enemie in layerScenario.inimigosAR{
+            enemie.verificaTargetPosition()
+        }
     }
     
 }
