@@ -5,6 +5,7 @@
 //  Created by Daniel Ishida on 06/07/23.
 //
 
+import Foundation
 import SpriteKit
 import GameplayKit
 
@@ -27,6 +28,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hudNode = HUDNode()
     
     var inGamePauseNode: SKSpriteNode!
+    
+    var timerInSeconds: Int = 0
+    private let easeScoreKey = "EaseScoreKey"
     
     override func didMove(to view: SKView) {
         print("teste")
@@ -69,7 +73,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let cameraBounds = self.frame.width/2
         let bounds = self.calculateAccumulatedFrame().width / 2 - cameraBounds
-        
         let cameraConstraint = SKConstraint.positionX(.init(lowerLimit: -bounds, upperLimit: bounds))
         
         self.camera?.constraints = [cameraConstraint]
@@ -267,7 +270,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
-                
                 if hudNode.seconds == 60 {
                     hudNode.seconds = 0
                     hudNode.minutes += 1
@@ -276,6 +278,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let secondsText = (hudNode.seconds < 10) ? "0\(hudNode.seconds)" : "\(hudNode.seconds)"
                 let minutesText = (hudNode.minutes < 10) ? "0\(hudNode.minutes)" : "\(hudNode.minutes)"
                 hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
+                
+                timerInSeconds += 1
+
+//                let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+//                if timerInSeconds > highscore {
+//                    UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
+//                }
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
         }
@@ -288,8 +297,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 // MARK: - GameOver
 extension GameScene {
     
+    func formatarTempo(timerInSeconds: Int) -> String {
+        let minutos = timerInSeconds / 60
+        let segundos = timerInSeconds % 60
+        
+        // Use o operador ternário para adicionar um zero à esquerda dos segundos, se necessário
+        let segundosFormatados = segundos < 10 ? "0\(segundos)" : "\(segundos)"
+        let minutosFormatados = minutos < 10 ? "0\(minutos)" : "\(minutos)"
+        
+        return "\(minutosFormatados):\(segundosFormatados)"
+    }
+    
     private func gameOver() {
-        hudNode.setupGameOver()
+        
+        
+        var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+        if timerInSeconds > highscore {
+            highscore = timerInSeconds
+        }
+        
+        let formattedTime = formatarTempo(timerInSeconds: timerInSeconds)
+        let formattedHighTime = formatarTempo(timerInSeconds: highscore)
+        
+        hudNode.scoreLbl = hudNode.timerLabel
+        hudNode.setupGameOver(formattedTime, formattedHighTime)
+        
+        
     }
 }
 

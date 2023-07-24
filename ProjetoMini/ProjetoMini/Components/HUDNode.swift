@@ -33,7 +33,7 @@ class HUDNode: SKNode {
     private var againNode: SKSpriteNode!
     
     private var scoreTitleLbl: SKLabelNode!
-    private var scoreLbl: SKLabelNode!
+    var scoreLbl: SKLabelNode!
     private var highscoreLbl: SKLabelNode!
     private var highscoreTitleLbl: SKLabelNode!
     
@@ -242,7 +242,7 @@ extension HUDNode {
 extension HUDNode {
     
     // MARK: Enter the GameOver Panel
-    func setupGameOver() {
+    func setupGameOver(_ timer: String, _ hightimer: String) {
         
         gameOverShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         gameOverShape.zPosition = 49.0
@@ -290,10 +290,10 @@ extension HUDNode {
         scoreLbl = SKLabelNode()
         scoreLbl.fontSize = 20.0
         scoreLbl.fontColor = .white
-        scoreLbl.text = "0"
+        scoreLbl.text = "\(timer)"
         scoreLbl.zPosition = 55.0
         scoreLbl.position = CGPoint(
-            x: gameOverNode.frame.maxX + scoreLbl.frame.width/2 - 30,
+            x: screenWidth/2 + 50,
             y: screenHeight/2)
         addChild(scoreLbl)
         
@@ -312,10 +312,10 @@ extension HUDNode {
         highscoreLbl = SKLabelNode()
         highscoreLbl.fontSize = 20.0
         highscoreLbl.fontColor = .white
-        highscoreLbl.text = "0"
+        highscoreLbl.text = "\(hightimer)"
         highscoreLbl.zPosition = 55.0
         highscoreLbl.position = CGPoint(
-            x: gameOverNode.frame.maxX + highscoreLbl.frame.width/2 - 30,
+            x: screenWidth/2 + 50,
             y: highscoreTitleLbl.position.y)
         addChild(highscoreLbl)
         
@@ -359,7 +359,7 @@ extension HUDNode {
     // MARK: Enter the In Game Pause Button
     func setupPauseNode() {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
-        inGamePauseNode.zPosition = 57.0
+        inGamePauseNode.zPosition = 49.0
         inGamePauseNode.name = "pause"
         inGamePauseNode.position = CGPoint(
             x: screenWidth*0.93,
