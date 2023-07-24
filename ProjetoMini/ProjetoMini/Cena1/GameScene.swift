@@ -282,6 +282,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
                 
                 timerInSeconds += 1
+                
+                let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+                if timerInSeconds > highscore {
+                    UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
+                }
 
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
@@ -296,11 +301,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 // MARK: - GameOver
 extension GameScene {
     
+    // Function that format timeINSeconds to a custom string
     func formatarTempo(timerInSeconds: Int) -> String {
         let minutos = timerInSeconds / 60
         let segundos = timerInSeconds % 60
         
-        // Use o operador ternário para adicionar um zero à esquerda dos segundos, se necessário
+        // Format seconds and minutes to mm/ss
         let segundosFormatados = segundos < 10 ? "0\(segundos)" : "\(segundos)"
         let minutosFormatados = minutos < 10 ? "0\(minutos)" : "\(minutos)"
         
@@ -308,7 +314,6 @@ extension GameScene {
     }
     
     private func gameOver() {
-        
         
         var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
         if timerInSeconds > highscore {
@@ -318,9 +323,8 @@ extension GameScene {
         let formattedTime = formatarTempo(timerInSeconds: timerInSeconds)
         let formattedHighTime = formatarTempo(timerInSeconds: highscore)
         
-        hudNode.scoreLbl = hudNode.timerLabel
         hudNode.setupGameOver(formattedTime, formattedHighTime)
-        
+        hudNode.timerLabel.removeFromParent()
         
     }
 }
