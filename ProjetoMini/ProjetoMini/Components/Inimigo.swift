@@ -13,7 +13,6 @@ class Inimigo:SKSpriteNode{
     var isShotting: Bool = false
     var vidas = 2
     var ID:UUID = UUID()
-    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         self.size.height = 64

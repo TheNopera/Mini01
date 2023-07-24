@@ -65,9 +65,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         startGame()
         
         
-        layerScenario.InimigoSpawn(target: player)
-        
-        
+        layerScenario.InimigoSpawn1(target: player)
+        layerScenario.InimigoSpawn2(target: player)
+        layerScenario.InimigoSpawn3(target: player)
     }
     
     func addEnemiesFromTileMap(){ }
@@ -191,6 +191,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     i.inimigoTomouDano()
                     if i.vidas == 0{
                         i.removeFromParent()
+                        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn1(target: self.player)
+                        _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn2(target: self.player)
+                            }
+                        _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn3(target: self.player)
+                            }
+                            /*var runCount = 0
+                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                                print("Timer fired!")
+                                runCount += 1
+
+                                if runCount == 3 {
+                                    timer.invalidate()
+                                }
+                            }*/
+                        }
                     }
                 }
             }
