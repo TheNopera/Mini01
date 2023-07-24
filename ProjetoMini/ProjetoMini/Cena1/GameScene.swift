@@ -144,8 +144,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if contact.bodyA.node?.name == "player"{
                 _ = contact.bodyA.node
                 let enemyBullet = contact.bodyB.node
-                
-                enemyBullet!.removeFromParent()
+                if !player.isImortal{
+                    enemyBullet!.removeFromParent()
+                }
                 player.tomouDano()
                 print(player.vidas)
                 if player.vidas == 0{
@@ -157,7 +158,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 _ = contact.bodyB.node
                 let enemyBullet = contact.bodyA.node
                 
-                enemyBullet!.removeFromParent()
+                if !player.isImortal{
+                    enemyBullet!.removeFromParent()
+                }
                 player.tomouDano()
                 if player.vidas == 0{
                     gameOver()
