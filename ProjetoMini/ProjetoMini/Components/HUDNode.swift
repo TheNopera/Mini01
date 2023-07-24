@@ -15,7 +15,7 @@ class HUDNode: SKNode {
     private var menuShape: SKShapeNode!
     private var menuNode: SKSpriteNode!
     
-    private var startNode: SKSpriteNode!
+    private var startNode: SKLabelNode!
     
     // MARK: Paused Panel
     private var inGamePauseNode: SKSpriteNode!
@@ -81,6 +81,12 @@ class HUDNode: SKNode {
         }
     }
     
+    var menuSky = SKSpriteNode(imageNamed: "menu-ceu")
+    var menuStars = SKSpriteNode(imageNamed: "menu-estrela")
+    var menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
+    var menuBoat = SKSpriteNode(imageNamed: "menu-barco")
+    var menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
+    var menuSettings = SKSpriteNode(imageNamed: "menu-settings")
     
     // MARK: In touchesBegan, the buttons activate when pressed
     
@@ -136,7 +142,7 @@ class HUDNode: SKNode {
             if let _ = easeMenuScene {
                 let scene = GameScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
         
@@ -329,25 +335,53 @@ extension HUDNode {
     func setupMenu() {
         
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
-        menuShape.zPosition = 49.0
-        menuShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
+        menuShape.zPosition = 56.0
+        menuShape.name = "Start"
         addChild(menuShape)
         
         isUserInteractionEnabled = true
         
         // MARK: Menu Node
-        menuNode = SKSpriteNode(imageNamed: "panel-menu")
-        menuNode.zPosition = 50.0
-        menuNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
-        addChild(menuNode)
+        menuSky = SKSpriteNode(imageNamed: "menu-ceu")
+        menuSky.zPosition = 50.0
+        menuSky.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+        addChild(menuSky)
         
-        // MARK: Start Node
-        startNode = SKSpriteNode(imageNamed: "start-button")
+        menuStars = SKSpriteNode(imageNamed: "menu-estrelas")
+        menuStars.zPosition = 51.0
+        menuStars.setScale(0.90)
+        menuStars.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+        addChild(menuStars)
+        
+        menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
+        menuBehindSea.zPosition = 52.0
+        menuBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
+        addChild(menuBehindSea)
+        
+        menuBoat = SKSpriteNode(imageNamed: "menu-barco")
+        menuBoat.zPosition = 53.0
+        menuBoat.setScale(0.80)
+        menuBoat.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.45)
+        addChild(menuBoat)
+        
+        menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
+        menuFrontSea.zPosition = 54.0
+        menuFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
+        addChild(menuFrontSea)
+        
+        // MARK: Menu Settings
+        menuSettings = SKSpriteNode(imageNamed: "menu-settings")
+        menuSettings.zPosition = 55.0
+        menuSettings.setScale(0.75)
+        menuSettings.position = CGPoint(x: screenWidth*0.93, y: screenHeight*0.90)
+        addChild(menuSettings)
+        
+        // MARK: Start LabelNode
+        startNode = SKLabelNode(text: "Toque em qualquer lugar da tela para começar")
         startNode.zPosition = 55.0
         startNode.position = CGPoint(
             x: screenWidth*0.5,
-            y: screenHeight*0.4)
-        startNode.name = "Start"
+            y: screenHeight*0.25)
         addChild(startNode)
         
     }
