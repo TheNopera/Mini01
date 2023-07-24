@@ -51,8 +51,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        
-        
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -154,7 +152,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !player.isImortal{
                     enemyBullet!.removeFromParent()
                 }
-                player.tomouDano()
+                player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
                     gameOver()
@@ -271,7 +269,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //print("\((body.collisionBitMask))")
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
-                print(player.physicsBody?.velocity.dy)
+                //                print(player.physicsBody?.velocity.dy)
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
@@ -281,6 +279,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+
+        if !layerScenario.inimigosAR.isEmpty{
+            for enemie in layerScenario.inimigosAR{
+                enemie.verificaTargetPosition()
+            }
+        }
+
         //MARK: Checks if plyer is imortal and use respective Texture
         if !player.isImortal{
             if player.isTurningLeft{
@@ -296,6 +301,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
