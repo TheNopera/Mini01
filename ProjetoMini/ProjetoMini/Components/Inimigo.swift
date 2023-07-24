@@ -67,7 +67,7 @@ class Inimigo:SKSpriteNode{
         bullet.physicsBody?.affectedByGravity = false
         bullet.physicsBody?.isDynamic = true
         
-        var shootVariation = CGFloat.random(in: -0.5...0.5)
+        let shootVariation = CGFloat.random(in: -0.5...0.5)
         
         if self.position.x > 0{
             
