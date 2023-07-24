@@ -17,7 +17,8 @@ class Inimigo:SKSpriteNode{
         SKTexture(imageNamed: "inimigoD1"),
         SKTexture(imageNamed: "inimigoD2")
     ]
-    var velocity = Int.random(in: 2...4)
+    var velocity = Int.random(in: 4...8)
+    var safeDistance = Int.random(in: 180...240)
     var isAlive = true
     var isLeft:Bool = true
     
@@ -66,6 +67,8 @@ class Inimigo:SKSpriteNode{
         bullet.physicsBody?.affectedByGravity = false
         bullet.physicsBody?.isDynamic = true
         
+        var shootVariation = CGFloat.random(in: -0.5...0.5)
+        
         if self.position.x > 0{
             
             if self.position.y > 0{
@@ -81,7 +84,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 
                 self.addChild(bullet)
@@ -102,7 +105,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 self.addChild(bullet)
                 let done = SKAction.removeFromParent()
@@ -126,7 +129,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 
                 self.addChild(bullet)
@@ -148,7 +151,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 let done = SKAction.removeFromParent()
                 
@@ -163,24 +166,24 @@ class Inimigo:SKSpriteNode{
         let dx = distanceX(a: target!.position, b: self.position)
         
         
-        if dx > 240 && dx < 500 {
+        if dx > CGFloat(self.safeDistance) && dx < 500 {
             
             if target!.position.x < self.position.x{
-                self.position.x -= self.speed
+                self.position.x -= CGFloat(self.velocity)
             }
             
             if target!.position.x > self.position.x{
-                self.position.x += self.speed
+                self.position.x += CGFloat(self.velocity)
             }
             
         } else if dx < 240 {
             
             if target!.position.x < self.position.x{
-                self.position.x += self.speed
+                self.position.x += CGFloat(self.velocity)
             }
             
             if target!.position.x > self.position.x{
-                self.position.x -= self.speed
+                self.position.x -= CGFloat(self.velocity)
             }
         }
     }
