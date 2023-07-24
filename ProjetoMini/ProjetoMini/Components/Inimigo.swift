@@ -14,7 +14,6 @@ class Inimigo:SKSpriteNode{
     var vidas = 3
     var ID:UUID = UUID()
     var velocity = Int.random(in: 2...4)
-    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         name = ID.uuidString

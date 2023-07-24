@@ -16,19 +16,20 @@ class LayerScenario: SKNode {
     var spawnPoint2: SKSpriteNode!
     var spawnPoint3: SKSpriteNode!
     var inimigosAR: [Inimigo] = []
+    var spawnPoints: [SKSpriteNode] = []
     
     override init() {
         super.init()
         spawnPoint1 = SKSpriteNode()
-             spawnPoint1.name = "spawnPoint" // precisa do nome para conseguir coloca-los na scene
+             spawnPoint1.name = "spawnPoint1" // precisa do nome para conseguir coloca-los na scene
         spawnPoint1.position = CGPoint(x: frame.midX + 200, y: frame.minY)
              addChild(spawnPoint1)
         spawnPoint2 = SKSpriteNode()
-             spawnPoint2.name = "spawnPoint" // precisa do nome para conseguir coloca-los na scene
+             spawnPoint2.name = "spawnPoint2" // precisa do nome para conseguir coloca-los na scene
         spawnPoint2.position = CGPoint(x: frame.midX - 200, y: frame.minY)
              addChild(spawnPoint2)
         spawnPoint3 = SKSpriteNode()
-             spawnPoint3.name = "spawnPoint" // precisa do nome para conseguir coloca-los na scene
+             spawnPoint3.name = "spawnPoint3" // precisa do nome para conseguir coloca-los na scene
         spawnPoint3.position = CGPoint(x: frame.midX, y: frame.minY)
              addChild(spawnPoint3)
     }
@@ -78,9 +79,8 @@ class LayerScenario: SKNode {
         }
         
     }
-    
-    func InimigoSpawn(target: Player){
-        enumerateChildNodes(withName: "spawnPoint"){ node, _ in
+    func InimigoSpawn1(target: Player){
+        enumerateChildNodes(withName: "spawnPoint1"){ node, _ in
             if let spawnPoint = node as? SKSpriteNode{
                 let inimigo = Inimigo()
                 inimigo.position = spawnPoint.position
@@ -92,5 +92,30 @@ class LayerScenario: SKNode {
             
         }
     }
-    
+    func InimigoSpawn2(target: Player){
+        enumerateChildNodes(withName: "spawnPoint2"){ node, _ in
+            if let spawnPoint = node as? SKSpriteNode{
+                let inimigo = Inimigo()
+                inimigo.position = spawnPoint.position
+                self.addChild(inimigo)
+                
+                self.inimigosAR.append(inimigo)
+                inimigo.target = target
+            }
+            
+        }
+    }
+    func InimigoSpawn3(target: Player){
+        enumerateChildNodes(withName: "spawnPoint3"){ node, _ in
+            if let spawnPoint = node as? SKSpriteNode{
+                let inimigo = Inimigo()
+                inimigo.position = spawnPoint.position
+                self.addChild(inimigo)
+                
+                self.inimigosAR.append(inimigo)
+                inimigo.target = target
+            }
+            
+        }
+    }
 }
