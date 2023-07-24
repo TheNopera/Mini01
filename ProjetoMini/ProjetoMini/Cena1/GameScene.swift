@@ -60,9 +60,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         startGame()
         
         
-        layerScenario.InimigoSpawn(target: player)
-        
-        
+        layerScenario.InimigoSpawn1(target: player)
+        layerScenario.InimigoSpawn2(target: player)
+        layerScenario.InimigoSpawn3(target: player)
     }
     
     func addEnemiesFromTileMap(){ }
@@ -101,12 +101,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
             player.isTurningLeft = joystick.displacement < 0 ? true : false
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
-            }else{
-                player.texture = SKTexture(imageNamed: "Player")
-            }
-            
         }
         
         
@@ -189,6 +183,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
+                        i.removeFromParent()
+                        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn1(target: self.player)
+                        _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn2(target: self.player)
+                            }
+                        _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn3(target: self.player)
+                            }
+                            /*var runCount = 0
+                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                                print("Timer fired!")
+                                runCount += 1
+
+                                if runCount == 3 {
+                                    timer.invalidate()
+                                }
+                            }*/
+                        }
                         i.morreu()
                     }
                 }
@@ -253,11 +266,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+
         if !layerScenario.inimigosAR.isEmpty{
             for enemie in layerScenario.inimigosAR{
                 enemie.verificaTargetPosition()
             }
         }
+
+        //MARK: Checks if plyer is imortal and use respective Texture
+        if !player.isImortal{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "PlayerE")
+            }else{
+                player.texture = SKTexture(imageNamed: "Player")
+            }
+        }else{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "danoE")
+            }else{
+                player.texture = SKTexture(imageNamed: "danoD")
+            }
+        }
+        
+        
+        //        for inimigo in layerScenario.inimigosAR {
+        //            inimigo.mover()
+        //        }
+
     }
     
 }
