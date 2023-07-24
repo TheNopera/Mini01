@@ -11,7 +11,7 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
-    var vidas = 3 
+    var vidas = 50
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
     var hasContact:Bool = false
@@ -111,7 +111,7 @@ class Player:SKSpriteNode{
     }
     
     func tomouDano(){
-     
+        
         let imortal = SKAction.run {
             self.isImortal = true
         }
@@ -121,7 +121,15 @@ class Player:SKSpriteNode{
         
         if !isImortal{
             self.vidas -= 1
-            self.run(.sequence([imortal,.wait(forDuration: 5),mortal]))
+            self.run(.sequence([imortal,.wait(forDuration: 1.5),mortal]))
+        }
+        
+    }
+    func encostouNoInimigo(direção:Double){
+        let impulse = direção > 0 ? -25 : 25
+        if !self.isImortal{
+            self.physicsBody?.applyImpulse(CGVector(dx: impulse, dy: 25))
+            self.tomouDano()
         }
         
     }
@@ -139,13 +147,13 @@ class Player:SKSpriteNode{
         bullet.physicsBody?.restitution = 0.0
         
         if self.isTurningLeft{
-        
+            
             bullet.position.x = bullet.position.x - self.size.width/2 + 15
             let mover = SKAction.run {
                 bullet.physicsBody?.applyImpulse(CGVector(dx: -5, dy: 0))
             }
             let done = SKAction.removeFromParent()
-          
+            
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
         } else{

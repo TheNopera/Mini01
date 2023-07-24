@@ -200,7 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
-            print("inimigo e player se encostaram")
+            player.encostouNoInimigo(direção: joystick.displacement)
             
         case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
             print("bala bateu no inimigo")
@@ -245,6 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //print("\((body.collisionBitMask))")
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+                print(player.physicsBody?.velocity.dy)
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {

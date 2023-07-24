@@ -25,7 +25,7 @@ class Inimigo:SKSpriteNode{
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
         physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
         physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
-        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
+        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue |  physicsCategory.playerBullet.rawValue
         physicsBody?.allowsRotation = false
         physicsBody?.affectedByGravity = true
         physicsBody?.isDynamic = true
