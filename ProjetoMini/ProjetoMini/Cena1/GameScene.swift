@@ -47,8 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        
-        
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -255,9 +253,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
-        
-        for enemie in layerScenario.inimigosAR{
-            enemie.verificaTargetPosition()
+        if !layerScenario.inimigosAR.isEmpty{
+            for enemie in layerScenario.inimigosAR{
+                enemie.verificaTargetPosition()
+            }
         }
     }
     

@@ -19,7 +19,7 @@ class Inimigo:SKSpriteNode{
     ]
     var velocity = Int.random(in: 2...4)
     var isAlive = true
-
+    var isLeft:Bool = true
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
@@ -195,19 +195,24 @@ class Inimigo:SKSpriteNode{
     }
     
     func verificaTargetPosition(){
-//        if isAlive{
-//            if target!.position.x > self.position.x{
-//                self.animation = [
-//                    SKTexture(imageNamed: "inimigoL1"),
-//                    SKTexture(imageNamed: "inimigoL2")
-//                ]
-//            } else {
-//                self.animation = [
-//                    SKTexture(imageNamed: "inimigoD1"),
-//                    SKTexture(imageNamed: "inimigoD2")
-//                ]
-//            }
-//            self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
-//        }
+        if isAlive{
+            if target!.position.x > self.position.x && !isLeft{
+                self.isLeft = true
+                self.animation = [
+                    SKTexture(imageNamed: "inimigoL1"),
+                    SKTexture(imageNamed: "inimigoL2")
+                ]
+                self.removeAction(forKey: "animacao")
+                self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+            } else if target!.position.x < self.position.x && isLeft{
+                self.isLeft = false
+                self.animation = [
+                    SKTexture(imageNamed: "inimigoD1"),
+                    SKTexture(imageNamed: "inimigoD2")
+                ]
+                self.removeAction(forKey: "animacao")
+                self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+            }
+        }
     }
 }
