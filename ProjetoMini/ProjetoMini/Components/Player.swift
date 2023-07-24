@@ -22,7 +22,7 @@ class Player:SKSpriteNode{
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
-        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width/2, height: self.size.height))
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
         self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
@@ -67,7 +67,7 @@ class Player:SKSpriteNode{
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if jumps < 1{
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
             jumps += 1
         }
     }
@@ -76,7 +76,7 @@ class Player:SKSpriteNode{
         if self.physicsBody!.velocity.dy == 0{
             goDown = true
         }
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -60))
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
         
     }
     
@@ -103,6 +103,13 @@ class Player:SKSpriteNode{
         
     }
     
+    func tomouTiro(){
+        if !isImortal{
+            self.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 10))
+        }
+        self.tomouDano()
+    }
+    
     func tomouDano(){
      
         let imortal = SKAction.run {
@@ -121,8 +128,7 @@ class Player:SKSpriteNode{
     
     func atirando(){
         
-        let bullet = SKShapeNode(circleOfRadius: 6)
-        bullet.fillColor = SKColor(ciColor: .red)
+        let bullet = SKSpriteNode(imageNamed: "playertiro")
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
         bullet.physicsBody?.isDynamic = true
         bullet.physicsBody?.allowsRotation = false
@@ -144,7 +150,7 @@ class Player:SKSpriteNode{
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
         } else{
             
-            bullet.position.x = bullet.position.x + self.size.width/2 + 15
+            bullet.position.x = bullet.position.x + self.size.width/2 - 15
             let mover = SKAction.run {
                 bullet.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
             }

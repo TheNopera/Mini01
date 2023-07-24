@@ -147,7 +147,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !player.isImortal{
                     enemyBullet!.removeFromParent()
                 }
-                player.tomouDano()
+                player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
                     gameOver()

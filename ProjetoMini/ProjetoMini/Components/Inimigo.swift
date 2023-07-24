@@ -13,6 +13,10 @@ class Inimigo:SKSpriteNode{
     var isShotting: Bool = false
     var vidas = 3
     var ID:UUID = UUID()
+    var animationD = [
+        SKTexture(imageNamed: "inimigoD1"),
+        SKTexture(imageNamed: "inimigoD2")
+    ]
     var velocity = Int.random(in: 2...4)
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -35,10 +39,11 @@ class Inimigo:SKSpriteNode{
         }
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 1.0)])),withKey: "vivo2")
+        self.run(.repeatForever(.animate(with: animationD, timePerFrame: 0.5)),withKey: "animacaoD")
     }
     
     convenience init (){
-        let tex = SKTexture(imageNamed: "inimigo")
+        let tex = SKTexture(imageNamed: "inimigoD1")
         self.init(texture:tex, color: UIColor.clear, size: tex.size())
     }
     
@@ -49,9 +54,8 @@ class Inimigo:SKSpriteNode{
         self.vidas -= 1
     }
     func attack(){
-        let bullet = SKShapeNode(circleOfRadius: 6)
+        let bullet = SKSpriteNode(imageNamed: "enemytiro")
         bullet.name = "enemyBullet"
-        bullet.fillColor = SKColor(ciColor: .red)
         
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
         bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
@@ -177,19 +181,6 @@ class Inimigo:SKSpriteNode{
                 self.position.x -= self.speed
             }
         }
-//        //Move para a esquerda
-//        if target!.position.x < self.position.x{
-//            if dx < -5{
-//                self.position.x -= 2
-//            }
-//        }
-//
-//        // Move para a direita
-//        if target!.position.x > self.position.x{
-//            if dx > 5{
-//                self.position.x -= 2
-//            }
-//        }
     }
     
     func morreu(){
@@ -197,6 +188,7 @@ class Inimigo:SKSpriteNode{
         self.physicsBody = nil
         self.removeAction(forKey: "vivo1")
         self.removeAction(forKey: "vivo2")
+        self.removeAction(forKey: "animacaoD")
         
         
         self.run(.sequence([.wait(forDuration: 10),.removeFromParent()]))
