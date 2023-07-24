@@ -10,14 +10,14 @@ import SpriteKit
 class MenuScene: SKScene {
     
     let menuSceneNode = HUDNode()
-    
+
     override func didMove(to view: SKView) {
       
-        self.addChild(menuSceneNode)
+        addChild(menuSceneNode)
         menuSceneNode.skView = view
         menuSceneNode.easeMenuScene = self
         menuSceneNode.setupMenu()
         
     }
-    
+        
 }
