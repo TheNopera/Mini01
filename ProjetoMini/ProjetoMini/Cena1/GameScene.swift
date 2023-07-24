@@ -103,12 +103,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if location.x < 0{
             joystick.calculateDisplacement(touchLocation: location)
             player.isTurningLeft = joystick.displacement < 0 ? true : false
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
-            }else{
-                player.texture = SKTexture(imageNamed: "Player")
-            }
-            
         }
         
         
@@ -255,10 +249,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+        //MARK: Checks if plyer is imortal and use respective Texture
+        if !player.isImortal{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "PlayerE")
+            }else{
+                player.texture = SKTexture(imageNamed: "Player")
+            }
+        }else{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "danoE")
+            }else{
+                player.texture = SKTexture(imageNamed: "danoD")
+            }
+        }
         
-//        for inimigo in layerScenario.inimigosAR {
-//            inimigo.mover()
-//        }
+        
+        //        for inimigo in layerScenario.inimigosAR {
+        //            inimigo.mover()
+        //        }
     }
     
 }
