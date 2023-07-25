@@ -30,6 +30,7 @@
 		E026D0B22A6F6993002E9990 /* jupiter-crash-brk.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B12A6F6993002E9990 /* jupiter-crash-brk.regular.ttf */; };
 		E026D0B72A6F6A9B002E9990 /* Estrelas.sks in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B52A6F6A9B002E9990 /* Estrelas.sks */; };
 		E026D0B82A6F6A9B002E9990 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B62A6F6A9B002E9990 /* Assets.xcassets */; };
+		E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */; };
 		E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigo.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		E026D0B32A6F6A34002E9990 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E026D0B52A6F6A9B002E9990 /* Estrelas.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Estrelas.sks; sourceTree = "<group>"; };
 		E026D0B62A6F6A9B002E9990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEmitter.swift; sourceTree = "<group>"; };
 		E06B27A82A65C2B200B21DFD /* Inimigo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigo.swift; sourceTree = "<group>"; };
 		E06B27AA2A65C2D900B21DFD /* Operadores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operadores.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,6 +119,7 @@
 				E06B27A82A65C2B200B21DFD /* Inimigo.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
 				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
+				E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */,
 				02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */,
 				02ED2B272A61B89E005C5D1B /* MyTileSet.sks */,
 				02ED2B282A61B89E005C5D1B /* Assets.xcassets */,
@@ -267,6 +270,7 @@
 				E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */,
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
 				E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */,
+				E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */,
 				02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */,
 				62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */,
 				62938E642A6F4ECC0028DB76 /* MovingLeft.swift in Sources */,

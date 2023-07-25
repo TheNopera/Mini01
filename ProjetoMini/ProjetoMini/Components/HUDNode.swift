@@ -87,7 +87,10 @@ class HUDNode: SKNode {
     var menuBoat = SKSpriteNode(imageNamed: "menu-barco")
     var menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
     var menuSettings = SKSpriteNode(imageNamed: "menu-settings")
-    
+    var menuLogo = SKSpriteNode(imageNamed: "logo")
+    var menuCloudEmitter1 = CloudEmitter(back: false, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var menuCloudEmitter2 = CloudEmitter(back: true, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var starEmitter = SKEmitterNode(fileNamed: "Stars")
     // MARK: In touchesBegan, the buttons activate when pressed
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
