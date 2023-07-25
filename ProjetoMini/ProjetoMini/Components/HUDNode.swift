@@ -252,7 +252,7 @@ extension HUDNode {
         addChild(gameOverNode)
         
         // MARK: Menu Node
-        homeNode = SKSpriteNode(imageNamed: "menu-button")
+        homeNode = SKSpriteNode(imageNamed: "Button")
         homeNode.zPosition = 55.0
         homeNode.position = CGPoint(
             x: gameOverNode.frame.minX + 80,
@@ -261,7 +261,7 @@ extension HUDNode {
         addChild(homeNode)
         
         // MARK: PlayAgain Node
-        againNode = SKSpriteNode(imageNamed: "again-button")
+        againNode = SKSpriteNode(imageNamed: "Button")
         againNode.zPosition = 55.0
         againNode.position = CGPoint(
             x: gameOverNode.frame.maxX - 80,
@@ -274,9 +274,10 @@ extension HUDNode {
         scoreTitleLbl.fontSize = 20.0
         scoreTitleLbl.fontColor = .white
         scoreTitleLbl.text = "Time:"
+        scoreTitleLbl.fontName = "jupiter-crash-brk.regular"
         scoreTitleLbl.zPosition = 55.0
         scoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + scoreTitleLbl.frame.width/2 + 30,
+            x: gameOverNode.frame.minX + scoreTitleLbl.frame.width/2 + 50,
             y: screenHeight/2)
         addChild(scoreTitleLbl)
         
@@ -296,9 +297,10 @@ extension HUDNode {
         highscoreTitleLbl.fontSize = 20.0
         highscoreTitleLbl.fontColor = .white
         highscoreTitleLbl.text = "Best Time:"
+        highscoreTitleLbl.fontName = "jupiter-crash-brk.regular"
         highscoreTitleLbl.zPosition = 55.0
         highscoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + highscoreTitleLbl.frame.width/2 + 30,
+            x: gameOverNode.frame.minX + highscoreTitleLbl.frame.width/2 + 50,
             y: screenHeight/2 - highscoreTitleLbl.frame.height*2)
         addChild(highscoreTitleLbl)
         
