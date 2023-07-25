@@ -215,7 +215,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
-                        i.removeFromParent()
+                        i.morreu()
                         _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
                             self.layerScenario.InimigoSpawn1(target: self.player)
                         _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
@@ -234,7 +234,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 }
                             }*/
                         }
-                        i.morreu()
                     }
                 }
             }

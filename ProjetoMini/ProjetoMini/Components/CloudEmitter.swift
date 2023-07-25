@@ -46,7 +46,7 @@ class CloudEmitter: SKSpriteNode{
             self.addChild(cloud)
             cloud.run(.sequence([mover,done]))
         }else{
-            let mover = SKAction.move(to: finalPos, duration: 18.0)
+            let mover = SKAction.move(to: finalPos, duration: 25.0)
             let variation = Int.random(in: 1...2)
             let cloud = SKSpriteNode(imageNamed: "nevoa\(variation)")
             cloud.setScale(0.75)
