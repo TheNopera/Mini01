@@ -186,9 +186,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     i.inimigoTomouDano()
                     if i.vidas == 0{
                         i.removeFromParent()
-                        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                        _ = Timer.scheduledTimer(withTimeInterval: 20.0, repeats: false) { [self] timer in
                             self.layerScenario.InimigoSpawn1(target: self.player)
-                        _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
+                        _ = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [self] timer in
                             self.layerScenario.InimigoSpawn2(target: self.player)
                             }
                         _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
