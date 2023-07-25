@@ -21,6 +21,10 @@
 		62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */; };
 		62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */; };
 		62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5E2A65CC330028DB76 /* Joystick.swift */; };
+		62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E612A6F4D4F0028DB76 /* MovingRight.swift */; };
+		62938E642A6F4ECC0028DB76 /* MovingLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E632A6F4ECC0028DB76 /* MovingLeft.swift */; };
+		62938E662A6F53470028DB76 /* IdleRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E652A6F53470028DB76 /* IdleRight.swift */; };
+		62938E682A6F591E0028DB76 /* IdleLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E672A6F591E0028DB76 /* IdleLeft.swift */; };
 		62CEF9392A5DD48F006F9784 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF9382A5DD48F006F9784 /* Player.swift */; };
 		62CEF93F2A5DE233006F9784 /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF93E2A5DE233006F9784 /* Gameplay.swift */; };
 		E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigo.swift */; };
@@ -43,6 +47,10 @@
 		62580CCE2A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeHandler.swift; sourceTree = "<group>"; };
 		62938E5E2A65CC330028DB76 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		62938E612A6F4D4F0028DB76 /* MovingRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingRight.swift; sourceTree = "<group>"; };
+		62938E632A6F4ECC0028DB76 /* MovingLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingLeft.swift; sourceTree = "<group>"; };
+		62938E652A6F53470028DB76 /* IdleRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleRight.swift; sourceTree = "<group>"; };
+		62938E672A6F591E0028DB76 /* IdleLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleLeft.swift; sourceTree = "<group>"; };
 		62CEF9382A5DD48F006F9784 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		62CEF93E2A5DE233006F9784 /* Gameplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gameplay.swift; sourceTree = "<group>"; };
 		E06B27A82A65C2B200B21DFD /* Inimigo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigo.swift; sourceTree = "<group>"; };
@@ -79,6 +87,7 @@
 		62580CBD2A5764F6003A882C /* ProjetoMini */ = {
 			isa = PBXGroup;
 			children = (
+				62938E602A6F38730028DB76 /* playerStates */,
 				E06B279A2A606A5100B21DFD /* App */,
 				E06B279B2A606A6600B21DFD /* Cena1 */,
 				6291BB422A6064C4008DBFB9 /* Components */,
@@ -112,6 +121,17 @@
 				E06B27AA2A65C2D900B21DFD /* Operadores.swift */,
 			);
 			path = "Utility ";
+			sourceTree = "<group>";
+		};
+		62938E602A6F38730028DB76 /* playerStates */ = {
+			isa = PBXGroup;
+			children = (
+				62938E612A6F4D4F0028DB76 /* MovingRight.swift */,
+				62938E632A6F4ECC0028DB76 /* MovingLeft.swift */,
+				62938E652A6F53470028DB76 /* IdleRight.swift */,
+				62938E672A6F591E0028DB76 /* IdleLeft.swift */,
+			);
+			path = playerStates;
 			sourceTree = "<group>";
 		};
 		E06B279A2A606A5100B21DFD /* App */ = {
@@ -209,13 +229,17 @@
 			files = (
 				62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */,
 				62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */,
+				62938E682A6F591E0028DB76 /* IdleLeft.swift in Sources */,
 				62CEF93F2A5DE233006F9784 /* Gameplay.swift in Sources */,
 				62CEF9392A5DD48F006F9784 /* Player.swift in Sources */,
+				62938E662A6F53470028DB76 /* IdleRight.swift in Sources */,
 				62580CC52A5764F6003A882C /* GameScene.swift in Sources */,
 				E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */,
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
 				E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */,
 				02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */,
+				62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */,
+				62938E642A6F4ECC0028DB76 /* MovingLeft.swift in Sources */,
 				027282CE2A68646900A97503 /* MenuScene.swift in Sources */,
 				62580CBF2A5764F6003A882C /* AppDelegate.swift in Sources */,
 				0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */,

@@ -46,7 +46,9 @@ class Inimigo:SKSpriteNode{
     }
     
     convenience init (){
+
         let tex = SKTexture(imageNamed: "inimigoD1")
+
         self.init(texture:tex, color: UIColor.clear, size: tex.size())
     }
     

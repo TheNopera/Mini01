@@ -29,6 +29,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var inGamePauseNode: SKSpriteNode!
     
+
+    
+    var stateMachine: GKStateMachine?
+   
+
     var timerInSeconds: Int = 0
     private let easeScoreKey = "EaseScoreKey"
     
@@ -71,6 +76,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.InimigoSpawn1(target: player)
         layerScenario.InimigoSpawn2(target: player)
         layerScenario.InimigoSpawn3(target: player)
+        
+        let goingRight = movingRightState()
+        goingRight.gameScene = self
+        let goingLeft = movingLeftState ()
+        goingLeft.gameScene = self
+        let idleR = isIdleRight()
+        idleR.gameScene = self
+        let idleL = isIdleLeft()
+        idleL.gameScene = self
+        let states = [goingLeft,goingRight, idleR, idleL]
+        
+        stateMachine = GKStateMachine (states: states)
+        
+        stateMachine?.enter(isIdleRight.self)
     }
     
     override func sceneDidLoad() {
@@ -269,7 +288,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //print("\((body.collisionBitMask))")
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
-                //                print(player.physicsBody?.velocity.dy)
+
                 body.collisionBitMask = physicsCategory.player.rawValue
             }
             else {
@@ -302,6 +321,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
 
+        if joystick.displacement < 0{
+            stateMachine?.enter(movingLeftState.self)
+        }else if joystick.displacement > 0{
+            stateMachine?.enter(movingRightState.self)
+        } else if displacement == 0 && !player.isTurningLeft{
+            stateMachine?.enter(isIdleRight.self)
+        } else{
+            stateMachine?.enter(isIdleLeft.self)
+        }
+
+
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -324,6 +354,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
         }
+
 
     }
     
