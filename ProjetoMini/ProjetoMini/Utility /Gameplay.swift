@@ -19,5 +19,5 @@ enum physicsCategory:UInt32{
 }
 
 // MARK: Setup screen size
-let screenWidth: CGFloat = 852
-let screenHeight: CGFloat = 393
+let screenWidth: CGFloat = UIScreen.main.bounds.width
+let screenHeight: CGFloat = UIScreen.main.bounds.height

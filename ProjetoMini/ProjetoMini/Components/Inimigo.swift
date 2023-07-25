@@ -13,7 +13,15 @@ class Inimigo:SKSpriteNode{
     var isShotting: Bool = false
     var vidas = 3
     var ID:UUID = UUID()
-    var velocity = Int.random(in: 2...4)
+    var animation = [
+        SKTexture(imageNamed: "inimigoD1"),
+        SKTexture(imageNamed: "inimigoD2")
+    ]
+    var velocity = Int.random(in: 4...8)
+    var safeDistance = Int.random(in: 180...240)
+    var isAlive = true
+    var isLeft:Bool = true
+    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
         name = ID.uuidString
@@ -34,10 +42,13 @@ class Inimigo:SKSpriteNode{
         }
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 1.0)])),withKey: "vivo2")
+        self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
     }
     
     convenience init (){
-        let tex = SKTexture(imageNamed: "inimigo")
+
+        let tex = SKTexture(imageNamed: "inimigoD1")
+
         self.init(texture:tex, color: UIColor.clear, size: tex.size())
     }
     
@@ -48,9 +59,8 @@ class Inimigo:SKSpriteNode{
         self.vidas -= 1
     }
     func attack(){
-        let bullet = SKShapeNode(circleOfRadius: 6)
+        let bullet = SKSpriteNode(imageNamed: "enemyTiro")
         bullet.name = "enemyBullet"
-        bullet.fillColor = SKColor(ciColor: .red)
         
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
         bullet.physicsBody?.categoryBitMask = physicsCategory.enemyBullet.rawValue
@@ -58,6 +68,8 @@ class Inimigo:SKSpriteNode{
         bullet.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
         bullet.physicsBody?.affectedByGravity = false
         bullet.physicsBody?.isDynamic = true
+        
+        let shootVariation = CGFloat.random(in: -0.5...0.5)
         
         if self.position.x > 0{
             
@@ -74,7 +86,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 
                 self.addChild(bullet)
@@ -95,7 +107,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 self.addChild(bullet)
                 let done = SKAction.removeFromParent()
@@ -119,7 +131,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 
                 self.addChild(bullet)
@@ -141,7 +153,7 @@ class Inimigo:SKSpriteNode{
                 let velocityY = sin(angle)
                 
                 let movement = SKAction.run {
-                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + shootVariation))
                 }
                 let done = SKAction.removeFromParent()
                 
@@ -156,48 +168,56 @@ class Inimigo:SKSpriteNode{
         let dx = distanceX(a: target!.position, b: self.position)
         
         
-        if dx > 240 && dx < 500 {
+        if dx > CGFloat(self.safeDistance) + 100 && dx < 500 {
             
             if target!.position.x < self.position.x{
-                self.position.x -= self.speed
+                self.position.x -= CGFloat(self.velocity)
             }
             
             if target!.position.x > self.position.x{
-                self.position.x += self.speed
+                self.position.x += CGFloat(self.velocity)
             }
             
-        } else if dx < 240 {
+        } else if dx < CGFloat(self.safeDistance){
             
             if target!.position.x < self.position.x{
-                self.position.x += self.speed
+                self.position.x += CGFloat(self.velocity)
             }
             
             if target!.position.x > self.position.x{
-                self.position.x -= self.speed
+                self.position.x -= CGFloat(self.velocity)
             }
         }
-//        //Move para a esquerda
-//        if target!.position.x < self.position.x{
-//            if dx < -5{
-//                self.position.x -= 2
-//            }
-//        }
-//
-//        // Move para a direita
-//        if target!.position.x > self.position.x{
-//            if dx > 5{
-//                self.position.x -= 2
-//            }
-//        }
     }
     
     func morreu(){
+        self.isAlive = false
+        self.animation = []
         self.texture = nil
         self.physicsBody = nil
-        self.removeAction(forKey: "vivo1")
-        self.removeAction(forKey: "vivo2")
-        
-        
+        self.removeAllActions()
         self.run(.sequence([.wait(forDuration: 10),.removeFromParent()]))
+    }
+    
+    func verificaTargetPosition(){
+        if isAlive{
+            if target!.position.x > self.position.x && !isLeft{
+                self.isLeft = true
+                self.animation = [
+                    SKTexture(imageNamed: "inimigoL1"),
+                    SKTexture(imageNamed: "inimigoL2")
+                ]
+                self.removeAction(forKey: "animacao")
+                self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+            } else if target!.position.x < self.position.x && isLeft{
+                self.isLeft = false
+                self.animation = [
+                    SKTexture(imageNamed: "inimigoD1"),
+                    SKTexture(imageNamed: "inimigoD2")
+                ]
+                self.removeAction(forKey: "animacao")
+                self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+            }
+        }
     }
 }

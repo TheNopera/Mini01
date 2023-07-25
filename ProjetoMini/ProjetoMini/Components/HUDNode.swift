@@ -15,7 +15,7 @@ class HUDNode: SKNode {
     private var menuShape: SKShapeNode!
     private var menuNode: SKSpriteNode!
     
-    private var startNode: SKSpriteNode!
+    private var startNode: SKLabelNode!
     
     // MARK: Paused Panel
     private var inGamePauseNode: SKSpriteNode!
@@ -33,10 +33,16 @@ class HUDNode: SKNode {
     private var againNode: SKSpriteNode!
     
     private var scoreTitleLbl: SKLabelNode!
-    private var scoreLbl: SKLabelNode!
+    var scoreLbl: SKLabelNode!
     private var highscoreLbl: SKLabelNode!
     private var highscoreTitleLbl: SKLabelNode!
     
+    // MARK: InGame Timer
+    var renderTime: TimeInterval = 0.0
+    var changeTime: TimeInterval = 1.0
+    var seconds: Int = 0
+    var minutes: Int = 0
+    var timerLabel: SKLabelNode!
     
     // MARK: TRANSITION Properties
     var easeMenuScene: MenuScene?
@@ -75,7 +81,16 @@ class HUDNode: SKNode {
         }
     }
     
-    
+    var menuSky = SKSpriteNode(imageNamed: "menu-ceu")
+    var menuStars = SKSpriteNode(imageNamed: "menu-estrela")
+    var menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
+    var menuBoat = SKSpriteNode(imageNamed: "menu-barco")
+    var menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
+    var menuSettings = SKSpriteNode(imageNamed: "menu-settings")
+    var menuLogo = SKSpriteNode(imageNamed: "logo")
+    var menuCloudEmitter1 = CloudEmitter(back: false, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var menuCloudEmitter2 = CloudEmitter(back: true, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var starEmitter = SKEmitterNode(fileNamed: "Estrelas")
     // MARK: In touchesBegan, the buttons activate when pressed
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,7 +145,7 @@ class HUDNode: SKNode {
             if let _ = easeMenuScene {
                 let scene = GameScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
         
@@ -236,7 +251,7 @@ extension HUDNode {
 extension HUDNode {
     
     // MARK: Enter the GameOver Panel
-    func setupGameOver() {
+    func setupGameOver(_ timer: String, _ hightimer: String) {
         
         gameOverShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         gameOverShape.zPosition = 49.0
@@ -248,15 +263,15 @@ extension HUDNode {
         // MARK: GameOver Node
         gameOverNode = SKSpriteNode(imageNamed: "panel-gameOver")
         gameOverNode.zPosition = 50.0
-        gameOverNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
+        gameOverNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(gameOverNode)
         
         // MARK: Menu Node
         homeNode = SKSpriteNode(imageNamed: "Button")
         homeNode.zPosition = 55.0
         homeNode.position = CGPoint(
-            x: gameOverNode.frame.minX + 80,
-            y: gameOverNode.frame.minY + homeNode.frame.height/2 + 5)
+            x: screenWidth*0.40,
+            y: screenHeight*0.32)
         homeNode.name = "Home"
         addChild(homeNode)
         
@@ -264,8 +279,8 @@ extension HUDNode {
         againNode = SKSpriteNode(imageNamed: "Button")
         againNode.zPosition = 55.0
         againNode.position = CGPoint(
-            x: gameOverNode.frame.maxX - 80,
-            y: gameOverNode.frame.minY + homeNode.frame.height/2 + 5)
+            x: screenWidth*(0.60),
+            y: screenHeight*0.32)
         againNode.name = "Again"
         addChild(againNode)
         
@@ -285,10 +300,10 @@ extension HUDNode {
         scoreLbl = SKLabelNode()
         scoreLbl.fontSize = 20.0
         scoreLbl.fontColor = .white
-        scoreLbl.text = "0"
+        scoreLbl.text = "\(timer)"
         scoreLbl.zPosition = 55.0
         scoreLbl.position = CGPoint(
-            x: gameOverNode.frame.maxX + scoreLbl.frame.width/2 - 30,
+            x: screenWidth/2 + 50,
             y: screenHeight/2)
         addChild(scoreLbl)
         
@@ -308,10 +323,10 @@ extension HUDNode {
         highscoreLbl = SKLabelNode()
         highscoreLbl.fontSize = 20.0
         highscoreLbl.fontColor = .white
-        highscoreLbl.text = "0"
+        highscoreLbl.text = "\(hightimer)"
         highscoreLbl.zPosition = 55.0
         highscoreLbl.position = CGPoint(
-            x: gameOverNode.frame.maxX + highscoreLbl.frame.width/2 - 30,
+            x: screenWidth/2 + 50,
             y: highscoreTitleLbl.position.y)
         addChild(highscoreLbl)
         
@@ -324,26 +339,82 @@ extension HUDNode {
     // MARK: Enter the Menu Panel
     func setupMenu() {
         
+        
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
-        menuShape.zPosition = 49.0
-        menuShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
+        menuShape.strokeColor = SKColor(ciColor: .clear)
+        menuShape.zPosition = 56.0
+        menuShape.name = "Start"
         addChild(menuShape)
         
         isUserInteractionEnabled = true
         
         // MARK: Menu Node
-        menuNode = SKSpriteNode(imageNamed: "panel-menu")
-        menuNode.zPosition = 50.0
-        menuNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
-        addChild(menuNode)
+        menuSky = SKSpriteNode(imageNamed: "menu-ceu")
+        menuSky.zPosition = 49.0
+        menuSky.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+        addChild(menuSky)
         
-        // MARK: Start Node
-        startNode = SKSpriteNode(imageNamed: "start-button")
-        startNode.zPosition = 55.0
+        
+        starEmitter?.zPosition = 50.0
+        starEmitter?.position = CGPoint(x: 0, y: screenHeight)
+        if let emissor = starEmitter{
+            emissor.advanceSimulationTime(120.0)
+            addChild(emissor)
+        }
+        
+//        menuStars = SKSpriteNode(imageNamed: "menu-estrelas")
+//        menuStars.zPosition = 50.0
+//        menuStars.setScale(0.90)
+//        menuStars.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+//        addChild(menuStars)
+        
+        menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
+        menuBehindSea.zPosition = 51.0
+        menuBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
+        addChild(menuBehindSea)
+        
+        menuCloudEmitter2.zPosition = 52.0
+        menuCloudEmitter2.position = CGPoint(x: 0 - menuCloudEmitter2.size.width, y: screenWidth*0.15)
+        addChild(menuCloudEmitter2)
+        
+        menuBoat = SKSpriteNode(imageNamed: "menu-barco")
+        menuBoat.zPosition = 53.0
+        menuBoat.setScale(0.80)
+        menuBoat.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.45)
+        addChild(menuBoat)
+        
+        menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
+        menuFrontSea.zPosition = 54.0
+        menuFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
+        addChild(menuFrontSea)
+        
+        
+        menuCloudEmitter1.zPosition = 55.0
+        menuCloudEmitter1.position = CGPoint(x: 0 - menuCloudEmitter1.size.width, y: screenHeight*0.1)
+        addChild(menuCloudEmitter1)
+        
+        
+        // MARK: Menu Settings
+        menuSettings = SKSpriteNode(imageNamed: "menu-settings")
+        menuSettings.zPosition = 55.0
+        menuSettings.setScale(0.75)
+        menuSettings.position = CGPoint(x: screenWidth*0.93, y: screenHeight*0.90)
+        addChild(menuSettings)
+        
+        menuLogo = SKSpriteNode(imageNamed: "logo")
+        menuLogo.zPosition = 56.0
+        menuLogo.setScale(0.75)
+        menuLogo.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.65)
+        addChild(menuLogo)
+        
+        
+        // MARK: Start LabelNode
+        startNode = SKLabelNode(text: "Toque em qualquer lugar da tela para começar")
+        startNode.fontName = "JupiterCrashBRK"
+        startNode.zPosition = 59.0
         startNode.position = CGPoint(
-            x: menuNode.frame.maxX - 80,
-            y: menuNode.frame.minY + startNode.frame.height/2 + 5)
-        startNode.name = "Start"
+            x: screenWidth*0.5,
+            y: screenHeight*0.25)
         addChild(startNode)
         
     }
@@ -355,11 +426,11 @@ extension HUDNode {
     // MARK: Enter the In Game Pause Button
     func setupPauseNode() {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
-//        inGamePauseNode.zPosition = 57.0
+        inGamePauseNode.zPosition = 49.0
         inGamePauseNode.name = "pause"
         inGamePauseNode.position = CGPoint(
-            x: screenWidth - 50,
-            y: screenHeight - 50)
+            x: screenWidth*0.93,
+            y: screenHeight*0.90)
         addChild(inGamePauseNode)
         isUserInteractionEnabled = true
 
@@ -377,7 +448,7 @@ extension HUDNode {
         // MARK: Pause Node
         pauseNode = SKSpriteNode()
         pauseNode.zPosition = 49.0
-        pauseNode.position = CGPoint(x: screenWidth/2, y: screenHeight/2)
+        pauseNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(pauseNode)
         
         // MARK: Quit Node
@@ -397,5 +468,17 @@ extension HUDNode {
             y: pauseNode.frame.minY + quitNode.frame.height/2 + 5)
         resumeNode.name = "Resume"
         addChild(resumeNode)
+    }
+}
+
+// MARK: InGame Timer
+extension HUDNode {
+    
+    func setupInGameTimer() {
+        timerLabel = SKLabelNode()
+        timerLabel.zPosition = 49.0
+        timerLabel.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.90)
+        timerLabel.name = "Timer-label"
+        addChild(timerLabel)
     }
 }

@@ -5,6 +5,7 @@
 //  Created by Daniel Ishida on 06/07/23.
 //
 
+import Foundation
 import SpriteKit
 import GameplayKit
 
@@ -28,6 +29,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var inGamePauseNode: SKSpriteNode!
     
+    
+    
+    var stateMachine: GKStateMachine?
+    
+    
+    var timerInSeconds: Int = 0
+    private let easeScoreKey = "EaseScoreKey"
+    
     override func didMove(to view: SKView) {
         print("teste")
         
@@ -47,8 +56,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
-        
-        
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -58,15 +65,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cameraPlayer.addChild(hudNode)
         hudNode.skView = view
         hudNode.easeGameScene = self
-        hudNode.position = CGPoint(x: -852*0.5, y: -393*0.5)
+        hudNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
         startGame()
         
+        let cameraBounds = self.frame.width/2
+        let bounds = self.calculateAccumulatedFrame().width / 2 - cameraBounds
+        let cameraConstraint = SKConstraint.positionX(.init(lowerLimit: -bounds, upperLimit: bounds))
         
+        self.camera?.constraints = [cameraConstraint]
         layerScenario.InimigoSpawn1(target: player)
         layerScenario.InimigoSpawn2(target: player)
         layerScenario.InimigoSpawn3(target: player)
+        
+        let goingRight = movingRightState()
+        goingRight.gameScene = self
+        let goingLeft = movingLeftState ()
+        goingLeft.gameScene = self
+        let idleR = isIdleRight()
+        idleR.gameScene = self
+        let idleL = isIdleLeft()
+        idleL.gameScene = self
+        let states = [goingLeft,goingRight, idleR, idleL]
+        
+        stateMachine = GKStateMachine (states: states)
+        
+        stateMachine?.enter(isIdleRight.self)
     }
     
+    override func sceneDidLoad() {
+        super.sceneDidLoad()
+        
+        
+    }
     func addEnemiesFromTileMap(){ }
     
     
@@ -141,7 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !player.isImortal{
                     enemyBullet!.removeFromParent()
                 }
-                player.tomouDano()
+                player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
                     gameOver()
@@ -187,126 +217,190 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if i.vidas == 0{
                         i.removeFromParent()
                         _ = Timer.scheduledTimer(withTimeInterval: 20.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn1(target: self.player)
-                        _ = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn2(target: self.player)
-                            }
-                        _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn3(target: self.player)
-                            }
-                            /*var runCount = 0
-                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                                print("Timer fired!")
-                                runCount += 1
-
-                                if runCount == 3 {
-                                    timer.invalidate()
+                            i.morreu()
+                            _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                                self.layerScenario.InimigoSpawn1(target: self.player)
+                                _ = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [self] timer in
+                                    self.layerScenario.InimigoSpawn2(target: self.player)
                                 }
-                            }*/
+                                _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
+                                    self.layerScenario.InimigoSpawn3(target: self.player)
+                                }
+                                /*var runCount = 0
+                                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                                 print("Timer fired!")
+                                 runCount += 1
+                                 
+                                 if runCount == 3 {
+                                 timer.invalidate()
+                                 }
+                                 }*/
+                            }
                         }
-                        i.morreu()
                     }
+                }
+                
+                
+                
+                
+            case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
+                player.encostouNoInimigo(direção: joystick.displacement)
+                
+            case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
+                print("bala bateu no inimigo")
+                
+            default: // contato não corresponde a nenhum caso
+                print("no functional contact")
+            }
+            
+        }
+        //MARK: DidEnd
+        func didEnd(_ contact: SKPhysicsContact) {
+            let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+            
+            switch contactMask{
+            case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
+                if player.physicsBody!.velocity.dy != 0{
+                    player.goDown = false
+                    player.hasContact = false
+                }
+            default:
+                print("no functional end contact")
+            }
+        }
+        
+        //MARK: Update
+        override func update(_ currentTime: TimeInterval) {
+            if joystick.displacement != 0{
+                player.playerMove(displacement: joystick.displacement)
+            }
+            cameraPlayer.position = player.position
+            
+            if player.physicsBody?.velocity.dy != 0 && player.hasContact == false{
+                player.jumps = 1
+            }
+            
+            if let body = player.physicsBody {
+                let dy = body.velocity.dy
+                //            print(dy)
+                if dy > 0 {
+                    // Prevent collisions if the hero is jumping
+                    body.collisionBitMask = physicsCategory.player.rawValue
+                    //print("\((body.collisionBitMask))")
+                    
+                } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+                    
+                    body.collisionBitMask = physicsCategory.player.rawValue
+                }
+                else {
+                    // Allow collisions if the hero is falling
+                    body.collisionBitMask |= physicsCategory.platform.rawValue
+                    // print("\((body.collisionBitMask))")
+                    
+                }
+            }
+            
+            if !layerScenario.inimigosAR.isEmpty{
+                for enemie in layerScenario.inimigosAR{
+                    enemie.verificaTargetPosition()
+                }
+            }
+            
+            //MARK: Checks if plyer is imortal and use respective Texture
+            if !player.isImortal{
+                if player.isTurningLeft{
+                    player.texture = SKTexture(imageNamed: "PlayerE")
+                }else{
+                    player.texture = SKTexture(imageNamed: "Player")
+                }
+            }else{
+                if player.isTurningLeft{
+                    player.texture = SKTexture(imageNamed: "danoE")
+                }else{
+                    player.texture = SKTexture(imageNamed: "danoD")
                 }
             }
             
             
+            if joystick.displacement < 0{
+                stateMachine?.enter(movingLeftState.self)
+            }else if joystick.displacement > 0{
+                stateMachine?.enter(movingRightState.self)
+            } else if displacement == 0 && !player.isTurningLeft{
+                stateMachine?.enter(isIdleRight.self)
+            } else{
+                stateMachine?.enter(isIdleLeft.self)
+            }
             
             
-        case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
-            player.encostouNoInimigo(direção: joystick.displacement)
+            if currentTime > hudNode.renderTime {
+                if hudNode.renderTime > 0 {
+                    hudNode.seconds += 1
+                    if hudNode.seconds == 60 {
+                        hudNode.seconds = 0
+                        hudNode.minutes += 1
+                    }
+                    
+                    let secondsText = (hudNode.seconds < 10) ? "0\(hudNode.seconds)" : "\(hudNode.seconds)"
+                    let minutesText = (hudNode.minutes < 10) ? "0\(hudNode.minutes)" : "\(hudNode.minutes)"
+                    hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
+                    
+                    timerInSeconds += 1
+                    
+                    let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+                    if timerInSeconds > highscore {
+                        UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
+                    }
+                    
+                }
+                hudNode.renderTime = currentTime + hudNode.changeTime
+            }
             
-        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
-            print("bala bateu no inimigo")
             
-        default: // contato não corresponde a nenhum caso
-            print("no functional contact")
         }
         
     }
-    //MARK: DidEnd
-    func didEnd(_ contact: SKPhysicsContact) {
-        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+    
+    
+    
+    // MARK: - GameOver
+    extension GameScene {
         
-        switch contactMask{
-        case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
-            if player.physicsBody!.velocity.dy != 0{
-                player.goDown = false
-                player.hasContact = false
+        // Function that format timeINSeconds to a custom string
+        func formatarTempo(timerInSeconds: Int) -> String {
+            let minutos = timerInSeconds / 60
+            let segundos = timerInSeconds % 60
+            
+            // Format seconds and minutes to mm/ss
+            let segundosFormatados = segundos < 10 ? "0\(segundos)" : "\(segundos)"
+            let minutosFormatados = minutos < 10 ? "0\(minutos)" : "\(minutos)"
+            
+            return "\(minutosFormatados):\(segundosFormatados)"
+        }
+        
+        private func gameOver() {
+            
+            var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+            if timerInSeconds > highscore {
+                highscore = timerInSeconds
             }
-        default:
-            print("no functional end contact")
+            
+            let formattedTime = formatarTempo(timerInSeconds: timerInSeconds)
+            let formattedHighTime = formatarTempo(timerInSeconds: highscore)
+            
+            hudNode.setupGameOver(formattedTime, formattedHighTime)
+            hudNode.timerLabel.removeFromParent()
+            
         }
     }
     
-    //MARK: Update
-    override func update(_ currentTime: TimeInterval) {
-        if joystick.displacement != 0{
-            player.playerMove(displacement: joystick.displacement)
-        }
-        cameraPlayer.position = player.position
+    
+    extension GameScene {
         
-        if player.physicsBody?.velocity.dy != 0 && player.hasContact == false{
-            player.jumps = 1
+        private func startGame() {
+            hudNode.setupPauseNode()
+            hudNode.setupInGameTimer()
         }
-        
-        if let body = player.physicsBody {
-            let dy = body.velocity.dy
-            //            print(dy)
-            if dy > 0 {
-                // Prevent collisions if the hero is jumping
-                body.collisionBitMask = physicsCategory.player.rawValue
-                //print("\((body.collisionBitMask))")
-                
-            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
-                print(player.physicsBody?.velocity.dy)
-                body.collisionBitMask = physicsCategory.player.rawValue
-            }
-            else {
-                // Allow collisions if the hero is falling
-                body.collisionBitMask |= physicsCategory.platform.rawValue
-                // print("\((body.collisionBitMask))")
-                
-            }
-        }
-        //MARK: Checks if plyer is imortal and use respective Texture
-        if !player.isImortal{
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
-            }else{
-                player.texture = SKTexture(imageNamed: "Player")
-            }
-        }else{
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "danoE")
-            }else{
-                player.texture = SKTexture(imageNamed: "danoD")
-            }
-        }
-        
-        
-        //        for inimigo in layerScenario.inimigosAR {
-        //            inimigo.mover()
-        //        }
     }
     
 }
-
-
-
-// MARK: - GameOver
-extension GameScene {
-    
-    private func gameOver() {
-        hudNode.setupGameOver()
-    }
-}
-
-
-extension GameScene {
-    
-    private func startGame() {
-        hudNode.setupPauseNode()
-    }
-}
-
-

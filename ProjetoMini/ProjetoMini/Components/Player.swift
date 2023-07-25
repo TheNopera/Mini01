@@ -18,11 +18,30 @@ class Player:SKSpriteNode{
     var goDown:Bool = false
     var isTurningLeft:Bool = false
     var isImortal = false
-    
+    var moveRightAnimation:[SKTexture] = [
+        SKTexture(imageNamed: "player_move 1"),
+        SKTexture(imageNamed: "player_move 2"),
+        SKTexture(imageNamed: "player_move 3"),
+        SKTexture(imageNamed: "player_move 4"),
+        SKTexture(imageNamed: "player_move 5")
+    ]
+    var moveLeftAnimation:[SKTexture] = [
+        SKTexture(imageNamed: "player_moveE 1"),
+        SKTexture(imageNamed: "player_moveE 2"),
+        SKTexture(imageNamed: "player_moveE 3"),
+        SKTexture(imageNamed: "player_moveE 4"),
+        SKTexture(imageNamed: "player_moveE 5")
+    ]
+    var idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
+    var idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
+    var isGoingRight = false
+    var isGoingLeft = false 
+  
+   
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
-        self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
+        self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width/2, height: self.size.height))
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
         self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
@@ -55,19 +74,24 @@ class Player:SKSpriteNode{
     //MARK: PLAYER MOVEMENT FUNCTION
     func playerMove(displacement:Double){
         //let movementDistance = displacement * playerSpeed
-        
         //DummyPlayer.physicsBody?.applyImpulse(CGVector(dx: movementDistance, dy: 0))
+        let animationDirection = displacement > 0 ? moveRightAnimation : moveLeftAnimation
+
+        
         self.playerSpeed = displacement > 0 ? 5 : -5
         // Apply the movement to the player's position
         let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
         
+        
+//
+//        self.run(.repeatForever(walkAnimation))
         self.position = newPosition
     }
     
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if jumps < 1{
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
             jumps += 1
         }
     }
@@ -76,7 +100,7 @@ class Player:SKSpriteNode{
         if self.physicsBody!.velocity.dy == 0{
             goDown = true
         }
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -60))
+        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
         
     }
     
@@ -101,6 +125,13 @@ class Player:SKSpriteNode{
             break
         }
         
+    }
+    
+    func tomouTiro(){
+        if !isImortal{
+            
+        }
+        self.tomouDano()
     }
     
     func tomouDano(){
@@ -129,8 +160,7 @@ class Player:SKSpriteNode{
     
     func atirando(){
         
-        let bullet = SKShapeNode(circleOfRadius: 6)
-        bullet.fillColor = SKColor(ciColor: .red)
+        let bullet = SKSpriteNode(imageNamed: "playertiro")
         bullet.physicsBody = SKPhysicsBody(circleOfRadius: 6)
         bullet.physicsBody?.isDynamic = true
         bullet.physicsBody?.allowsRotation = false
@@ -152,7 +182,7 @@ class Player:SKSpriteNode{
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
         } else{
             
-            bullet.position.x = bullet.position.x + self.size.width/2 + 15
+            bullet.position.x = bullet.position.x + self.size.width/2 - 15
             let mover = SKAction.run {
                 bullet.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
             }
