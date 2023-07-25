@@ -90,7 +90,7 @@ class HUDNode: SKNode {
     var menuLogo = SKSpriteNode(imageNamed: "logo")
     var menuCloudEmitter1 = CloudEmitter(back: false, finalPos: CGPoint(x: screenWidth + 800, y: 0))
     var menuCloudEmitter2 = CloudEmitter(back: true, finalPos: CGPoint(x: screenWidth + 800, y: 0))
-    var starEmitter = SKEmitterNode(fileNamed: "Stars")
+    var starEmitter = SKEmitterNode(fileNamed: "Estrelas")
     // MARK: In touchesBegan, the buttons activate when pressed
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -356,7 +356,7 @@ extension HUDNode {
         starEmitter?.zPosition = 50.0
         starEmitter?.position = CGPoint(x: 0, y: screenHeight)
         if let emissor = starEmitter{
-            emissor.advanceSimulationTime(60.0)
+            emissor.advanceSimulationTime(120.0)
             addChild(emissor)
         }
         
