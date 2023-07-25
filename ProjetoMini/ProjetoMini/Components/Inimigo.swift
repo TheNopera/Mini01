@@ -205,7 +205,6 @@ class Inimigo:SKSpriteNode{
                     SKTexture(imageNamed: "inimigoL1"),
                     SKTexture(imageNamed: "inimigoL2")
                 ]
-                self.removeAction(forKey: "animacao")
                 self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
             } else if target!.position.x < self.position.x && isLeft{
                 self.isLeft = false
@@ -213,7 +212,6 @@ class Inimigo:SKSpriteNode{
                     SKTexture(imageNamed: "inimigoD1"),
                     SKTexture(imageNamed: "inimigoD2")
                 ]
-                self.removeAction(forKey: "animacao")
                 self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
             }
         }
