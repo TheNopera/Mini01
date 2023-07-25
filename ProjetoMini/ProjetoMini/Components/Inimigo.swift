@@ -37,7 +37,7 @@ class Inimigo:SKSpriteNode{
     }
     
     convenience init (){
-        let tex = SKTexture(imageNamed: "inimigo")
+        let tex = SKTexture(imageNamed: "Inimigo")
         self.init(texture:tex, color: UIColor.clear, size: tex.size())
     }
     

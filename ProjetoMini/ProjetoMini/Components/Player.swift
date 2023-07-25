@@ -18,7 +18,26 @@ class Player:SKSpriteNode{
     var goDown:Bool = false
     var isTurningLeft:Bool = false
     var isImortal = false
-    
+    var moveRightAnimation:[SKTexture] = [
+        SKTexture(imageNamed: "player_move 1"),
+        SKTexture(imageNamed: "player_move 2"),
+        SKTexture(imageNamed: "player_move 3"),
+        SKTexture(imageNamed: "player_move 4"),
+        SKTexture(imageNamed: "player_move 5")
+    ]
+    var moveLeftAnimation:[SKTexture] = [
+        SKTexture(imageNamed: "player_moveE 1"),
+        SKTexture(imageNamed: "player_moveE 2"),
+        SKTexture(imageNamed: "player_moveE 3"),
+        SKTexture(imageNamed: "player_moveE 4"),
+        SKTexture(imageNamed: "player_moveE 5")
+    ]
+    var idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
+    var idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
+    var isGoingRight = false
+    var isGoingLeft = false 
+  
+   
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
@@ -55,12 +74,17 @@ class Player:SKSpriteNode{
     //MARK: PLAYER MOVEMENT FUNCTION
     func playerMove(displacement:Double){
         //let movementDistance = displacement * playerSpeed
-        
         //DummyPlayer.physicsBody?.applyImpulse(CGVector(dx: movementDistance, dy: 0))
+        let animationDirection = displacement > 0 ? moveRightAnimation : moveLeftAnimation
+
+        
         self.playerSpeed = displacement > 0 ? 5 : -5
         // Apply the movement to the player's position
         let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
         
+        
+//
+//        self.run(.repeatForever(walkAnimation))
         self.position = newPosition
     }
     
