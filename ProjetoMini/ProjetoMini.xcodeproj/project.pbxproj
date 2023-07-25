@@ -27,6 +27,7 @@
 		62938E682A6F591E0028DB76 /* IdleLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E672A6F591E0028DB76 /* IdleLeft.swift */; };
 		62CEF9392A5DD48F006F9784 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF9382A5DD48F006F9784 /* Player.swift */; };
 		62CEF93F2A5DE233006F9784 /* Gameplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEF93E2A5DE233006F9784 /* Gameplay.swift */; };
+		E026D0B22A6F6993002E9990 /* jupiter-crash-brk.regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B12A6F6993002E9990 /* jupiter-crash-brk.regular.ttf */; };
 		E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigo.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		62938E672A6F591E0028DB76 /* IdleLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdleLeft.swift; sourceTree = "<group>"; };
 		62CEF9382A5DD48F006F9784 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		62CEF93E2A5DE233006F9784 /* Gameplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gameplay.swift; sourceTree = "<group>"; };
+		E026D0B12A6F6993002E9990 /* jupiter-crash-brk.regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "jupiter-crash-brk.regular.ttf"; sourceTree = "<group>"; };
 		E06B27A82A65C2B200B21DFD /* Inimigo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigo.swift; sourceTree = "<group>"; };
 		E06B27AA2A65C2D900B21DFD /* Operadores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operadores.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +89,7 @@
 		62580CBD2A5764F6003A882C /* ProjetoMini */ = {
 			isa = PBXGroup;
 			children = (
+				E026D0B02A6F695F002E9990 /* Fonts */,
 				62938E602A6F38730028DB76 /* playerStates */,
 				E06B279A2A606A5100B21DFD /* App */,
 				E06B279B2A606A6600B21DFD /* Cena1 */,
@@ -132,6 +135,14 @@
 				62938E672A6F591E0028DB76 /* IdleLeft.swift */,
 			);
 			path = playerStates;
+			sourceTree = "<group>";
+		};
+		E026D0B02A6F695F002E9990 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E026D0B12A6F6993002E9990 /* jupiter-crash-brk.regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		E06B279A2A606A5100B21DFD /* App */ = {
@@ -214,6 +225,7 @@
 				62580CCA2A5764F6003A882C /* Main.storyboard in Resources */,
 				62580CCC2A5764F6003A882C /* Assets.xcassets in Resources */,
 				62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */,
+				E026D0B22A6F6993002E9990 /* jupiter-crash-brk.regular.ttf in Resources */,
 				02ED2B292A61B89E005C5D1B /* MyTileSet.sks in Resources */,
 				02ED2B2A2A61B89E005C5D1B /* Assets.xcassets in Resources */,
 				02ED2B262A61B7C7005C5D1B /* ScenarioTileMap.sks in Resources */,
