@@ -21,7 +21,7 @@ class CloudEmitter: SKSpriteNode{
             self.emitir(finalPos: self.finalPos!)
         }
         
-        self.run(.repeatForever(.sequence([criarNuvens,.wait(forDuration: 3.0)])))
+        self.run(.repeatForever(.sequence([criarNuvens,.wait(forDuration: 5.0)])))
     }
     
     convenience init(back:Bool, finalPos: CGPoint){
@@ -39,14 +39,14 @@ class CloudEmitter: SKSpriteNode{
         let done = SKAction.removeFromParent()
         
         if !back!{
-            let mover = SKAction.move(to: finalPos, duration: 6.0)
+            let mover = SKAction.move(to: finalPos, duration: 14.0)
             let variation = Int.random(in: 3...4)
             let cloud = SKSpriteNode(imageNamed: "nevoa\(variation)")
             cloud.setScale(0.75)
             self.addChild(cloud)
             cloud.run(.sequence([mover,done]))
         }else{
-            let mover = SKAction.move(to: finalPos, duration: 8.0)
+            let mover = SKAction.move(to: finalPos, duration: 18.0)
             let variation = Int.random(in: 1...2)
             let cloud = SKSpriteNode(imageNamed: "nevoa\(variation)")
             cloud.setScale(0.75)
