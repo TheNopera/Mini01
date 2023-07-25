@@ -21,6 +21,7 @@ class Inimigo:SKSpriteNode{
     var safeDistance = Int.random(in: 180...240)
     var isAlive = true
     var isLeft:Bool = true
+    var numSpawn:Int?
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
@@ -217,6 +218,68 @@ class Inimigo:SKSpriteNode{
                 ]
                 self.removeAction(forKey: "animacao")
                 self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+            }
+        }
+    }
+}
+
+
+class Chaser:Inimigo{
+    
+}
+
+class Shooter:Inimigo{
+    
+    var firstPosition:CGPoint?
+    
+    override init(texture: SKTexture?, color: UIColor, size: CGSize) {
+        super.init(texture: texture, color: color, size: size)
+        self.firstPosition = self.position
+        name = ID.uuidString
+        physicsBody = SKPhysicsBody(rectangleOf: self.size)
+        physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
+        physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
+        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue |  physicsCategory.playerBullet.rawValue
+        physicsBody?.allowsRotation = false
+        physicsBody?.affectedByGravity = true
+        physicsBody?.isDynamic = true
+        physicsBody?.restitution = 0.0
+        
+        let ataque = SKAction.run {
+            self.attack()
+        }
+        let mover = SKAction.run {
+            self.mover()
+        }
+        self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
+        self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 1.0)])),withKey: "vivo2")
+        self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+    }
+    
+    convenience init (){
+        let tex = SKTexture(imageNamed: "inimigoD1")
+        self.init(texture:tex, color: UIColor.clear, size: tex.size())
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func mover() {
+        let dx = distanceX(a: target!.position, b: self.position)
+        
+        if dx < CGFloat(self.safeDistance){
+            
+            if target!.position.x < self.position.x{
+                if self.position.x < self.firstPosition!.x + 200{
+                    self.position.x += CGFloat(self.velocity)
+                }
+            }
+            
+            if target!.position.x > self.position.x{
+                if self.position.x > self.firstPosition!.x - 200{
+                    self.position.x -= CGFloat(self.velocity)
+                }
             }
         }
     }

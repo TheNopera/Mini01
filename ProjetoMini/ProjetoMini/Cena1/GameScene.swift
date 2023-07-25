@@ -173,7 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 player.tomouTiro()
                 print(player.vidas)
-                if player.vidas == 0{
+                if player.vidas <= 0{
                     gameOver()
                     isPaused = true
                 }
@@ -186,7 +186,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     enemyBullet!.removeFromParent()
                 }
                 player.tomouDano()
-                if player.vidas == 0{
+                if player.vidas <= 0{
                     gameOver()
                     isPaused = true
                 }
@@ -216,29 +216,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     i.inimigoTomouDano()
                     if i.vidas == 0{
                         i.morreu()
+                        layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
                         _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
                             self.layerScenario.InimigoSpawn1(target: self.player)
+                            }
                         _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
                             self.layerScenario.InimigoSpawn2(target: self.player)
                             }
                         _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
                             self.layerScenario.InimigoSpawn3(target: self.player)
                             }
-                            /*var runCount = 0
-                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                                print("Timer fired!")
-                                runCount += 1
-
-                                if runCount == 3 {
-                                    timer.invalidate()
-                                }
-                            }*/
                         }
                     }
                 }
-            }
-            
-            
             
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
@@ -344,6 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
                 
                 timerInSeconds += 1
+                layerScenario.tempoAtual = timerInSeconds
                 
                 let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
                 if timerInSeconds > highscore {
