@@ -66,6 +66,7 @@ class LayerScenario: SKNode {
                         square.physicsBody?.allowsRotation = false
                         square.physicsBody?.usesPreciseCollisionDetection = true
                         square.name = "platform"
+                        square.zPosition = 20.0
                         square.physicsBody?.categoryBitMask = physicsCategory.platform.rawValue
                         square.physicsBody?.collisionBitMask = physicsCategory.player.rawValue
                         square.physicsBody?.contactTestBitMask = physicsCategory.player.rawValue
@@ -85,7 +86,7 @@ class LayerScenario: SKNode {
                 let inimigo = Inimigo()
                 inimigo.position = spawnPoint.position
                 self.addChild(inimigo)
-                
+                inimigo.zPosition = 20.0
                 self.inimigosAR.append(inimigo)
                 inimigo.target = target
             }
@@ -98,7 +99,7 @@ class LayerScenario: SKNode {
                 let inimigo = Inimigo()
                 inimigo.position = spawnPoint.position
                 self.addChild(inimigo)
-                
+                inimigo.zPosition = 20.0
                 self.inimigosAR.append(inimigo)
                 inimigo.target = target
             }
@@ -111,7 +112,7 @@ class LayerScenario: SKNode {
                 let inimigo = Inimigo()
                 inimigo.position = spawnPoint.position
                 self.addChild(inimigo)
-                
+                inimigo.zPosition = 20.0
                 self.inimigosAR.append(inimigo)
                 inimigo.target = target
             }

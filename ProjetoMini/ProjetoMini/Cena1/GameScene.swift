@@ -23,6 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: instance of class LayerScenario
     let layerScenario = LayerScenario()
     
+    // MARK: instance of class BackgroundNode
+    let backgroundNode = BackgroundNode()
     
     // MARK: instance of class HUDNode
     let hudNode = HUDNode()
@@ -47,10 +49,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // MARK: center the scenario position in GameScene
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+        layerScenario.zPosition = 20.0
         self.addChild(layerScenario)
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
+        player.zPosition = 20.0
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -71,6 +75,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         layerScenario.InimigoSpawn1(target: player)
         layerScenario.InimigoSpawn2(target: player)
         layerScenario.InimigoSpawn3(target: player)
+        
+        layerScenario.addChild(backgroundNode)
+        backgroundNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
+
     }
     
     override func sceneDidLoad() {
@@ -368,6 +376,7 @@ extension GameScene {
     private func startGame() {
         hudNode.setupPauseNode()
         hudNode.setupInGameTimer()
+        backgroundNode.setupBackgrounds()
     }
 }
 

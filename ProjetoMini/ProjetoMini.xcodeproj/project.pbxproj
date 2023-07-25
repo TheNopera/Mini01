@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024DC8B12A6F4FE0007EF2FD /* BackgroundNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */; };
 		027282CE2A68646900A97503 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027282CD2A68646900A97503 /* MenuScene.swift */; };
 		0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290CDA82A65D878003CDE14 /* HUDNode.swift */; };
 		02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B6427C2A606C5D00CA5C18 /* Scenario.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundNode.swift; sourceTree = "<group>"; };
 		027282CD2A68646900A97503 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		0290CDA82A65D878003CDE14 /* HUDNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDNode.swift; sourceTree = "<group>"; };
 		02B6427C2A606C5D00CA5C18 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				E06B27A82A65C2B200B21DFD /* Inimigo.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
 				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
+				024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */,
 				02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */,
 				02ED2B272A61B89E005C5D1B /* MyTileSet.sks */,
 				02ED2B282A61B89E005C5D1B /* Assets.xcassets */,
@@ -219,6 +222,7 @@
 				027282CE2A68646900A97503 /* MenuScene.swift in Sources */,
 				62580CBF2A5764F6003A882C /* AppDelegate.swift in Sources */,
 				0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */,
+				024DC8B12A6F4FE0007EF2FD /* BackgroundNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +371,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -395,6 +400,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
