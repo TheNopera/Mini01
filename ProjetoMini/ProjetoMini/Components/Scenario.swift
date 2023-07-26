@@ -57,9 +57,9 @@ class LayerScenario: SKNode {
                         let scaledSize = CGSize(width: textureSize.width * scaleX, height: textureSize.height * scaleY)
                         let scaledPos = CGPoint(x: tilePos.x * scaleX, y: tilePos.y * scaleY)
                         
-                        let square = SKSpriteNode(color: .white, size: scaledSize)
-                        square.position = scaledPos
-                        square.physicsBody = SKPhysicsBody(rectangleOf: scaledSize)
+                        let square = SKSpriteNode(texture: SKTexture(imageNamed: "platform-centertile"))
+                        square.position = tilePos
+                        square.physicsBody = SKPhysicsBody(rectangleOf: textureSize)
                         square.physicsBody?.isDynamic = false
                         square.physicsBody?.affectedByGravity = false
                         square.physicsBody?.restitution = 0.0
