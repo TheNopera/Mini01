@@ -85,7 +85,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         idleR.gameScene = self
         let idleL = isIdleLeft()
         idleL.gameScene = self
-        let states = [goingLeft,goingRight, idleR, idleL]
+        let jumpR = jumpingRightState()
+        jumpR.gameScene = self
+        let jumpL = jumpingLeftState()
+        jumpL.gameScene = self
+        
+        let states = [goingLeft,goingRight, idleR, idleL, jumpL, jumpR]
         
         stateMachine = GKStateMachine (states: states)
         
@@ -151,6 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches{
             if t == joystick.jPosition{
                 joystick.setDisplacement(value: 0)
+                
             }
         }
         
@@ -160,6 +166,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches{
             if t == joystick.jPosition {
                 joystick.setDisplacement(value: 0)
+         
             }
         }
     }
@@ -292,7 +299,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if let body = player.physicsBody {
             let dy = body.velocity.dy
-            //            print(dy)
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
                 body.collisionBitMask = physicsCategory.player.rawValue
@@ -308,8 +314,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // print("\((body.collisionBitMask))")
                 
             }
+            
+            stateMachine?.update(deltaTime: 0.01)
         }
-        
         if !layerScenario.inimigosAR.isEmpty{
             for enemie in layerScenario.inimigosAR{
                 enemie.verificaTargetPosition()
@@ -343,6 +350,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
+
+//        if !player.isImortal{
+//            if player.isTurningLeft{
+//                player.texture = SKTexture(imageNamed: "PlayerE")
+//            }else{
+//                player.texture = SKTexture(imageNamed: "Player")
+//            }
+//        }else{
+//            if player.isTurningLeft{
+//                player.texture = SKTexture(imageNamed: "danoE")
+//            }else{
+//                player.texture = SKTexture(imageNamed: "danoD")
+//            }
+//        }
+
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -411,6 +433,9 @@ extension GameScene {
         hudNode.setupPauseNode()
         hudNode.setupInGameTimer()
     }
+    
+ 
 }
+
 
 
