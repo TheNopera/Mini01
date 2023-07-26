@@ -17,6 +17,17 @@ class Inimigo:SKSpriteNode{
         SKTexture(imageNamed: "inimigoD1"),
         SKTexture(imageNamed: "inimigoD2")
     ]
+    var deSpawn = [
+        SKTexture(imageNamed: "spawn9"),
+        SKTexture(imageNamed: "spawn8"),
+        SKTexture(imageNamed: "spawn7"),
+        SKTexture(imageNamed: "spawn6"),
+        SKTexture(imageNamed: "spawn5"),
+        SKTexture(imageNamed: "spawn4"),
+        SKTexture(imageNamed: "spawn3"),
+        SKTexture(imageNamed: "spawn2"),
+        SKTexture(imageNamed: "spawn1"),
+    ]
     var velocity = Int.random(in: 4...8)
     var safeDistance = Int.random(in: 180...240)
     var isAlive = true
@@ -41,7 +52,9 @@ class Inimigo:SKSpriteNode{
         let mover = SKAction.run {
             self.mover()
         }
+        
         let shootOcurrance = Double.random(in: 1.5...2.0)
+        
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")
         self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
@@ -57,9 +70,11 @@ class Inimigo:SKSpriteNode{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     func inimigoTomouDano(){
         self.vidas -= 1
     }
+    
     func attack(){
         let bullet = SKSpriteNode(imageNamed: "enemyTiro")
         bullet.name = "enemyBullet"
@@ -194,11 +209,15 @@ class Inimigo:SKSpriteNode{
     
     func morreu(){
         self.isAlive = false
-        self.animation = []
-        self.texture = nil
+        let limpaTexture = SKAction.run {
+            self.texture = nil
+        }
         self.physicsBody = nil
         self.removeAllActions()
-        self.run(.sequence([.wait(forDuration: 10),.removeFromParent()]))
+        self.texture = SKTexture(imageNamed: "spawn1")
+        self.position = CGPoint(x: self.position.x, y: self.position.y + 10)
+        self.size = self.texture!.size()
+        self.run(.sequence([.animate(with: deSpawn, timePerFrame: 0.1),limpaTexture,.wait(forDuration: 10),.removeFromParent()]))
     }
     
     func verificaTargetPosition(){
@@ -228,7 +247,7 @@ class Chaser:Inimigo{
     
 }
 
-class Shooter:Inimigo{
+/*class Shooter:Inimigo{
     
     var firstPosition:CGPoint?
     
@@ -283,4 +302,4 @@ class Shooter:Inimigo{
             }
         }
     }
-}
+}*/

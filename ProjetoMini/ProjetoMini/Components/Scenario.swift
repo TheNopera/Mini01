@@ -22,11 +22,14 @@ class LayerScenario: SKNode {
     var limiteInimigos:Int{
         if let tempo = self.tempoAtual{
             if tempo < 30{
-                return 4
+                //return 4
+                return 1
             } else if tempo > 30 && tempo < 60{
-                return 6
+                //return 6
+                return 1
             } else if tempo > 90 {
-                return 8
+                //return 8
+                return 1
             }
         }
         return 3
@@ -120,7 +123,7 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Shooter()
+                        let inimigo = Inimigo()
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
                         spawnPoint.texture = SKTexture(imageNamed: "spawn1")
@@ -151,7 +154,7 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Shooter()
+                        let inimigo = Inimigo()
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
                         spawnPoint.texture = SKTexture(imageNamed: "spawn1")
@@ -182,7 +185,7 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Shooter()
+                        let inimigo = Inimigo()
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
                         spawnPoint.texture = SKTexture(imageNamed: "spawn1")
