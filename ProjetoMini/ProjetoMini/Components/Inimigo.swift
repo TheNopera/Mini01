@@ -11,7 +11,7 @@ import SpriteKit
 class Inimigo:SKSpriteNode{
     var target: SKSpriteNode?
     var isShotting: Bool = false
-    var vidas = 3
+    var vidas = 2
     var ID:UUID = UUID()
     var animation = [
         SKTexture(imageNamed: "inimigoD1"),
@@ -41,8 +41,9 @@ class Inimigo:SKSpriteNode{
         let mover = SKAction.run {
             self.mover()
         }
+        let shootOcurrance = Double.random(in: 1.5...2.0)
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
-        self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: 1.0)])),withKey: "vivo2")
+        self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")
         self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
     }
     
@@ -70,7 +71,7 @@ class Inimigo:SKSpriteNode{
         bullet.physicsBody?.affectedByGravity = false
         bullet.physicsBody?.isDynamic = true
         
-        let shootVariation = CGFloat.random(in: -0.5...0.5)
+        let shootVariation = CGFloat.random(in: -0.2...0.2)
         
         if self.position.x > 0{
             
@@ -222,7 +223,6 @@ class Inimigo:SKSpriteNode{
         }
     }
 }
-
 
 class Chaser:Inimigo{
     

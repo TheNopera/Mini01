@@ -12,6 +12,7 @@ import SpriteKit
 
 class LayerScenario: SKNode {
     
+    var gameScene: GameScene?
     var spawnPoint1: SKSpriteNode!
     var spawnPoint2: SKSpriteNode!
     var spawnPoint3: SKSpriteNode!
@@ -30,23 +31,34 @@ class LayerScenario: SKNode {
         }
         return 3
     }
+    var spawn = [
+        SKTexture(imageNamed: "spawn1"),
+        SKTexture(imageNamed: "spawn2"),
+        SKTexture(imageNamed: "spawn3"),
+        SKTexture(imageNamed: "spawn4"),
+        SKTexture(imageNamed: "spawn5"),
+        SKTexture(imageNamed: "spawn6"),
+        SKTexture(imageNamed: "spawn7"),
+        SKTexture(imageNamed: "spawn8"),
+        SKTexture(imageNamed: "spawn9"),
+    ]
     
     override init() {
         super.init()
         
-        spawnPoint1 = SKSpriteNode()
+        spawnPoint1 = SKSpriteNode(imageNamed: "spawn1")
         spawnPoint1.name = "spawnPoint1" // precisa do nome para conseguir coloca-los na scene
         spawnPoint1.position = CGPoint(x: frame.midX + 200, y: frame.minY)
         spawnPoints.append(spawnPoint1)
         addChild(spawnPoint1)
         
-        spawnPoint2 = SKSpriteNode()
+        spawnPoint2 = SKSpriteNode(imageNamed: "spawn1")
         spawnPoint2.name = "spawnPoint2" // precisa do nome para conseguir coloca-los na scene
         spawnPoint2.position = CGPoint(x: frame.midX - 200, y: frame.minY)
         spawnPoints.append(spawnPoint2)
         addChild(spawnPoint2)
         
-        spawnPoint3 = SKSpriteNode()
+        spawnPoint3 = SKSpriteNode(imageNamed: "spawn1")
         spawnPoint3.name = "spawnPoint3" // precisa do nome para conseguir coloca-los na scene
         spawnPoint3.position = CGPoint(x: frame.midX, y: frame.minY)
         spawnPoints.append(spawnPoint3)
@@ -111,9 +123,18 @@ class LayerScenario: SKNode {
                         let inimigo = Shooter()
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
-                        self.addChild(inimigo)
-                        self.inimigosAR.append(inimigo)
-                        inimigo.target = target
+                        spawnPoint.texture = SKTexture(imageNamed: "spawn1")
+                        
+                        let spawAnimation = SKAction.animate(with: self.spawn, timePerFrame: 0.1)
+                        let animationEnded = SKAction.run {
+                            spawnPoint.texture = nil
+                        }
+                        let createEnemy = SKAction.run {
+                            self.addChild(inimigo)
+                            self.inimigosAR.append(inimigo)
+                            inimigo.target = target
+                        }
+                        spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
                     }
                 }
             }
@@ -130,13 +151,21 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Chaser()
-                        inimigo.numSpawn = 2
+                        let inimigo = Shooter()
+                        inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
-                        self.addChild(inimigo)
+                        spawnPoint.texture = SKTexture(imageNamed: "spawn1")
                         
-                        self.inimigosAR.append(inimigo)
-                        inimigo.target = target
+                        let spawAnimation = SKAction.animate(with: self.spawn, timePerFrame: 0.1)
+                        let animationEnded = SKAction.run {
+                            spawnPoint.texture = nil
+                        }
+                        let createEnemy = SKAction.run {
+                            self.addChild(inimigo)
+                            self.inimigosAR.append(inimigo)
+                            inimigo.target = target
+                        }
+                        spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
                     }
                 }
             }
@@ -153,13 +182,28 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Inimigo()
-                        inimigo.numSpawn = 3
+                        let inimigo = Shooter()
+                        inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
-                        self.addChild(inimigo)
+                        spawnPoint.texture = SKTexture(imageNamed: "spawn1")
                         
-                        self.inimigosAR.append(inimigo)
-                        inimigo.target = target
+                        let spawAnimation = SKAction.animate(with: self.spawn, timePerFrame: 0.1)
+                        let animationEnded = SKAction.run {
+                            spawnPoint.texture = nil
+                        }
+                        let createEnemy = SKAction.run {
+                            self.addChild(inimigo)
+                            self.inimigosAR.append(inimigo)
+                            inimigo.target = target
+                        }
+                        spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
+//                        let inimigo = Inimigo()
+//                        inimigo.numSpawn = 3
+//                        inimigo.position = spawnPoint.position
+//                        self.addChild(inimigo)
+//
+//                        self.inimigosAR.append(inimigo)
+//                        inimigo.target = target
                     }
                 }
             }
@@ -167,7 +211,6 @@ class LayerScenario: SKNode {
     }
     
     func verificaPosição(spawnNum:Int) -> Bool{
-        
         for inimigo in self.inimigosAR {
             let dx = distanceX(a: inimigo.position, b: spawnPoints[spawnNum-1].position)
             if dx < 50{
@@ -176,6 +219,4 @@ class LayerScenario: SKNode {
         }
         return true
     }
-    
-    
 }
