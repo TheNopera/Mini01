@@ -91,7 +91,7 @@ class Player:SKSpriteNode{
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if jumps < 1{
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 65))
             jumps += 1
         }
     }
