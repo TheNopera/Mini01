@@ -17,25 +17,49 @@ class Player:SKSpriteNode{
     var hasContact:Bool = false
     var goDown:Bool = false
     var isTurningLeft:Bool = false
+    var isJumping:Bool = false
     var isImortal = false
-    var moveRightAnimation:[SKTexture] = [
+    let moveRightAnimation:[SKTexture] = [
         SKTexture(imageNamed: "player_move 1"),
         SKTexture(imageNamed: "player_move 2"),
         SKTexture(imageNamed: "player_move 3"),
         SKTexture(imageNamed: "player_move 4"),
         SKTexture(imageNamed: "player_move 5")
     ]
-    var moveLeftAnimation:[SKTexture] = [
+    let moveLeftAnimation:[SKTexture] = [
         SKTexture(imageNamed: "player_moveE 1"),
         SKTexture(imageNamed: "player_moveE 2"),
         SKTexture(imageNamed: "player_moveE 3"),
         SKTexture(imageNamed: "player_moveE 4"),
         SKTexture(imageNamed: "player_moveE 5")
     ]
-    var idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
-    var idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
-    var isGoingRight = false
-    var isGoingLeft = false 
+    let jumpRightAnimation: [SKTexture] = [
+        SKTexture(imageNamed: "player_jump 1"),
+        SKTexture(imageNamed: "player_jump 2"),
+        SKTexture(imageNamed: "player_jump 3"),
+        SKTexture(imageNamed: "player_jump 4"),
+        SKTexture(imageNamed: "player_jump 5"),
+        SKTexture(imageNamed: "player_jump 6"),
+        SKTexture(imageNamed: "player_jump 7"),
+        SKTexture(imageNamed: "player_jump 8")
+
+    ]
+    let jumpLeftAnimation: [SKTexture] = [
+        SKTexture(imageNamed: "player_jumpE 1"),
+        SKTexture(imageNamed: "player_jumpE 2"),
+        SKTexture(imageNamed: "player_jumpE 3"),
+        SKTexture(imageNamed: "player_jumpE 4"),
+        SKTexture(imageNamed: "player_jumpE 5"),
+        SKTexture(imageNamed: "player_jumpE 6"),
+        SKTexture(imageNamed: "player_jumpE 7"),
+        SKTexture(imageNamed: "player_jumpE 8")
+
+    ]
+    let idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
+    let idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
+    
+
+
   
    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -75,8 +99,6 @@ class Player:SKSpriteNode{
     func playerMove(displacement:Double){
         //let movementDistance = displacement * playerSpeed
         //DummyPlayer.physicsBody?.applyImpulse(CGVector(dx: movementDistance, dy: 0))
-        let animationDirection = displacement > 0 ? moveRightAnimation : moveLeftAnimation
-
         
         self.playerSpeed = displacement > 0 ? 5 : -5
         // Apply the movement to the player's position
@@ -93,6 +115,8 @@ class Player:SKSpriteNode{
         if jumps < 1{
             self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
             jumps += 1
+            isJumping = true
+
         }
     }
     
