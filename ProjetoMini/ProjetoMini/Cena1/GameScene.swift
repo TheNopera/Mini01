@@ -98,6 +98,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stateMachine = GKStateMachine (states: states)
         
         stateMachine?.enter(isIdleRight.self)
+        for family in UIFont.familyNames.sorted() {
+            print("Family: \(family)")
+            
+            // 2
+            let names = UIFont.fontNames(forFamilyName: family)
+            for fontName in names {
+                print("- \(fontName)")
+            }
+        }
     }
     
     override func sceneDidLoad() {
@@ -198,7 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         self.isPaused = true
                     }
-                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1.5) ,endgame]))
+                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1) ,endgame]))
                     
                     
                 }
@@ -225,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.gameOver()
                         self.isPaused = true
                     }
-                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1.5), endgame]))
+                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1), endgame]))
                 }
                 print(player.vidas)
             }
@@ -252,24 +261,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
-                        i.morreu()
-                        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn1(target: self.player)
-                            _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
-                                self.layerScenario.InimigoSpawn2(target: self.player)
+                        i.removeFromParent()
+                        _ = Timer.scheduledTimer(withTimeInterval: 20.0, repeats: false) { [self] timer in
+                            i.morreu()
+                            _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                                self.layerScenario.InimigoSpawn1(target: self.player)
+                                _ = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [self] timer in
+                                    self.layerScenario.InimigoSpawn2(target: self.player)
+                                }
+                                _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
+                                    self.layerScenario.InimigoSpawn3(target: self.player)
+                                }
+                                /*var runCount = 0
+                                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                                 print("Timer fired!")
+                                 runCount += 1
+                                 
+                                 if runCount == 3 {
+                                 timer.invalidate()
+                                 }
+                                 }*/
                             }
-                            _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
-                                self.layerScenario.InimigoSpawn3(target: self.player)
-                            }
-                            /*var runCount = 0
-                             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                             print("Timer fired!")
-                             runCount += 1
-                             
-                             if runCount == 3 {
-                             timer.invalidate()
-                             }
-                             }*/
                         }
                     }
                 }
@@ -287,8 +299,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default: // contato não corresponde a nenhum caso
             print("no functional contact")
         }
-        
     }
+    
     //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -335,6 +347,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
         }
+
         
         
         stateMachine?.update(deltaTime: 0.01)
