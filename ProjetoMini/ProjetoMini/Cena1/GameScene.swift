@@ -90,6 +90,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stateMachine = GKStateMachine (states: states)
         
         stateMachine?.enter(isIdleRight.self)
+        for family in UIFont.familyNames.sorted() {
+            print("Family: \(family)")
+            
+            // 2
+            let names = UIFont.fontNames(forFamilyName: family)
+            for fontName in names {
+                print("- \(fontName)")
+            }
+        }
     }
     
     override func sceneDidLoad() {
@@ -239,168 +248,169 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 }
-                
-                
-                
-                
-            case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
-                player.encostouNoInimigo(direção: joystick.displacement)
-                
-            case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
-                print("bala bateu no inimigo")
-                
-            default: // contato não corresponde a nenhum caso
-                print("no functional contact")
             }
             
-        }
-        //MARK: DidEnd
-        func didEnd(_ contact: SKPhysicsContact) {
-            let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
             
-            switch contactMask{
-            case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
-                if player.physicsBody!.velocity.dy != 0{
-                    player.goDown = false
-                    player.hasContact = false
-                }
-            default:
-                print("no functional end contact")
+            
+            
+        case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
+            player.encostouNoInimigo(direção: joystick.displacement)
+            
+        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
+            print("bala bateu no inimigo")
+            
+        default: // contato não corresponde a nenhum caso
+            print("no functional contact")
+        }
+    }
+    
+    //MARK: DidEnd
+    func didEnd(_ contact: SKPhysicsContact) {
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        switch contactMask{
+        case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
+            if player.physicsBody!.velocity.dy != 0{
+                player.goDown = false
+                player.hasContact = false
+            }
+        default:
+            print("no functional end contact")
+        }
+    }
+    
+    //MARK: Update
+    override func update(_ currentTime: TimeInterval) {
+        if joystick.displacement != 0{
+            player.playerMove(displacement: joystick.displacement)
+        }
+        cameraPlayer.position = player.position
+        
+        if player.physicsBody?.velocity.dy != 0 && player.hasContact == false{
+            player.jumps = 1
+        }
+        
+        if let body = player.physicsBody {
+            let dy = body.velocity.dy
+            //            print(dy)
+            if dy > 0 {
+                // Prevent collisions if the hero is jumping
+                body.collisionBitMask = physicsCategory.player.rawValue
+                //print("\((body.collisionBitMask))")
+                
+            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+                
+                body.collisionBitMask = physicsCategory.player.rawValue
+            }
+            else {
+                // Allow collisions if the hero is falling
+                body.collisionBitMask |= physicsCategory.platform.rawValue
+                // print("\((body.collisionBitMask))")
+                
             }
         }
         
-        //MARK: Update
-        override func update(_ currentTime: TimeInterval) {
-            if joystick.displacement != 0{
-                player.playerMove(displacement: joystick.displacement)
+        if !layerScenario.inimigosAR.isEmpty{
+            for enemie in layerScenario.inimigosAR{
+                enemie.verificaTargetPosition()
             }
-            cameraPlayer.position = player.position
-            
-            if player.physicsBody?.velocity.dy != 0 && player.hasContact == false{
-                player.jumps = 1
-            }
-            
-            if let body = player.physicsBody {
-                let dy = body.velocity.dy
-                //            print(dy)
-                if dy > 0 {
-                    // Prevent collisions if the hero is jumping
-                    body.collisionBitMask = physicsCategory.player.rawValue
-                    //print("\((body.collisionBitMask))")
-                    
-                } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
-                    
-                    body.collisionBitMask = physicsCategory.player.rawValue
-                }
-                else {
-                    // Allow collisions if the hero is falling
-                    body.collisionBitMask |= physicsCategory.platform.rawValue
-                    // print("\((body.collisionBitMask))")
-                    
-                }
-            }
-            
-            if !layerScenario.inimigosAR.isEmpty{
-                for enemie in layerScenario.inimigosAR{
-                    enemie.verificaTargetPosition()
-                }
-            }
-            
-            //MARK: Checks if plyer is imortal and use respective Texture
-            if !player.isImortal{
-                if player.isTurningLeft{
-                    player.texture = SKTexture(imageNamed: "PlayerE")
-                }else{
-                    player.texture = SKTexture(imageNamed: "Player")
-                }
+        }
+        
+        //MARK: Checks if plyer is imortal and use respective Texture
+        if !player.isImortal{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "PlayerE")
             }else{
-                if player.isTurningLeft{
-                    player.texture = SKTexture(imageNamed: "danoE")
-                }else{
-                    player.texture = SKTexture(imageNamed: "danoD")
+                player.texture = SKTexture(imageNamed: "Player")
+            }
+        }else{
+            if player.isTurningLeft{
+                player.texture = SKTexture(imageNamed: "danoE")
+            }else{
+                player.texture = SKTexture(imageNamed: "danoD")
+            }
+        }
+        
+        
+        if joystick.displacement < 0{
+            stateMachine?.enter(movingLeftState.self)
+        }else if joystick.displacement > 0{
+            stateMachine?.enter(movingRightState.self)
+        } else if displacement == 0 && !player.isTurningLeft{
+            stateMachine?.enter(isIdleRight.self)
+        } else{
+            stateMachine?.enter(isIdleLeft.self)
+        }
+        
+        
+        if currentTime > hudNode.renderTime {
+            if hudNode.renderTime > 0 {
+                hudNode.seconds += 1
+                if hudNode.seconds == 60 {
+                    hudNode.seconds = 0
+                    hudNode.minutes += 1
                 }
-            }
-            
-            
-            if joystick.displacement < 0{
-                stateMachine?.enter(movingLeftState.self)
-            }else if joystick.displacement > 0{
-                stateMachine?.enter(movingRightState.self)
-            } else if displacement == 0 && !player.isTurningLeft{
-                stateMachine?.enter(isIdleRight.self)
-            } else{
-                stateMachine?.enter(isIdleLeft.self)
-            }
-            
-            
-            if currentTime > hudNode.renderTime {
-                if hudNode.renderTime > 0 {
-                    hudNode.seconds += 1
-                    if hudNode.seconds == 60 {
-                        hudNode.seconds = 0
-                        hudNode.minutes += 1
-                    }
-                    
-                    let secondsText = (hudNode.seconds < 10) ? "0\(hudNode.seconds)" : "\(hudNode.seconds)"
-                    let minutesText = (hudNode.minutes < 10) ? "0\(hudNode.minutes)" : "\(hudNode.minutes)"
-                    hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
-                    
-                    timerInSeconds += 1
-                    
-                    let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
-                    if timerInSeconds > highscore {
-                        UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
-                    }
-                    
+                
+                let secondsText = (hudNode.seconds < 10) ? "0\(hudNode.seconds)" : "\(hudNode.seconds)"
+                let minutesText = (hudNode.minutes < 10) ? "0\(hudNode.minutes)" : "\(hudNode.minutes)"
+                hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
+                
+                timerInSeconds += 1
+                
+                let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+                if timerInSeconds > highscore {
+                    UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
                 }
-                hudNode.renderTime = currentTime + hudNode.changeTime
+                
             }
-            
-            
+            hudNode.renderTime = currentTime + hudNode.changeTime
         }
         
-    }
-    
-    
-    
-    // MARK: - GameOver
-    extension GameScene {
         
-        // Function that format timeINSeconds to a custom string
-        func formatarTempo(timerInSeconds: Int) -> String {
-            let minutos = timerInSeconds / 60
-            let segundos = timerInSeconds % 60
-            
-            // Format seconds and minutes to mm/ss
-            let segundosFormatados = segundos < 10 ? "0\(segundos)" : "\(segundos)"
-            let minutosFormatados = minutos < 10 ? "0\(minutos)" : "\(minutos)"
-            
-            return "\(minutosFormatados):\(segundosFormatados)"
-        }
-        
-        private func gameOver() {
-            
-            var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
-            if timerInSeconds > highscore {
-                highscore = timerInSeconds
-            }
-            
-            let formattedTime = formatarTempo(timerInSeconds: timerInSeconds)
-            let formattedHighTime = formatarTempo(timerInSeconds: highscore)
-            
-            hudNode.setupGameOver(formattedTime, formattedHighTime)
-            hudNode.timerLabel.removeFromParent()
-            
-        }
-    }
-    
-    
-    extension GameScene {
-        
-        private func startGame() {
-            hudNode.setupPauseNode()
-            hudNode.setupInGameTimer()
-        }
     }
     
 }
+
+
+
+// MARK: - GameOver
+extension GameScene {
+    
+    // Function that format timeINSeconds to a custom string
+    func formatarTempo(timerInSeconds: Int) -> String {
+        let minutos = timerInSeconds / 60
+        let segundos = timerInSeconds % 60
+        
+        // Format seconds and minutes to mm/ss
+        let segundosFormatados = segundos < 10 ? "0\(segundos)" : "\(segundos)"
+        let minutosFormatados = minutos < 10 ? "0\(minutos)" : "\(minutos)"
+        
+        return "\(minutosFormatados):\(segundosFormatados)"
+    }
+    
+    private func gameOver() {
+        
+        var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
+        if timerInSeconds > highscore {
+            highscore = timerInSeconds
+        }
+        
+        let formattedTime = formatarTempo(timerInSeconds: timerInSeconds)
+        let formattedHighTime = formatarTempo(timerInSeconds: highscore)
+        
+        hudNode.setupGameOver(formattedTime, formattedHighTime)
+        hudNode.timerLabel.removeFromParent()
+        
+    }
+}
+
+
+extension GameScene {
+    
+    private func startGame() {
+        hudNode.setupPauseNode()
+        hudNode.setupInGameTimer()
+    }
+}
+
+

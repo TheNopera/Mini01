@@ -32,6 +32,8 @@ class HUDNode: SKNode {
     private var homeNode: SKSpriteNode!
     private var againNode: SKSpriteNode!
     
+    private var tituloLBL: SKLabelNode!
+    
     private var scoreTitleLbl: SKLabelNode!
     var scoreLbl: SKLabelNode!
     private var highscoreLbl: SKLabelNode!
@@ -261,7 +263,7 @@ extension HUDNode {
         isUserInteractionEnabled = true
         
         // MARK: GameOver Node
-        gameOverNode = SKSpriteNode(imageNamed: "panel-gameOver")
+        gameOverNode = SKSpriteNode(imageNamed: "NevoaDoFundo")
         gameOverNode.zPosition = 50.0
         gameOverNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(gameOverNode)
@@ -270,7 +272,7 @@ extension HUDNode {
         homeNode = SKSpriteNode(imageNamed: "Button")
         homeNode.zPosition = 55.0
         homeNode.position = CGPoint(
-            x: screenWidth*0.40,
+            x: screenWidth*(0.30),
             y: screenHeight*0.32)
         homeNode.name = "Home"
         addChild(homeNode)
@@ -279,7 +281,7 @@ extension HUDNode {
         againNode = SKSpriteNode(imageNamed: "Button")
         againNode.zPosition = 55.0
         againNode.position = CGPoint(
-            x: screenWidth*(0.60),
+            x: screenWidth*(0.70),
             y: screenHeight*0.32)
         againNode.name = "Again"
         addChild(againNode)
@@ -289,10 +291,10 @@ extension HUDNode {
         scoreTitleLbl.fontSize = 20.0
         scoreTitleLbl.fontColor = .white
         scoreTitleLbl.text = "Time:"
-        scoreTitleLbl.fontName = "jupiter-crash-brk.regular"
+        scoreTitleLbl.fontName = "JupiterCrashBRK"
         scoreTitleLbl.zPosition = 55.0
         scoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + scoreTitleLbl.frame.width/2 + 50,
+            x: gameOverNode.frame.minX + scoreTitleLbl.frame.width * 9.9,
             y: screenHeight/2)
         addChild(scoreTitleLbl)
         
@@ -312,10 +314,10 @@ extension HUDNode {
         highscoreTitleLbl.fontSize = 20.0
         highscoreTitleLbl.fontColor = .white
         highscoreTitleLbl.text = "Best Time:"
-        highscoreTitleLbl.fontName = "jupiter-crash-brk.regular"
+        highscoreTitleLbl.fontName = "JupiterCrashBRK"
         highscoreTitleLbl.zPosition = 55.0
         highscoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + highscoreTitleLbl.frame.width/2 + 50,
+            x: gameOverNode.frame.minX + highscoreTitleLbl.frame.width * 5,
             y: screenHeight/2 - highscoreTitleLbl.frame.height*2)
         addChild(highscoreTitleLbl)
         
@@ -329,6 +331,17 @@ extension HUDNode {
             x: screenWidth/2 + 50,
             y: highscoreTitleLbl.position.y)
         addChild(highscoreLbl)
+        
+        tituloLBL = SKLabelNode()
+        tituloLBL.fontSize = 20.0
+        tituloLBL.fontColor = .white
+        tituloLBL.text = "Game Over"
+        tituloLBL.fontName = "KarmaticArcade"
+        tituloLBL.zPosition = 55.0
+        tituloLBL.position = CGPoint(
+            x: screenWidth/2 - 15,
+            y: highscoreTitleLbl.position.y + 120)
+        addChild(tituloLBL)
         
     }
 }
@@ -452,7 +465,7 @@ extension HUDNode {
         addChild(pauseNode)
         
         // MARK: Quit Node
-        quitNode = SKSpriteNode(imageNamed: "menu-button")
+        quitNode = SKSpriteNode(imageNamed: "Button")
         quitNode.zPosition = 55.0
         quitNode.position = CGPoint(
             x: pauseNode.frame.minX + 80,
