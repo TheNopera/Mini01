@@ -26,12 +26,13 @@ class jumpingRightState:GKState{
         let p = gameScene?.player
         let jstick = gameScene?.joystick
         
-        if jstick!.displacement < 0 {
-            gameScene?.stateMachine?.enter(jumpingRightState.self)
-        }
         
         if (p?.physicsBody?.velocity.dy)! == 0{
             gameScene?.stateMachine?.enter(isIdleRight.self)
+        } else if jstick!.displacement < 0 {
+            gameScene?.stateMachine?.enter(jumpingLeftState.self)
         }
+        
+        
     }
 }

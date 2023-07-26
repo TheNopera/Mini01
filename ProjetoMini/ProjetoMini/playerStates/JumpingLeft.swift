@@ -21,9 +21,12 @@ class jumpingLeftState:GKState{
     
     override func update(deltaTime seconds: TimeInterval) {
         let p = gameScene?.player
-
+        let jstick = gameScene?.joystick
+        
         if (p?.physicsBody?.velocity.dy)! == 0{
             gameScene?.stateMachine?.enter(isIdleLeft.self)
-        }
+        } else if jstick!.displacement > 0 {
+            gameScene?.stateMachine?.enter(jumpingRightState.self)
+        } 
     }
 }
