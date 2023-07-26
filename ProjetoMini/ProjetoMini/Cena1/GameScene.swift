@@ -324,33 +324,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //MARK: Checks if plyer is imortal and use respective Texture
-        if !player.isImortal{
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
-            }else{
-                player.texture = SKTexture(imageNamed: "Player")
-            }
-        }else{
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "danoE")
-            }else{
-                player.texture = SKTexture(imageNamed: "danoD")
-            }
-        }
-        
-        
-        if joystick.displacement < 0{
-            stateMachine?.enter(movingLeftState.self)
-        }else if joystick.displacement > 0{
-            stateMachine?.enter(movingRightState.self)
-        } else if displacement == 0 && !player.isTurningLeft{
-            stateMachine?.enter(isIdleRight.self)
-        } else{
-            stateMachine?.enter(isIdleLeft.self)
-        }
-        
-        
-
 //        if !player.isImortal{
 //            if player.isTurningLeft{
 //                player.texture = SKTexture(imageNamed: "PlayerE")
