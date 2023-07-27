@@ -35,32 +35,32 @@ class LayerScenario: SKNode {
         return 3
     }
     var spawn = [
-        SKTexture(imageNamed: "spawn1"),
-        SKTexture(imageNamed: "spawn2"),
-        SKTexture(imageNamed: "spawn3"),
-        SKTexture(imageNamed: "spawn4"),
-        SKTexture(imageNamed: "spawn5"),
-        SKTexture(imageNamed: "spawn6"),
-        SKTexture(imageNamed: "spawn7"),
-        SKTexture(imageNamed: "spawn8"),
-        SKTexture(imageNamed: "spawn9"),
+        SKTexture(imageNamed: "spawnD1"),
+        SKTexture(imageNamed: "spawnD2"),
+        SKTexture(imageNamed: "spawnD3"),
+        SKTexture(imageNamed: "spawnD4"),
+        SKTexture(imageNamed: "spawnD5"),
+        SKTexture(imageNamed: "spawnD6"),
+        SKTexture(imageNamed: "spawnD7"),
+        SKTexture(imageNamed: "spawnD8"),
+        SKTexture(imageNamed: "spawnD9"),
     ]
     override init() {
         super.init()
         
-        spawnPoint1 = SKSpriteNode(imageNamed: "spawn1")
+        spawnPoint1 = SKSpriteNode(imageNamed: "spawnD1")
         spawnPoint1.name = "spawnPoint1" // precisa do nome para conseguir coloca-los na scene
         spawnPoint1.position = CGPoint(x: frame.midX + 200, y: frame.minY)
         spawnPoints.append(spawnPoint1)
         addChild(spawnPoint1)
         
-        spawnPoint2 = SKSpriteNode(imageNamed: "spawn1")
+        spawnPoint2 = SKSpriteNode(imageNamed: "spawnD1")
         spawnPoint2.name = "spawnPoint2" // precisa do nome para conseguir coloca-los na scene
         spawnPoint2.position = CGPoint(x: frame.midX - 200, y: frame.minY)
         spawnPoints.append(spawnPoint2)
         addChild(spawnPoint2)
         
-        spawnPoint3 = SKSpriteNode(imageNamed: "spawn1")
+        spawnPoint3 = SKSpriteNode(imageNamed: "spawnD1")
         spawnPoint3.name = "spawnPoint3" // precisa do nome para conseguir coloca-los na scene
         spawnPoint3.position = CGPoint(x: frame.midX, y: frame.minY)
         spawnPoints.append(spawnPoint3)

@@ -20,21 +20,42 @@ class Inimigo:SKSpriteNode{
         SKTexture(imageNamed: "inimigoL4"),
         SKTexture(imageNamed: "inimigoL5")
     ]
-    var deSpawn = [
-        SKTexture(imageNamed: "spawn9"),
-        SKTexture(imageNamed: "spawn8"),
-        SKTexture(imageNamed: "spawn7"),
-        SKTexture(imageNamed: "spawn6"),
-        SKTexture(imageNamed: "spawn5"),
-        SKTexture(imageNamed: "spawn4"),
-        SKTexture(imageNamed: "spawn3"),
-        SKTexture(imageNamed: "spawn2"),
-        SKTexture(imageNamed: "spawn1"),
+    var deSpawnL = [
+        SKTexture(imageNamed: "spawnL9"),
+        SKTexture(imageNamed: "spawnL8"),
+        SKTexture(imageNamed: "spawnL7"),
+        SKTexture(imageNamed: "spawnL6"),
+        SKTexture(imageNamed: "spawnL5"),
+        SKTexture(imageNamed: "spawnL4"),
+        SKTexture(imageNamed: "spawnL3"),
+        SKTexture(imageNamed: "spawnL2"),
+        SKTexture(imageNamed: "spawnL1"),
+    ]
+    var deSpawnR = [
+        SKTexture(imageNamed: "spawnD9"),
+        SKTexture(imageNamed: "spawnD8"),
+        SKTexture(imageNamed: "spawnD7"),
+        SKTexture(imageNamed: "spawnD6"),
+        SKTexture(imageNamed: "spawnD5"),
+        SKTexture(imageNamed: "spawnD4"),
+        SKTexture(imageNamed: "spawnD3"),
+        SKTexture(imageNamed: "spawnD2"),
+        SKTexture(imageNamed: "spawnD1"),
     ]
     var velocity = Int.random(in: 4...8)
     var safeDistance = Int.random(in: 180...240)
     var isAlive = true
-    var isLeft:Bool = false
+    var isLeft:Bool{
+        if let target = self.target{
+            if target.position.x < self.position.x{
+                return true
+            }else{
+                return false
+            }
+        } else {
+            return true
+        }
+    }
     var lookingLeft:Bool?
     var numSpawn:Int?
     
@@ -61,7 +82,7 @@ class Inimigo:SKSpriteNode{
         
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")
-        self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.2)),withKey: "animacao")
+//        self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.2)),withKey: "animacao")
     }
     
     convenience init (){
@@ -218,16 +239,21 @@ class Inimigo:SKSpriteNode{
         }
         self.physicsBody = nil
         self.removeAllActions()
-        self.texture = SKTexture(imageNamed: "spawn1")
         self.position = CGPoint(x: self.position.x, y: self.position.y + 10)
-        self.size = self.texture!.size()
-        self.run(.sequence([.animate(with: deSpawn, timePerFrame: 0.1),limpaTexture,.wait(forDuration: 10),.removeFromParent()]))
+        self.size.width = 64
+        self.size.height = 80
+        if isLeft{
+            self.removeAction(forKey: "animacaoD")
+            self.run(.sequence([.animate(with: deSpawnL, timePerFrame: 0.1),limpaTexture,.wait(forDuration: 10),.removeFromParent()]))
+        }else{
+            self.removeAction(forKey: "animacaoL")
+            self.run(.sequence([.animate(with: deSpawnR, timePerFrame: 0.1),limpaTexture,.wait(forDuration: 10),.removeFromParent()]))
+        }
     }
     
     func verificaTargetPosition(){
         if isAlive{
             if target!.position.x > self.position.x && !self.isLeft{
-                self.isLeft = true
                 self.animation = [
                     SKTexture(imageNamed: "inimigoL1"),
                     SKTexture(imageNamed: "inimigoL2"),
@@ -235,10 +261,11 @@ class Inimigo:SKSpriteNode{
                     SKTexture(imageNamed: "inimigoL4"),
                     SKTexture(imageNamed: "inimigoL5")
                 ]
-                self.removeAction(forKey: "animacao")
-                self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+                if self.action(forKey: "animacaoL") == nil{
+                    self.removeAction(forKey: "animacaoD")
+                    self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.2)),withKey: "animacaoL")
+                }
             } else if target!.position.x < self.position.x && self.isLeft{
-                self.isLeft = false
                 self.animation = [
                     SKTexture(imageNamed: "inimigoD1"),
                     SKTexture(imageNamed: "inimigoD2"),
@@ -246,8 +273,10 @@ class Inimigo:SKSpriteNode{
                     SKTexture(imageNamed: "inimigoD4"),
                     SKTexture(imageNamed: "inimigoD5")
                 ]
-                self.removeAction(forKey: "animacao")
-                self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
+                if self.action(forKey: "animacaoD") == nil{
+                    self.removeAction(forKey: "animacaoL")
+                    self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.2)),withKey: "animacaoD")
+                }
             }
         }
     }
