@@ -13,12 +13,12 @@ class Inimigo:SKSpriteNode{
     var isShotting: Bool?
     var vidas = 2
     var ID:UUID = UUID()
-    var animation = [
-        SKTexture(imageNamed: "inimigoD1"),
-        SKTexture(imageNamed: "inimigoD2"),
-        SKTexture(imageNamed: "inimigoD3"),
-        SKTexture(imageNamed: "inimigoD4"),
-        SKTexture(imageNamed: "inimigoD5")
+    var animation =  [
+        SKTexture(imageNamed: "inimigoL1"),
+        SKTexture(imageNamed: "inimigoL2"),
+        SKTexture(imageNamed: "inimigoL3"),
+        SKTexture(imageNamed: "inimigoL4"),
+        SKTexture(imageNamed: "inimigoL5")
     ]
     var deSpawn = [
         SKTexture(imageNamed: "spawn9"),
@@ -34,13 +34,7 @@ class Inimigo:SKSpriteNode{
     var velocity = Int.random(in: 4...8)
     var safeDistance = Int.random(in: 180...240)
     var isAlive = true
-    var isLeft:Bool{
-        if self.position.x < target!.position.x{
-            return false
-        } else {
-            return true
-        }
-    }
+    var isLeft:Bool = false
     var lookingLeft:Bool?
     var numSpawn:Int?
     
@@ -233,6 +227,7 @@ class Inimigo:SKSpriteNode{
     func verificaTargetPosition(){
         if isAlive{
             if target!.position.x > self.position.x && !self.isLeft{
+                self.isLeft = true
                 self.animation = [
                     SKTexture(imageNamed: "inimigoL1"),
                     SKTexture(imageNamed: "inimigoL2"),
@@ -243,6 +238,7 @@ class Inimigo:SKSpriteNode{
                 self.removeAction(forKey: "animacao")
                 self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
             } else if target!.position.x < self.position.x && self.isLeft{
+                self.isLeft = false
                 self.animation = [
                     SKTexture(imageNamed: "inimigoD1"),
                     SKTexture(imageNamed: "inimigoD2"),
@@ -257,9 +253,9 @@ class Inimigo:SKSpriteNode{
     }
 }
 
+
+
 class Chaser:Inimigo{
-    
-    
     override func attack() {
         let bullet1 = SKSpriteNode(imageNamed: "enemyTiro")
         bullet1.name = "enemyBullet"
