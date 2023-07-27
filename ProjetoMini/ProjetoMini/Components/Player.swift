@@ -42,7 +42,7 @@ class Player:SKSpriteNode{
         SKTexture(imageNamed: "player_jump 6"),
         SKTexture(imageNamed: "player_jump 7"),
         SKTexture(imageNamed: "player_jump 8")
-
+        
     ]
     let jumpLeftAnimation: [SKTexture] = [
         SKTexture(imageNamed: "player_jumpE 1"),
@@ -53,7 +53,7 @@ class Player:SKSpriteNode{
         SKTexture(imageNamed: "player_jumpE 6"),
         SKTexture(imageNamed: "player_jumpE 7"),
         SKTexture(imageNamed: "player_jumpE 8")
-
+        
     ]
     let deathAnimationR: [SKTexture] = [
         SKTexture(imageNamed: "player_death 2"),
@@ -76,10 +76,10 @@ class Player:SKSpriteNode{
     let idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
     let idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
     
-
-
-  
-   
+    
+    
+    
+    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
@@ -124,29 +124,33 @@ class Player:SKSpriteNode{
             let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
             self.position = newPosition
         }
-       
         
         
-//
-//        self.run(.repeatForever(walkAnimation))
-       
+        
+        //
+        //        self.run(.repeatForever(walkAnimation))
+        
     }
     
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if jumps < 1{
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 65))
-            jumps += 1
-            isJumping = true
-
+            if self.vidas > 0{
+                self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
+                jumps += 1
+                isJumping = true
+            }
         }
     }
     
     func playerGodown(){
-        if self.physicsBody!.velocity.dy == 0{
-            goDown = true
+        if self.vidas > 0{
+            if self.physicsBody!.velocity.dy == 0{
+                goDown = true
+            }
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
         }
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
+        
         
     }
     
