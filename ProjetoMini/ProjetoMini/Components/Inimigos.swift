@@ -65,7 +65,7 @@ class Inimigo:SKSpriteNode{
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
         physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
         physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
-        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue |  physicsCategory.playerBullet.rawValue
+        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue |  physicsCategory.playerBullet.rawValue | physicsCategory.nofallplatform.rawValue
         physicsBody?.allowsRotation = false
         physicsBody?.affectedByGravity = true
         physicsBody?.isDynamic = true
@@ -116,7 +116,7 @@ class Inimigo:SKSpriteNode{
         if self.position.x > 0{
             
             if self.position.y > 0{
-                var dx = (bullet.position.x) + self.position.x
+                var dx = (bullet.position.x) - self.position.x
                 var dy = (bullet.position.y) - self.position.y
                 
                 
