@@ -52,6 +52,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        // MARK: verify if tileMapScenario has a SKTileMapNode child
+        if let nofallTile = tileMapScenario.childNode(withName: "NoFallTile") as? SKTileMapNode {
+            
+            layerScenario.createNonFallTile(nofallTile)
+            
+        }
+        
         // MARK: center the scenario position in GameScene
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
         layerScenario.zPosition = 20.0
@@ -172,6 +179,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
             player.hasContact = true
             player.jumps = 0
+        
+        case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue:  //player and nofallplatform
+            player.hasContact = true
+            player.jumps = 0
             
         case  physicsCategory.player.rawValue | physicsCategory.enemyBullet.rawValue: // player e disparo inimigo
             
@@ -272,6 +283,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.goDown = false
                 player.hasContact = false
             }
+        case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue: //player and nofallplatform collision
+            if player.physicsBody!.velocity.dy != 0{
+                player.goDown = false
+                player.hasContact = false
+            }
         default:
             print("no functional end contact")
         }
@@ -298,11 +314,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
 
-                body.collisionBitMask = physicsCategory.player.rawValue
+                body.collisionBitMask = physicsCategory.nofallplatform.rawValue
+                
             }
             else {
                 // Allow collisions if the hero is falling
                 body.collisionBitMask |= physicsCategory.platform.rawValue
+                body.collisionBitMask |= physicsCategory.nofallplatform.rawValue
+
                 // print("\((body.collisionBitMask))")
                 
             }

@@ -43,7 +43,7 @@ class Player:SKSpriteNode{
         super.init(texture: texture, color: color, size: size)
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width/2, height: self.size.height))
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
-        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
+        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.nofallplatform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.restitution = 0.0
         self.name = "player"

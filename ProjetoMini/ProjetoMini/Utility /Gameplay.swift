@@ -16,6 +16,7 @@ enum physicsCategory:UInt32{
     case enemy = 0x00000100 // 4
     case playerBullet = 0x00001000 // 8
     case enemyBullet = 0x00010000 // 16
+    case nofallplatform = 0x00100000 // 32
 }
 
 // MARK: Setup screen size
