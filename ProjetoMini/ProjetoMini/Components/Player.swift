@@ -11,7 +11,7 @@ import SpriteKit
 class Player:SKSpriteNode{
     
     private(set) var playerSpeed:CGFloat = 0
-    var vidas = 3
+    var vidas = 50
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
     var hasContact:Bool = false

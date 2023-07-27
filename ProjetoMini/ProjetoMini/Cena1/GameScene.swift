@@ -224,6 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1) ,endgame]))
                     
                     
+
                 }
                 
             } else{
@@ -267,33 +268,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
-                        i.removeFromParent()
-                        _ = Timer.scheduledTimer(withTimeInterval: 20.0, repeats: false) { [self] timer in
-                            i.morreu()
-                            _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
-                                self.layerScenario.InimigoSpawn1(target: self.player)
-                                _ = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn2(target: self.player)
-                                }
-                                _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn3(target: self.player)
-                                }
-                                /*var runCount = 0
-                                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                                 print("Timer fired!")
-                                 runCount += 1
-                                 
-                                 if runCount == 3 {
-                                 timer.invalidate()
-                                 }
-                                 }*/
+                        i.morreu()
+                        layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
+                        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn1(target: self.player)
+                            }
+                        _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn2(target: self.player)
+                            }
+                        _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
+                            self.layerScenario.InimigoSpawn3(target: self.player)
                             }
                         }
                     }
                 }
-            }
-            
-            
             
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
@@ -405,6 +393,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hudNode.timerLabel.text = "\(minutesText) : \(secondsText)"
                 
                 timerInSeconds += 1
+                layerScenario.tempoAtual = timerInSeconds
                 
                 let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
                 if timerInSeconds > highscore {
