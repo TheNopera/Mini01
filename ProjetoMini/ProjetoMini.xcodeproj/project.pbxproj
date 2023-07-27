@@ -33,7 +33,7 @@
 		E026D0B72A6F6A9B002E9990 /* Estrelas.sks in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B52A6F6A9B002E9990 /* Estrelas.sks */; };
 		E026D0B82A6F6A9B002E9990 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B62A6F6A9B002E9990 /* Assets.xcassets */; };
 		E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */; };
-		E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigo.swift */; };
+		E06B27A92A65C2B200B21DFD /* Inimigos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigos.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,7 +66,7 @@
 		E026D0B52A6F6A9B002E9990 /* Estrelas.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Estrelas.sks; sourceTree = "<group>"; };
 		E026D0B62A6F6A9B002E9990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEmitter.swift; sourceTree = "<group>"; };
-		E06B27A82A65C2B200B21DFD /* Inimigo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigo.swift; sourceTree = "<group>"; };
+		E06B27A82A65C2B200B21DFD /* Inimigos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigos.swift; sourceTree = "<group>"; };
 		E06B27AA2A65C2D900B21DFD /* Operadores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operadores.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,7 +120,7 @@
 				62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */,
 				62938E5E2A65CC330028DB76 /* Joystick.swift */,
 				62CEF9382A5DD48F006F9784 /* Player.swift */,
-				E06B27A82A65C2B200B21DFD /* Inimigo.swift */,
+				E06B27A82A65C2B200B21DFD /* Inimigos.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
 				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
 				E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */,
@@ -274,7 +274,7 @@
 				62CEF9392A5DD48F006F9784 /* Player.swift in Sources */,
 				62938E662A6F53470028DB76 /* IdleRight.swift in Sources */,
 				62580CC52A5764F6003A882C /* GameScene.swift in Sources */,
-				E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */,
+				E06B27A92A65C2B200B21DFD /* Inimigos.swift in Sources */,
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
 				E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */,
 				E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */,

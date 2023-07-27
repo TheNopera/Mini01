@@ -23,13 +23,13 @@ class LayerScenario: SKNode {
         if let tempo = self.tempoAtual{
             if tempo < 30{
                 //return 4
-                return 1
+                return 2
             } else if tempo > 30 && tempo < 60{
                 //return 6
-                return 1
+                return 3
             } else if tempo > 90 {
                 //return 8
-                return 1
+                return 5
             }
         }
         return 3
@@ -45,7 +45,6 @@ class LayerScenario: SKNode {
         SKTexture(imageNamed: "spawn8"),
         SKTexture(imageNamed: "spawn9"),
     ]
-    
     override init() {
         super.init()
         
@@ -90,7 +89,7 @@ class LayerScenario: SKNode {
                         let textureSize = texture.size()
                         let scaledSize = CGSize(width: textureSize.width * scaleX, height: textureSize.height * scaleY)
                         let scaledPos = CGPoint(x: tilePos.x * scaleX, y: tilePos.y * scaleY)
-                        
+                        print(scaledPos)
                         let square = SKSpriteNode(color: .white, size: scaledSize)
                         square.position = scaledPos
                         square.physicsBody = SKPhysicsBody(rectangleOf: scaledSize)
@@ -200,13 +199,6 @@ class LayerScenario: SKNode {
                             inimigo.target = target
                         }
                         spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-//                        let inimigo = Inimigo()
-//                        inimigo.numSpawn = 3
-//                        inimigo.position = spawnPoint.position
-//                        self.addChild(inimigo)
-//
-//                        self.inimigosAR.append(inimigo)
-//                        inimigo.target = target
                     }
                 }
             }
