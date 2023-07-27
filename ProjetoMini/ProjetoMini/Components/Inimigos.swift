@@ -34,7 +34,14 @@ class Inimigo:SKSpriteNode{
     var velocity = Int.random(in: 4...8)
     var safeDistance = Int.random(in: 180...240)
     var isAlive = true
-    var isLeft:Bool = true
+    var isLeft:Bool{
+        if self.position.x < target!.position.x{
+            return false
+        } else {
+            return true
+        }
+    }
+    var lookingLeft:Bool?
     var numSpawn:Int?
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
@@ -64,9 +71,9 @@ class Inimigo:SKSpriteNode{
     }
     
     convenience init (){
-
+        
         let tex = SKTexture(imageNamed: "inimigoD1")
-
+        
         self.init(texture:tex, color: UIColor.clear, size: tex.size())
     }
     
@@ -225,7 +232,7 @@ class Inimigo:SKSpriteNode{
     
     func verificaTargetPosition(){
         if isAlive{
-            if target!.position.x > self.position.x{
+            if target!.position.x > self.position.x && !self.isLeft{
                 self.animation = [
                     SKTexture(imageNamed: "inimigoL1"),
                     SKTexture(imageNamed: "inimigoL2"),
@@ -235,8 +242,7 @@ class Inimigo:SKSpriteNode{
                 ]
                 self.removeAction(forKey: "animacao")
                 self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.5)),withKey: "animacao")
-            } else if target!.position.x < self.position.x {
-                self.isLeft = false
+            } else if target!.position.x < self.position.x && self.isLeft{
                 self.animation = [
                     SKTexture(imageNamed: "inimigoD1"),
                     SKTexture(imageNamed: "inimigoD2"),
@@ -252,6 +258,7 @@ class Inimigo:SKSpriteNode{
 }
 
 class Chaser:Inimigo{
+    
     
     override func attack() {
         let bullet1 = SKSpriteNode(imageNamed: "enemyTiro")
@@ -298,13 +305,26 @@ class Chaser:Inimigo{
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
                 
-                let movement = SKAction.run {
+                let movement1 = SKAction.run {
                     bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
                 
+                let movement2 = SKAction.run {
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                }
+                
+                let movement3 = SKAction.run {
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.3))
+                }
+                
                 self.addChild(bullet1)
+                self.addChild(bullet2)
+                self.addChild(bullet3)
                 let done = SKAction.removeFromParent()
-                bullet1.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+                
+                bullet1.run(.sequence([movement1,.wait(forDuration: 10.0),done]))
+                bullet2.run(.sequence([.wait(forDuration: 0.05),movement2,.wait(forDuration: 10.0),done]))
+                bullet3.run(.sequence([.wait(forDuration: 0.05),movement3,.wait(forDuration: 10.0),done]))
             }
             //Caso funciona
             if self.position.y < 0 {
@@ -319,12 +339,27 @@ class Chaser:Inimigo{
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
                 
-                let movement = SKAction.run {
+                let movement1 = SKAction.run {
                     bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
+                
+                let movement2 = SKAction.run {
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                }
+                
+                let movement3 = SKAction.run {
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.3))
+                }
+                
                 self.addChild(bullet1)
+                self.addChild(bullet2)
+                self.addChild(bullet3)
                 let done = SKAction.removeFromParent()
-                bullet1.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+                
+                bullet1.run(.sequence([movement1,.wait(forDuration: 10.0),done]))
+                bullet2.run(.sequence([.wait(forDuration: 0.05),movement2,.wait(forDuration: 10.0),done]))
+                bullet3.run(.sequence([.wait(forDuration: 0.05),movement3,.wait(forDuration: 10.0),done]))
+                
             }
         }
         
@@ -343,13 +378,27 @@ class Chaser:Inimigo{
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
                 
-                let movement = SKAction.run {
+                let movement1 = SKAction.run {
                     bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
                 
+                let movement2 = SKAction.run {
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                }
+                
+                let movement3 = SKAction.run {
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.3))
+                }
+                
                 self.addChild(bullet1)
+                self.addChild(bullet2)
+                self.addChild(bullet3)
                 let done = SKAction.removeFromParent()
-                bullet1.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+                
+                bullet1.run(.sequence([movement1,.wait(forDuration: 10.0),done]))
+                bullet2.run(.sequence([.wait(forDuration: 0.05),movement2,.wait(forDuration: 10.0),done]))
+                bullet3.run(.sequence([.wait(forDuration: 0.05),movement3,.wait(forDuration: 10.0),done]))
+                
             }
             //caso funciona
             if self.position.y < 0 {
@@ -365,13 +414,27 @@ class Chaser:Inimigo{
                 let velocityX = cos(angle)
                 let velocityY = sin(angle)
                 
-                let movement = SKAction.run {
+                let movement1 = SKAction.run {
                     bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
                 }
-                let done = SKAction.removeFromParent()
+                
+                let movement2 = SKAction.run {
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                }
+                
+                let movement3 = SKAction.run {
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.2))
+                }
                 
                 self.addChild(bullet1)
-                bullet1.run(.sequence([movement,.wait(forDuration: 10.0),done]))
+                self.addChild(bullet2)
+                self.addChild(bullet3)
+                let done = SKAction.removeFromParent()
+                
+                bullet1.run(.sequence([movement1,.wait(forDuration: 10.0),done]))
+                bullet2.run(.sequence([.wait(forDuration: 0.05),movement2,.wait(forDuration: 10.0),done]))
+                bullet3.run(.sequence([.wait(forDuration: 0.05),movement3,.wait(forDuration: 10.0),done]))
+                
             }
         }
     }
