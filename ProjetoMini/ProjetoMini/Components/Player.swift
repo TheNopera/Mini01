@@ -42,7 +42,7 @@ class Player:SKSpriteNode{
         SKTexture(imageNamed: "player_jump 6"),
         SKTexture(imageNamed: "player_jump 7"),
         SKTexture(imageNamed: "player_jump 8")
-
+        
     ]
     let jumpLeftAnimation: [SKTexture] = [
         SKTexture(imageNamed: "player_jumpE 1"),
@@ -53,21 +53,39 @@ class Player:SKSpriteNode{
         SKTexture(imageNamed: "player_jumpE 6"),
         SKTexture(imageNamed: "player_jumpE 7"),
         SKTexture(imageNamed: "player_jumpE 8")
-
+        
+    ]
+    let deathAnimationR: [SKTexture] = [
+        SKTexture(imageNamed: "player_death 2"),
+        SKTexture(imageNamed: "player_death 3"),
+        SKTexture(imageNamed: "player_death 4"),
+        SKTexture(imageNamed: "player_death 5"),
+        SKTexture(imageNamed: "player_death 6"),
+        SKTexture(imageNamed: "player_death 7"),
+        SKTexture(imageNamed: "player_death 8")
+    ]
+    let deathAnimationL: [SKTexture] = [
+        SKTexture(imageNamed: "player_deathE 2"),
+        SKTexture(imageNamed: "player_deathE 3"),
+        SKTexture(imageNamed: "player_deathE 4"),
+        SKTexture(imageNamed: "player_deathE 5"),
+        SKTexture(imageNamed: "player_deathE 6"),
+        SKTexture(imageNamed: "player_deathE 7"),
+        SKTexture(imageNamed: "player_deathE 8")
     ]
     let idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
     let idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
     
-
-
-  
-   
+    
+    
+    
+    
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width/2, height: self.size.height))
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
-        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
+        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.nofallplatform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.restitution = 0.0
         self.name = "player"
@@ -81,7 +99,7 @@ class Player:SKSpriteNode{
     }
     
     convenience init (){
-        let tex = SKTexture(imageNamed: "Player")
+        let tex = SKTexture(imageNamed: "inimigoD1")
         self.init(texture:tex, color: UIColor.white, size: tex.size())
     }
     
@@ -102,29 +120,37 @@ class Player:SKSpriteNode{
         
         self.playerSpeed = displacement > 0 ? 5 : -5
         // Apply the movement to the player's position
-        let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
+        if self.vidas > 0{
+            let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
+            self.position = newPosition
+        }
         
         
-//
-//        self.run(.repeatForever(walkAnimation))
-        self.position = newPosition
+        
+        //
+        //        self.run(.repeatForever(walkAnimation))
+        
     }
     
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if jumps < 1{
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
-            jumps += 1
-            isJumping = true
-
+            if self.vidas > 0{
+                self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
+                jumps += 1
+                isJumping = true
+            }
         }
     }
     
     func playerGodown(){
-        if self.physicsBody!.velocity.dy == 0{
-            goDown = true
+        if self.vidas > 0{
+            if self.physicsBody!.velocity.dy == 0{
+                goDown = true
+            }
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
         }
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
+        
         
     }
     
