@@ -85,7 +85,7 @@ class Player:SKSpriteNode{
         super.init(texture: texture, color: color, size: size)
         self.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.size.width/2, height: self.size.height))
         self.physicsBody?.categoryBitMask = physicsCategory.player.rawValue
-        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
+        self.physicsBody?.contactTestBitMask = physicsCategory.platform.rawValue | physicsCategory.nofallplatform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.collisionBitMask = physicsCategory.platform.rawValue | physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue
         self.physicsBody?.restitution = 0.0
         self.name = "player"
@@ -135,7 +135,7 @@ class Player:SKSpriteNode{
     //MARK: PLAYER JUMP FUNCTION
     func playerJump(){
         if jumps < 1{
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
+            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 65))
             jumps += 1
             isJumping = true
 

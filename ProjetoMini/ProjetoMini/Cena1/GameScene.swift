@@ -23,6 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: instance of class LayerScenario
     let layerScenario = LayerScenario()
     
+    // MARK: instance of class BackgroundNode
+    let backgroundNode = BackgroundNode()
     
     // MARK: instance of class HUDNode
     let hudNode = HUDNode()
@@ -50,12 +52,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        // MARK: verify if tileMapScenario has a SKTileMapNode child
+        if let nofallTile = tileMapScenario.childNode(withName: "NoFallTile") as? SKTileMapNode {
+            
+            layerScenario.createNonFallTile(nofallTile)
+            
+        }
+        
         // MARK: center the scenario position in GameScene
         layerScenario.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+        layerScenario.zPosition = 20.0
         self.addChild(layerScenario)
         layerScenario.addChild(cameraPlayer)
         layerScenario.addChild(player)
         
+        player.zPosition = 20.0
         player.setupSwipeHandler()
         
         self.camera = cameraPlayer
@@ -72,11 +83,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bounds = self.calculateAccumulatedFrame().width / 2 - cameraBounds
         let cameraConstraint = SKConstraint.positionX(.init(lowerLimit: -bounds, upperLimit: bounds))
         
+        let platerBounds = self.calculateAccumulatedFrame().width / 2
+        let playerConstraint = SKConstraint.positionX(.init(lowerLimit: -platerBounds, upperLimit: platerBounds))
         self.camera?.constraints = [cameraConstraint]
+        self.player.constraints = [playerConstraint]
         layerScenario.InimigoSpawn1(target: player)
         layerScenario.InimigoSpawn2(target: player)
         layerScenario.InimigoSpawn3(target: player)
         
+        layerScenario.addChild(backgroundNode)
+        backgroundNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
+
         let goingRight = movingRightState()
         goingRight.gameScene = self
         let goingLeft = movingLeftState ()
@@ -179,6 +196,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
+            player.hasContact = true
+            player.jumps = 0
+        
+        case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue:  //player and nofallplatform
             player.hasContact = true
             player.jumps = 0
             
@@ -311,6 +332,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.goDown = false
                 player.hasContact = false
             }
+        case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue: //player and nofallplatform collision
+            if player.physicsBody!.velocity.dy != 0{
+                player.goDown = false
+                player.hasContact = false
+            }
         default:
             print("no functional end contact")
         }
@@ -335,12 +361,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //print("\((body.collisionBitMask))")
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+
+
+                body.collisionBitMask = physicsCategory.nofallplatform.rawValue
+                
+
                 
                 body.collisionBitMask = physicsCategory.player.rawValue
+
             }
             else {
                 // Allow collisions if the hero is falling
                 body.collisionBitMask |= physicsCategory.platform.rawValue
+                body.collisionBitMask |= physicsCategory.nofallplatform.rawValue
+
                 // print("\((body.collisionBitMask))")
                 
             }
@@ -440,6 +474,7 @@ extension GameScene {
     private func startGame() {
         hudNode.setupPauseNode()
         hudNode.setupInGameTimer()
+        backgroundNode.setupBackgrounds()
     }
     
     
