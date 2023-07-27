@@ -193,21 +193,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
-                   joystick.removeFromParent()
-                    let animation = SKAction.run {
-                        if !self.player.isTurningLeft{
-                            self.player.texture = SKTexture(imageNamed: "player_death 8")
-                        } else {
-                            self.player.texture = SKTexture(imageNamed: "player_deathE 8")
-                        }
-                    }
+                  
                     let endgame = SKAction.run {
                         self.gameOver()
                         
                         
                         self.isPaused = true
                     }
-                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1) ,endgame]))
+                    self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1) ,endgame]))
                     
                     
                 }
@@ -221,20 +214,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 player.tomouDano()
                 if player.vidas == 0{
-                    joystick.removeFromParent()
-                    let animation = SKAction.run {
-                        
-                        if !self.player.isTurningLeft{
-                            self.player.texture = SKTexture(imageNamed: "player_death 8")
-                        } else {
-                            self.player.texture = SKTexture(imageNamed: "player_deathE 8")
-                        }
-                    }
+                
                     let endgame = SKAction.run {
                         self.gameOver()
                         self.isPaused = true
                     }
-                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1), endgame]))
+                    self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1), endgame]))
                 }
                 print(player.vidas)
             }
