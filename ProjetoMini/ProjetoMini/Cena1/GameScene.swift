@@ -31,11 +31,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var inGamePauseNode: SKSpriteNode!
     
-
+    
     
     var stateMachine: GKStateMachine?
-   
-
+    
+    
     var timerInSeconds: Int = 0
     private let easeScoreKey = "EaseScoreKey"
     
@@ -102,17 +102,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         idleR.gameScene = self
         let idleL = isIdleLeft()
         idleL.gameScene = self
-        let states = [goingLeft,goingRight, idleR, idleL]
+        let jumpR = jumpingRightState()
+        jumpR.gameScene = self
+        let jumpL = jumpingLeftState()
+        jumpL.gameScene = self
+        let deadR = isDeadRight()
+        deadR.gameScene = self
+        let deadL = isDeadLeft()
+        deadL.gameScene = self
+        let states = [goingLeft,goingRight, idleR, idleL, jumpL, jumpR, deadR, deadL]
         
         stateMachine = GKStateMachine (states: states)
         
         stateMachine?.enter(isIdleRight.self)
+        for family in UIFont.familyNames.sorted() {
+            print("Family: \(family)")
+            
+            // 2
+            let names = UIFont.fontNames(forFamilyName: family)
+            for fontName in names {
+                print("- \(fontName)")
+            }
+        }
     }
     
     override func sceneDidLoad() {
         super.sceneDidLoad()
         
-    
+        
     }
     func addEnemiesFromTileMap(){ }
     
@@ -159,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches{
             if t == joystick.jPosition{
                 joystick.setDisplacement(value: 0)
+                
             }
         }
         
@@ -168,6 +186,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches{
             if t == joystick.jPosition {
                 joystick.setDisplacement(value: 0)
+                
             }
         }
     }
@@ -195,8 +214,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
-                    gameOver()
-                    isPaused = true
+                   joystick.removeFromParent()
+                    let animation = SKAction.run {
+                        if !self.player.isTurningLeft{
+                            self.player.texture = SKTexture(imageNamed: "player_death 8")
+                        } else {
+                            self.player.texture = SKTexture(imageNamed: "player_deathE 8")
+                        }
+                    }
+                    let endgame = SKAction.run {
+                        self.gameOver()
+                        
+                        
+                        self.isPaused = true
+                    }
+                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1) ,endgame]))
+                    
+                    
                 }
                 
             } else{
@@ -208,8 +242,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 player.tomouDano()
                 if player.vidas == 0{
-                    gameOver()
-                    isPaused = true
+                    joystick.removeFromParent()
+                    let animation = SKAction.run {
+                        
+                        if !self.player.isTurningLeft{
+                            self.player.texture = SKTexture(imageNamed: "player_death 8")
+                        } else {
+                            self.player.texture = SKTexture(imageNamed: "player_deathE 8")
+                        }
+                    }
+                    let endgame = SKAction.run {
+                        self.gameOver()
+                        self.isPaused = true
+                    }
+                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1), endgame]))
                 }
                 print(player.vidas)
             }
@@ -236,24 +282,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
-                        i.morreu()
-                        _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn1(target: self.player)
-                        _ = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn2(target: self.player)
-                            }
-                        _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
-                            self.layerScenario.InimigoSpawn3(target: self.player)
-                            }
-                            /*var runCount = 0
-                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                                print("Timer fired!")
-                                runCount += 1
-
-                                if runCount == 3 {
-                                    timer.invalidate()
+                        i.removeFromParent()
+                        _ = Timer.scheduledTimer(withTimeInterval: 20.0, repeats: false) { [self] timer in
+                            i.morreu()
+                            _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                                self.layerScenario.InimigoSpawn1(target: self.player)
+                                _ = Timer.scheduledTimer(withTimeInterval: 25.0, repeats: false) { [self] timer in
+                                    self.layerScenario.InimigoSpawn2(target: self.player)
                                 }
-                            }*/
+                                _ = Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false) { [self] timer in
+                                    self.layerScenario.InimigoSpawn3(target: self.player)
+                                }
+                                /*var runCount = 0
+                                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                                 print("Timer fired!")
+                                 runCount += 1
+                                 
+                                 if runCount == 3 {
+                                 timer.invalidate()
+                                 }
+                                 }*/
+                            }
                         }
                     }
                 }
@@ -271,8 +320,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default: // contato não corresponde a nenhum caso
             print("no functional contact")
         }
-        
     }
+    
     //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
@@ -306,7 +355,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if let body = player.physicsBody {
             let dy = body.velocity.dy
-            //            print(dy)
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
                 body.collisionBitMask = physicsCategory.player.rawValue
@@ -314,8 +362,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
 
+
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
                 
+
+                
+                body.collisionBitMask = physicsCategory.player.rawValue
+
             }
             else {
                 // Allow collisions if the hero is falling
@@ -325,41 +378,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // print("\((body.collisionBitMask))")
                 
             }
+            
+            
         }
+
+        
+        
+        stateMachine?.update(deltaTime: 0.01)
 
         if !layerScenario.inimigosAR.isEmpty{
             for enemie in layerScenario.inimigosAR{
                 enemie.verificaTargetPosition()
             }
         }
-
-        //MARK: Checks if plyer is imortal and use respective Texture
-        if !player.isImortal{
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "PlayerE")
-            }else{
-                player.texture = SKTexture(imageNamed: "Player")
-            }
-        }else{
-            if player.isTurningLeft{
-                player.texture = SKTexture(imageNamed: "danoE")
-            }else{
-                player.texture = SKTexture(imageNamed: "danoD")
-            }
-        }
         
-
-        if joystick.displacement < 0{
-            stateMachine?.enter(movingLeftState.self)
-        }else if joystick.displacement > 0{
-            stateMachine?.enter(movingRightState.self)
-        } else if displacement == 0 && !player.isTurningLeft{
-            stateMachine?.enter(isIdleRight.self)
-        } else{
-            stateMachine?.enter(isIdleLeft.self)
-        }
-
-
+        //MARK: Checks if plyer is imortal and use respective Texture
+        //        if !player.isImortal{
+        //            if player.isTurningLeft{
+        //                player.texture = SKTexture(imageNamed: "PlayerE")
+        //            }else{
+        //                player.texture = SKTexture(imageNamed: "Player")
+        //            }
+        //        }else{
+        //            if player.isTurningLeft{
+        //                player.texture = SKTexture(imageNamed: "danoE")
+        //            }else{
+        //                player.texture = SKTexture(imageNamed: "danoD")
+        //            }
+        //        }
+        
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -378,12 +425,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if timerInSeconds > highscore {
                     UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
                 }
-
+                
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
         }
-
-
+        
+        
     }
     
 }
@@ -405,7 +452,7 @@ extension GameScene {
         return "\(minutosFormatados):\(segundosFormatados)"
     }
     
-    private func gameOver() {
+private func gameOver() {
         
         var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
         if timerInSeconds > highscore {
@@ -429,6 +476,9 @@ extension GameScene {
         hudNode.setupInGameTimer()
         backgroundNode.setupBackgrounds()
     }
+    
+    
 }
+
 
 
