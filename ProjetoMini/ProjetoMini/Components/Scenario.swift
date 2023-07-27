@@ -61,18 +61,21 @@ class LayerScenario: SKNode {
         
         spawnPoint1 = SKSpriteNode(imageNamed: "spawnD1")
         spawnPoint1.name = "spawnPoint1" // precisa do nome para conseguir coloca-los na scene
+        spawnPoint1.zPosition = 21.0
         spawnPoint1.position = CGPoint(x: frame.midX + 200, y: frame.minY)
         spawnPoints.append(spawnPoint1)
         addChild(spawnPoint1)
         
         spawnPoint2 = SKSpriteNode(imageNamed: "spawnD1")
         spawnPoint2.name = "spawnPoint2" // precisa do nome para conseguir coloca-los na scene
+        spawnPoint2.zPosition = 21.0
         spawnPoint2.position = CGPoint(x: frame.midX - 200, y: frame.minY)
         spawnPoints.append(spawnPoint2)
         addChild(spawnPoint2)
         
         spawnPoint3 = SKSpriteNode(imageNamed: "spawnD1")
         spawnPoint3.name = "spawnPoint3" // precisa do nome para conseguir coloca-los na scene
+        spawnPoint3.zPosition = 21.0
         spawnPoint3.position = CGPoint(x: frame.midX, y: frame.minY)
         spawnPoints.append(spawnPoint3)
         addChild(spawnPoint3)
@@ -178,6 +181,7 @@ class LayerScenario: SKNode {
                     if verificaPos{
                         
                         let inimigo = Inimigo()
+                        inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
                         
@@ -225,6 +229,7 @@ class LayerScenario: SKNode {
                     if verificaPos{
                         
                         let inimigo = Inimigo()
+                        inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
                         if target.position.x < spawnPoint.position.x{
@@ -271,6 +276,7 @@ class LayerScenario: SKNode {
                     if verificaPos{
                         
                         let inimigo = Inimigo()
+                        inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
                         if target.position.x < spawnPoint.position.x{
