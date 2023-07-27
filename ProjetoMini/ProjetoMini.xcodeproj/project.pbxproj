@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024DC8B12A6F4FE0007EF2FD /* BackgroundNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */; };
 		027282CE2A68646900A97503 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027282CD2A68646900A97503 /* MenuScene.swift */; };
 		0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290CDA82A65D878003CDE14 /* HUDNode.swift */; };
 		02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B6427C2A606C5D00CA5C18 /* Scenario.swift */; };
@@ -19,6 +20,8 @@
 		62580CCA2A5764F6003A882C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CC82A5764F6003A882C /* Main.storyboard */; };
 		62580CCC2A5764F6003A882C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCB2A5764F6003A882C /* Assets.xcassets */; };
 		62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */; };
+		62900EC12A71988700606ED9 /* DeadRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62900EC02A71988700606ED9 /* DeadRight.swift */; };
+		62900EC32A71C3D100606ED9 /* DeadLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62900EC22A71C3D100606ED9 /* DeadLeft.swift */; };
 		62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */; };
 		62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5E2A65CC330028DB76 /* Joystick.swift */; };
 		62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E612A6F4D4F0028DB76 /* MovingRight.swift */; };
@@ -34,11 +37,12 @@
 		E026D0B72A6F6A9B002E9990 /* Estrelas.sks in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B52A6F6A9B002E9990 /* Estrelas.sks */; };
 		E026D0B82A6F6A9B002E9990 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E026D0B62A6F6A9B002E9990 /* Assets.xcassets */; };
 		E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */; };
-		E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigo.swift */; };
+		E06B27A92A65C2B200B21DFD /* Inimigos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigos.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundNode.swift; sourceTree = "<group>"; };
 		027282CD2A68646900A97503 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		0290CDA82A65D878003CDE14 /* HUDNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDNode.swift; sourceTree = "<group>"; };
 		02B6427C2A606C5D00CA5C18 /* Scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenario.swift; sourceTree = "<group>"; };
@@ -52,6 +56,8 @@
 		62580CC92A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		62580CCB2A5764F6003A882C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		62580CCE2A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		62900EC02A71988700606ED9 /* DeadRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadRight.swift; sourceTree = "<group>"; };
+		62900EC22A71C3D100606ED9 /* DeadLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadLeft.swift; sourceTree = "<group>"; };
 		62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeHandler.swift; sourceTree = "<group>"; };
 		62938E5E2A65CC330028DB76 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		62938E612A6F4D4F0028DB76 /* MovingRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingRight.swift; sourceTree = "<group>"; };
@@ -68,7 +74,7 @@
 		E026D0B52A6F6A9B002E9990 /* Estrelas.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Estrelas.sks; sourceTree = "<group>"; };
 		E026D0B62A6F6A9B002E9990 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEmitter.swift; sourceTree = "<group>"; };
-		E06B27A82A65C2B200B21DFD /* Inimigo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigo.swift; sourceTree = "<group>"; };
+		E06B27A82A65C2B200B21DFD /* Inimigos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigos.swift; sourceTree = "<group>"; };
 		E06B27AA2A65C2D900B21DFD /* Operadores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operadores.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,10 +128,14 @@
 				62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */,
 				62938E5E2A65CC330028DB76 /* Joystick.swift */,
 				62CEF9382A5DD48F006F9784 /* Player.swift */,
-				E06B27A82A65C2B200B21DFD /* Inimigo.swift */,
+				E06B27A82A65C2B200B21DFD /* Inimigos.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
 				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
+
+				024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */,
+
 				E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */,
+
 				02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */,
 				02ED2B272A61B89E005C5D1B /* MyTileSet.sks */,
 				02ED2B282A61B89E005C5D1B /* Assets.xcassets */,
@@ -151,6 +161,8 @@
 				62938E672A6F591E0028DB76 /* IdleLeft.swift */,
 				62938E692A704D2F0028DB76 /* JumpingRight.swift */,
 				62938E6B2A7050360028DB76 /* JumpingLeft.swift */,
+				62900EC02A71988700606ED9 /* DeadRight.swift */,
+				62900EC22A71C3D100606ED9 /* DeadLeft.swift */,
 			);
 			path = playerStates;
 			sourceTree = "<group>";
@@ -278,17 +290,20 @@
 				62CEF9392A5DD48F006F9784 /* Player.swift in Sources */,
 				62938E662A6F53470028DB76 /* IdleRight.swift in Sources */,
 				62580CC52A5764F6003A882C /* GameScene.swift in Sources */,
-				E06B27A92A65C2B200B21DFD /* Inimigo.swift in Sources */,
+				E06B27A92A65C2B200B21DFD /* Inimigos.swift in Sources */,
 				62580CC72A5764F6003A882C /* GameViewController.swift in Sources */,
 				E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */,
 				E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */,
 				02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */,
 				62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */,
 				62938E642A6F4ECC0028DB76 /* MovingLeft.swift in Sources */,
+				62900EC32A71C3D100606ED9 /* DeadLeft.swift in Sources */,
 				027282CE2A68646900A97503 /* MenuScene.swift in Sources */,
 				62938E6C2A7050360028DB76 /* JumpingLeft.swift in Sources */,
 				62580CBF2A5764F6003A882C /* AppDelegate.swift in Sources */,
+				62900EC12A71988700606ED9 /* DeadRight.swift in Sources */,
 				0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */,
+				024DC8B12A6F4FE0007EF2FD /* BackgroundNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,7 +452,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
+
+				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
+
 				INFOPLIST_FILE = ProjetoMini/Info.plist;
+
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -466,7 +485,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
+
+				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
+
 				INFOPLIST_FILE = ProjetoMini/Info.plist;
+
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -12,7 +12,7 @@ class jumpingRightState:GKState{
     
     override func didEnter(from previousState: GKState?) {
         gameScene?.player.removeAction(forKey: "animation")
-        let jumpAnimation = SKAction.animate(with: (gameScene?.player.jumpRightAnimation)! , timePerFrame: 0.1, resize: false, restore: true)
+        let jumpAnimation = SKAction.animate(with: (gameScene?.player.jumpRightAnimation)! , timePerFrame: 0.1, resize: false, restore: false)
         gameScene?.player.run(.repeatForever(jumpAnimation),withKey: "animation")
     }
   
@@ -26,10 +26,13 @@ class jumpingRightState:GKState{
         let p = gameScene?.player
         let jstick = gameScene?.joystick
         
-        
-        if (p?.physicsBody?.velocity.dy)! == 0{
+        if (p?.vidas)! <= 0{
+            gameScene?.stateMachine?.enter(isDeadRight.self)
+        }
+        else if (p?.physicsBody?.velocity.dy)! == 0 && (p?.vidas)! > 0{
             gameScene?.stateMachine?.enter(isIdleRight.self)
-        } else if jstick!.displacement < 0 {
+        }
+        else if jstick!.displacement < 0 {
             gameScene?.stateMachine?.enter(jumpingLeftState.self)
         }
         

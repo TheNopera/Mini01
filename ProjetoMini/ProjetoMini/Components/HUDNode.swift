@@ -540,6 +540,7 @@ extension HUDNode {
     func setupInGameTimer() {
         timerLabel = SKLabelNode()
         timerLabel.zPosition = 49.0
+        timerLabel.fontName = "JupiterCrashBRK"
         timerLabel.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.90)
         timerLabel.name = "Timer-label"
         addChild(timerLabel)
