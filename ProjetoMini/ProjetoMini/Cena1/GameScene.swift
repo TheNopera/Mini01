@@ -81,7 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let cameraWidthBounds = self.frame.width/2
         let widthBounds = self.calculateAccumulatedFrame().width / 2 - cameraWidthBounds
-        let cameraWidthConstraint = SKConstraint.positionX(.init(lowerLimit: -cameraWidthBounds, upperLimit: cameraWidthBounds))
+        let cameraWidthConstraint = SKConstraint.positionX(.init(lowerLimit: -widthBounds, upperLimit: widthBounds))
         
         let cameraHeightBounds = self.calculateAccumulatedFrame().height/2
         let heightBounds = self.calculateAccumulatedFrame().height/2 - cameraHeightBounds
@@ -89,7 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let platerBounds = self.calculateAccumulatedFrame().width / 2
         let playerConstraint = SKConstraint.positionX(.init(lowerLimit: -platerBounds, upperLimit: platerBounds))
-        self.camera?.constraints = [cameraWidthConstraint] 
+        self.camera?.constraints = [cameraWidthConstraint, cameraHeightConstraint] 
         self.player.constraints = [playerConstraint]
         layerScenario.InimigoSpawn1(target: player)
         layerScenario.InimigoSpawn2(target: player)
