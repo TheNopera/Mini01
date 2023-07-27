@@ -19,6 +19,8 @@
 		62580CCA2A5764F6003A882C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CC82A5764F6003A882C /* Main.storyboard */; };
 		62580CCC2A5764F6003A882C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCB2A5764F6003A882C /* Assets.xcassets */; };
 		62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */; };
+		62900EC12A71988700606ED9 /* DeadRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62900EC02A71988700606ED9 /* DeadRight.swift */; };
+		62900EC32A71C3D100606ED9 /* DeadLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62900EC22A71C3D100606ED9 /* DeadLeft.swift */; };
 		62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */; };
 		62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5E2A65CC330028DB76 /* Joystick.swift */; };
 		62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E612A6F4D4F0028DB76 /* MovingRight.swift */; };
@@ -52,6 +54,8 @@
 		62580CC92A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		62580CCB2A5764F6003A882C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		62580CCE2A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		62900EC02A71988700606ED9 /* DeadRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadRight.swift; sourceTree = "<group>"; };
+		62900EC22A71C3D100606ED9 /* DeadLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadLeft.swift; sourceTree = "<group>"; };
 		62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeHandler.swift; sourceTree = "<group>"; };
 		62938E5E2A65CC330028DB76 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		62938E612A6F4D4F0028DB76 /* MovingRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingRight.swift; sourceTree = "<group>"; };
@@ -151,6 +155,8 @@
 				62938E672A6F591E0028DB76 /* IdleLeft.swift */,
 				62938E692A704D2F0028DB76 /* JumpingRight.swift */,
 				62938E6B2A7050360028DB76 /* JumpingLeft.swift */,
+				62900EC02A71988700606ED9 /* DeadRight.swift */,
+				62900EC22A71C3D100606ED9 /* DeadLeft.swift */,
 			);
 			path = playerStates;
 			sourceTree = "<group>";
@@ -285,9 +291,11 @@
 				02B6427D2A606C5D00CA5C18 /* Scenario.swift in Sources */,
 				62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */,
 				62938E642A6F4ECC0028DB76 /* MovingLeft.swift in Sources */,
+				62900EC32A71C3D100606ED9 /* DeadLeft.swift in Sources */,
 				027282CE2A68646900A97503 /* MenuScene.swift in Sources */,
 				62938E6C2A7050360028DB76 /* JumpingLeft.swift in Sources */,
 				62580CBF2A5764F6003A882C /* AppDelegate.swift in Sources */,
+				62900EC12A71988700606ED9 /* DeadRight.swift in Sources */,
 				0290CDA92A65D878003CDE14 /* HUDNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

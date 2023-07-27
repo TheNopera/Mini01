@@ -89,8 +89,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         jumpR.gameScene = self
         let jumpL = jumpingLeftState()
         jumpL.gameScene = self
-        
-        let states = [goingLeft,goingRight, idleR, idleL, jumpL, jumpR]
+        let deadR = isDeadRight()
+        deadR.gameScene = self
+        let deadL = isDeadLeft()
+        deadL.gameScene = self
+        let states = [goingLeft,goingRight, idleR, idleL, jumpL, jumpR, deadR, deadL]
         
         stateMachine = GKStateMachine (states: states)
         
@@ -166,7 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches{
             if t == joystick.jPosition {
                 joystick.setDisplacement(value: 0)
-         
+                
             }
         }
     }
@@ -190,8 +193,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
-                    gameOver()
-                    isPaused = true
+                   joystick.removeFromParent()
+                    let animation = SKAction.run {
+                        if !self.player.isTurningLeft{
+                            self.player.texture = SKTexture(imageNamed: "player_death 8")
+                        } else {
+                            self.player.texture = SKTexture(imageNamed: "player_deathE 8")
+                        }
+                    }
+                    let endgame = SKAction.run {
+                        self.gameOver()
+                        
+                        
+                        self.isPaused = true
+                    }
+                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1) ,endgame]))
+                    
+                    
                 }
                 
             } else{
@@ -203,8 +221,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 player.tomouDano()
                 if player.vidas == 0{
-                    gameOver()
-                    isPaused = true
+                    joystick.removeFromParent()
+                    let animation = SKAction.run {
+                        
+                        if !self.player.isTurningLeft{
+                            self.player.texture = SKTexture(imageNamed: "player_death 8")
+                        } else {
+                            self.player.texture = SKTexture(imageNamed: "player_deathE 8")
+                        }
+                    }
+                    let endgame = SKAction.run {
+                        self.gameOver()
+                        self.isPaused = true
+                    }
+                    self.run(.sequence([.wait(forDuration:0.8), animation,.wait(forDuration:1), endgame]))
                 }
                 print(player.vidas)
             }
@@ -315,8 +345,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
             
-            stateMachine?.update(deltaTime: 0.01)
+            
         }
+
+        
+        
+        stateMachine?.update(deltaTime: 0.01)
+
         if !layerScenario.inimigosAR.isEmpty{
             for enemie in layerScenario.inimigosAR{
                 enemie.verificaTargetPosition()
@@ -324,20 +359,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //MARK: Checks if plyer is imortal and use respective Texture
-//        if !player.isImortal{
-//            if player.isTurningLeft{
-//                player.texture = SKTexture(imageNamed: "PlayerE")
-//            }else{
-//                player.texture = SKTexture(imageNamed: "Player")
-//            }
-//        }else{
-//            if player.isTurningLeft{
-//                player.texture = SKTexture(imageNamed: "danoE")
-//            }else{
-//                player.texture = SKTexture(imageNamed: "danoD")
-//            }
-//        }
-
+        //        if !player.isImortal{
+        //            if player.isTurningLeft{
+        //                player.texture = SKTexture(imageNamed: "PlayerE")
+        //            }else{
+        //                player.texture = SKTexture(imageNamed: "Player")
+        //            }
+        //        }else{
+        //            if player.isTurningLeft{
+        //                player.texture = SKTexture(imageNamed: "danoE")
+        //            }else{
+        //                player.texture = SKTexture(imageNamed: "danoD")
+        //            }
+        //        }
+        
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -383,7 +418,7 @@ extension GameScene {
         return "\(minutosFormatados):\(segundosFormatados)"
     }
     
-    private func gameOver() {
+private func gameOver() {
         
         var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
         if timerInSeconds > highscore {
@@ -407,7 +442,7 @@ extension GameScene {
         hudNode.setupInGameTimer()
     }
     
- 
+    
 }
 
 

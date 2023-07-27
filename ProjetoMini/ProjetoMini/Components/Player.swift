@@ -55,6 +55,24 @@ class Player:SKSpriteNode{
         SKTexture(imageNamed: "player_jumpE 8")
 
     ]
+    let deathAnimationR: [SKTexture] = [
+        SKTexture(imageNamed: "player_death 2"),
+        SKTexture(imageNamed: "player_death 3"),
+        SKTexture(imageNamed: "player_death 4"),
+        SKTexture(imageNamed: "player_death 5"),
+        SKTexture(imageNamed: "player_death 6"),
+        SKTexture(imageNamed: "player_death 7"),
+        SKTexture(imageNamed: "player_death 8")
+    ]
+    let deathAnimationL: [SKTexture] = [
+        SKTexture(imageNamed: "player_deathE 2"),
+        SKTexture(imageNamed: "player_deathE 3"),
+        SKTexture(imageNamed: "player_deathE 4"),
+        SKTexture(imageNamed: "player_deathE 5"),
+        SKTexture(imageNamed: "player_deathE 6"),
+        SKTexture(imageNamed: "player_deathE 7"),
+        SKTexture(imageNamed: "player_deathE 8")
+    ]
     let idleAnimationR:[SKTexture] = [SKTexture(imageNamed: "Player")]
     let idleAnimationL:[SKTexture] = [SKTexture(imageNamed: "PlayerE")]
     
@@ -81,7 +99,7 @@ class Player:SKSpriteNode{
     }
     
     convenience init (){
-        let tex = SKTexture(imageNamed: "Player")
+        let tex = SKTexture(imageNamed: "inimigoD1")
         self.init(texture:tex, color: UIColor.white, size: tex.size())
     }
     
