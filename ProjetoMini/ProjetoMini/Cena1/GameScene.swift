@@ -79,13 +79,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hudNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
         startGame()
         
-        let cameraBounds = self.frame.width/2
-        let bounds = self.calculateAccumulatedFrame().width / 2 - cameraBounds
-        let cameraConstraint = SKConstraint.positionX(.init(lowerLimit: -bounds, upperLimit: bounds))
+        let cameraWidthBounds = self.frame.width/2
+        let widthBounds = self.calculateAccumulatedFrame().width / 2 - cameraWidthBounds
+        let cameraWidthConstraint = SKConstraint.positionX(.init(lowerLimit: -widthBounds, upperLimit: widthBounds))
+        
+        let cameraHeightBounds = self.calculateAccumulatedFrame().height/2
+        let heightBounds = self.calculateAccumulatedFrame().height/2 - cameraHeightBounds
+        let cameraHeightConstraint = SKConstraint.positionY(.init(lowerLimit: -cameraHeightBounds, upperLimit: cameraHeightBounds))
         
         let platerBounds = self.calculateAccumulatedFrame().width / 2
         let playerConstraint = SKConstraint.positionX(.init(lowerLimit: -platerBounds, upperLimit: platerBounds))
-        self.camera?.constraints = [cameraConstraint]
+        self.camera?.constraints = [cameraWidthConstraint, cameraHeightConstraint] 
         self.player.constraints = [playerConstraint]
         layerScenario.InimigoSpawn1(target: player)
         layerScenario.InimigoSpawn2(target: player)
@@ -333,14 +337,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 body.collisionBitMask = physicsCategory.player.rawValue
                 //print("\((body.collisionBitMask))")
                 
-            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+            } else if (dy < 0  && player.goDown) {
 
 
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
                 
 
                 
-                body.collisionBitMask = physicsCategory.player.rawValue
 
             }
             else {
