@@ -112,17 +112,17 @@ class HUDNode: SKNode {
         }
         
         // PAUSED GAME
-        if node.name == "pause" && !isPause {
+        if node.name == "Pause" && !isPause {
             isPause = true
             print("PauseButton")
         }
         
-        if node.name == "resume" && !isResume {
+        if node.name == "Resume" && !isResume {
             isResume = true
           
         }
         
-        if node.name == "quit" && !isQuit {
+        if node.name == "Quit" && !isQuit {
            isQuit = true
         }
         
@@ -166,13 +166,14 @@ class HUDNode: SKNode {
         
         if isResume {
             pauseNode.removeFromParent()
-            pauseNodeShape.removeFromParent()
-            resumeNode.removeFromParent()
+//            pauseNodeShape.removeFromParent()
             quitNode.removeFromParent()
             tituloPause.removeFromParent()
+            resumeNode.removeFromParent()
             //configNode.removeFromParent()
             scene?.isPaused = false
             isResume = false
+            print("is resume rcebe false")
             
         }
         
@@ -471,7 +472,7 @@ extension HUDNode {
     func setupPauseNode() {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
         inGamePauseNode.zPosition = 49.0
-        inGamePauseNode.name = "pause"
+        inGamePauseNode.name = "Pause"
         inGamePauseNode.position = CGPoint(
             x: screenWidth*0.93,
             y: screenHeight*0.90)
@@ -482,10 +483,10 @@ extension HUDNode {
     
     // MARK: Enter the Paused Panel
     func setupPausePanel() {
-        pauseNodeShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
-        pauseNodeShape.zPosition = 50.0
-        pauseNodeShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
-        addChild(pauseNodeShape)
+//        pauseNodeShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
+//        pauseNodeShape.zPosition = 50.0
+//        pauseNodeShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
+//        addChild(pauseNodeShape)
         
         isUserInteractionEnabled = true
         
@@ -510,13 +511,13 @@ extension HUDNode {
         resumeNode.position = CGPoint(
             x: screenWidth*(0.62),
             y: screenHeight*(0.45))
-        resumeNode.name = "resume"
+        resumeNode.name = "Resume"
         addChild(resumeNode)
         
         tituloPause = SKLabelNode()
         tituloPause.fontSize = 40.0
         tituloPause.fontColor = .white
-        tituloPause.text = "Pause"
+        tituloPause.text = "Pause Title"
         tituloPause.fontName = "KarmaticArcade"
         tituloPause.zPosition = 55.0
         tituloPause.position = CGPoint(
