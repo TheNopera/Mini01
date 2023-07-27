@@ -25,6 +25,7 @@ class HUDNode: SKNode {
     private var resumeNode: SKSpriteNode!
     private var quitNode: SKSpriteNode!
     private var tituloPause: SKLabelNode!
+    private var configNode: SKSpriteNode!
     
     // MARK: GameOver Panel
     private var gameOverShape: SKShapeNode!
@@ -168,6 +169,8 @@ class HUDNode: SKNode {
             pauseNodeShape.removeFromParent()
             resumeNode.removeFromParent()
             quitNode.removeFromParent()
+            tituloPause.removeFromParent()
+            //configNode.removeFromParent()
             scene?.isPaused = false
             isResume = false
             
@@ -497,7 +500,7 @@ extension HUDNode {
         quitNode.zPosition = 55.0
         quitNode.position = CGPoint(
             x: screenWidth*(0.35),
-            y: screenHeight*0.25)
+            y: screenHeight*(0.45))
         quitNode.name = "Quit"
         addChild(quitNode)
         
@@ -506,20 +509,28 @@ extension HUDNode {
         resumeNode.zPosition = 55.0
         resumeNode.position = CGPoint(
             x: screenWidth*(0.62),
-            y: screenHeight*0.25)
-        resumeNode.name = "Resume"
+            y: screenHeight*(0.45))
+        resumeNode.name = "resume"
         addChild(resumeNode)
         
         tituloPause = SKLabelNode()
         tituloPause.fontSize = 40.0
         tituloPause.fontColor = .white
-        tituloPause.text = "Game Over"
+        tituloPause.text = "Pause"
         tituloPause.fontName = "KarmaticArcade"
         tituloPause.zPosition = 55.0
         tituloPause.position = CGPoint(
-            x: screenWidth/2 - 15,
-            y: highscoreTitleLbl.position.y + 120)
+            x: screenWidth*(0.49) + 3,
+            y: screenHeight*(0.65))
         addChild(tituloPause)
+        
+        /*configNode = SKSpriteNode(imageNamed: "menu-settings")
+        configNode.zPosition = 55.0
+        configNode.position = CGPoint(
+            x: screenWidth*(0.49),
+            y: screenHeight*(0.45))
+        configNode.name = "Config"
+        addChild(configNode)*/
     }
 }
 
