@@ -120,12 +120,16 @@ class Player:SKSpriteNode{
         
         self.playerSpeed = displacement > 0 ? 5 : -5
         // Apply the movement to the player's position
-        let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
+        if self.vidas > 0{
+            let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
+            self.position = newPosition
+        }
+       
         
         
 //
 //        self.run(.repeatForever(walkAnimation))
-        self.position = newPosition
+       
     }
     
     //MARK: PLAYER JUMP FUNCTION
