@@ -360,14 +360,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 body.collisionBitMask = physicsCategory.player.rawValue
                 //print("\((body.collisionBitMask))")
                 
-            } else if (dy < 0  && player.goDown) || dy < 0 && player.hasContact{
+            } else if (dy < 0  && player.goDown) {
 
 
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
                 
 
                 
-                body.collisionBitMask = physicsCategory.player.rawValue
 
             }
             else {
