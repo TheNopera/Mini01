@@ -31,7 +31,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hudNode = HUDNode()
     
     var inGamePauseNode: SKSpriteNode!
-
     
     var stateMachine: GKStateMachine?
     
@@ -444,6 +443,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
         }
+        
+        if hudNode.gamePaused == true {
+            scene?.isPaused = true
+            hudNode.seconds = hudNode.seconds - 1
+        }
     }
     
 }
@@ -477,6 +481,7 @@ extension GameScene {
         
         hudNode.setupGameOver(formattedTime, formattedHighTime)
         hudNode.timerLabel.removeFromParent()
+        hudNode.gamePaused = true
         
     }
 }

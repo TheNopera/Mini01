@@ -26,6 +26,7 @@ class HUDNode: SKNode {
     private var quitNode: SKSpriteNode!
     private var tituloPause: SKLabelNode!
     private var configNode: SKSpriteNode!
+    var gamePaused = false
     
     // MARK: GameOver Properties
     private var gameOverShape: SKShapeNode!
@@ -169,6 +170,7 @@ class HUDNode: SKNode {
             setupPausePanel()
             scene?.isPaused = true
             isPause = false
+            gamePaused = true
         }
         
         if isResume {
@@ -181,6 +183,7 @@ class HUDNode: SKNode {
             scene?.isPaused = false
             isResume = false
             print("is resume recebe false")
+            gamePaused = false
             
         }
         
