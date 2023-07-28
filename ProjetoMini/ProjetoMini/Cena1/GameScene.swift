@@ -481,6 +481,7 @@ extension GameScene {
         
         hudNode.setupGameOver(formattedTime, formattedHighTime)
         hudNode.timerLabel.removeFromParent()
+        hudNode.gamePaused = true
         
     }
 }
