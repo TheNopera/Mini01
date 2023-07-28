@@ -11,13 +11,13 @@ class HUDNode: SKNode {
     
     // MARK: PROPERTIES
     
-    // MARK: Menu Panel
+    // MARK: Menu Properties
     private var menuShape: SKShapeNode!
     private var menuNode: SKSpriteNode!
     
     private var startNode: SKLabelNode!
     
-    // MARK: Paused Panel
+    // MARK: Paused Properties
     private var inGamePauseNode: SKSpriteNode!
     
     private var pauseNodeShape: SKShapeNode!
@@ -27,7 +27,7 @@ class HUDNode: SKNode {
     private var tituloPause: SKLabelNode!
     private var configNode: SKSpriteNode!
     
-    // MARK: GameOver Panel
+    // MARK: GameOver Properties
     private var gameOverShape: SKShapeNode!
     private var gameOverNode: SKSpriteNode!
     
@@ -44,13 +44,18 @@ class HUDNode: SKNode {
     private var highscoreLbl: SKLabelNode!
     private var highscoreTitleLbl: SKLabelNode!
     
-    // MARK: InGame Timer
+    // MARK: InGame Properties
     var renderTime: TimeInterval = 0.0
     var changeTime: TimeInterval = 1.0
     var seconds: Int = 0
     var minutes: Int = 0
     var timerLabel: SKLabelNode!
     
+    var lifeNodes: [SKSpriteNode] = []
+    var life1: SKSpriteNode!
+    var life2: SKSpriteNode!
+    var life3: SKSpriteNode!
+
     // MARK: TRANSITION Properties
     var easeMenuScene: MenuScene?
     var easeGameScene: GameScene?
@@ -162,8 +167,8 @@ class HUDNode: SKNode {
         if isPause {
             print("Botão Pause foi clicado")
             setupPausePanel()
-            isPause = false
             scene?.isPaused = true
+            isPause = false
         }
         
         if isResume {
@@ -175,7 +180,7 @@ class HUDNode: SKNode {
             //configNode.removeFromParent()
             scene?.isPaused = false
             isResume = false
-            print("is resume rcebe false")
+            print("is resume recebe false")
             
         }
         
@@ -219,22 +224,28 @@ class HUDNode: SKNode {
         
         if let parent = startNode?.parent {
             isStart = startNode.contains(touch.location(in: parent))
-        }
+        } else
         
-        if let parent = pauseNode?.parent {
-            isPause = pauseNode.contains(touch.location(in: parent))
-        }
+//        if let parent = pauseNode?.parent {
+//            isPause = pauseNode.contains(touch.location(in: parent))
+//        } else
         
+        /*
+         Salvar o node tocado no touches began
+         Se o node for diferente do update, cancela a funcao (comparação no touchesmoved)
+         
+         */
         if let parent = resumeNode?.parent {
             isResume = resumeNode.contains(touch.location(in: parent))
-        }
+        } else
         
         if let parent = quitNode?.parent {
             isQuit = quitNode.contains(touch.location(in: parent))
-        }
+        } else
+        
         if let parent = homeNode?.parent {
             IsHome = homeNode.contains(touch.location(in: parent))
-        }
+        } else
         
         if let parent = againNode?.parent {
             isAgain = againNode.contains(touch.location(in: parent))
@@ -267,7 +278,6 @@ extension HUDNode {
         
         gameOverShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         gameOverShape.zPosition = 49.0
-        gameOverShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
         addChild(gameOverShape)
         
         isUserInteractionEnabled = true
@@ -486,6 +496,7 @@ extension HUDNode {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
         inGamePauseNode.zPosition = 49.0
         inGamePauseNode.name = "Pause"
+        inGamePauseNode.size = CGSize(width: 32, height: 32)
         inGamePauseNode.position = CGPoint(
             x: screenWidth*0.93,
             y: screenHeight*0.90)
@@ -558,6 +569,32 @@ extension HUDNode {
         timerLabel.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.90)
         timerLabel.name = "Timer-label"
         addChild(timerLabel)
+    }
+}
+
+extension HUDNode {
+    
+    func setupLife() {
+        life1 = SKSpriteNode(imageNamed: "life-on")
+        life2 = SKSpriteNode(imageNamed: "life-on")
+        life3 = SKSpriteNode(imageNamed: "life-on")
+        
+        setupLifePosition(life1,j: 0.0)
+        setupLifePosition(life2,j: 50.0)
+        setupLifePosition(life3,j: 100.0)
+        
+        lifeNodes.append(life1)
+        lifeNodes.append(life2)
+        lifeNodes.append(life3)
+    }
+
+    func setupLifePosition(_ life: SKSpriteNode, j: CGFloat) {
+
+        life.zPosition = 49.0
+        life.position = CGPoint(
+            x: screenWidth * 0.1 + j,
+            y: screenHeight * 0.90)
+        addChild(life)
     }
 }
 
