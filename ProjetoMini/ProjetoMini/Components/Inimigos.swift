@@ -78,7 +78,7 @@ class Inimigo:SKSpriteNode{
             self.mover()
         }
         
-        let shootOcurrance = Double.random(in: 1.5...2.0)
+        let shootOcurrance = Double.random(in: 2.0...2.5)
         
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")

@@ -184,7 +184,7 @@ class HUDNode: SKNode {
             if let _ = easeGameScene {
                 let scene = MenuScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
         
@@ -195,7 +195,7 @@ class HUDNode: SKNode {
             if let _ = easeGameScene {
                 let scene = MenuScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
         
@@ -205,7 +205,7 @@ class HUDNode: SKNode {
             if let _ = easeGameScene {
                 let scene = GameScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
     }
@@ -466,7 +466,8 @@ extension HUDNode {
         
         
         // MARK: Start LabelNode
-        startNode = SKLabelNode(text: "Toque em qualquer lugar da tela para começar")
+        startNode = SKLabelNode()
+        startNode.text = "Aperte para começar"
         startNode.fontName = "JupiterCrashBRK"
         startNode.zPosition = 59.0
         startNode.position = CGPoint(

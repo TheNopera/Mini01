@@ -313,6 +313,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
             player.encostouNoInimigo(direção: joystick.displacement)
+            if player.vidas == 0{
+                
+                let endgame = SKAction.run {
+                    self.gameOver()
+                    self.isPaused = true
+                }
+                self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1), endgame]))
+            }
             
         case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
             print("bala bateu no inimigo")
