@@ -39,6 +39,7 @@
 		E026D0BA2A6F6BAF002E9990 /* CloudEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */; };
 		E06B27A92A65C2B200B21DFD /* Inimigos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigos.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
+		E0F079E32A734CC800F02852 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0F079E52A734CC800F02852 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,9 @@
 		E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEmitter.swift; sourceTree = "<group>"; };
 		E06B27A82A65C2B200B21DFD /* Inimigos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inimigos.swift; sourceTree = "<group>"; };
 		E06B27AA2A65C2D900B21DFD /* Operadores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operadores.swift; sourceTree = "<group>"; };
+		E0F079E02A734C7B00F02852 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Main.strings"; sourceTree = "<group>"; };
+		E0F079E42A734CC800F02852 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E0F079E62A734CCC00F02852 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,11 +135,8 @@
 				E06B27A82A65C2B200B21DFD /* Inimigos.swift */,
 				02B6427C2A606C5D00CA5C18 /* Scenario.swift */,
 				0290CDA82A65D878003CDE14 /* HUDNode.swift */,
-
 				024DC8B02A6F4FE0007EF2FD /* BackgroundNode.swift */,
-
 				E026D0B92A6F6BAF002E9990 /* CloudEmitter.swift */,
-
 				02ED2B252A61B7C7005C5D1B /* ScenarioTileMap.sks */,
 				02ED2B272A61B89E005C5D1B /* MyTileSet.sks */,
 				02ED2B282A61B89E005C5D1B /* Assets.xcassets */,
@@ -148,6 +149,7 @@
 			children = (
 				62CEF93E2A5DE233006F9784 /* Gameplay.swift */,
 				E06B27AA2A65C2D900B21DFD /* Operadores.swift */,
+				E0F079E52A734CC800F02852 /* Localizable.strings */,
 			);
 			path = "Utility ";
 			sourceTree = "<group>";
@@ -246,6 +248,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 62580CB22A5764F6003A882C;
 			productRefGroup = 62580CBC2A5764F6003A882C /* Products */;
@@ -264,6 +267,7 @@
 			files = (
 				62580CCA2A5764F6003A882C /* Main.storyboard in Resources */,
 				62580CCC2A5764F6003A882C /* Assets.xcassets in Resources */,
+				E0F079E32A734CC800F02852 /* Localizable.strings in Resources */,
 				62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */,
 				E026D0B22A6F6993002E9990 /* jupiter-crash-brk.regular.ttf in Resources */,
 				02ED2B292A61B89E005C5D1B /* MyTileSet.sks in Resources */,
@@ -314,6 +318,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				62580CC92A5764F6003A882C /* Base */,
+				E0F079E02A734C7B00F02852 /* pt-BR */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -326,6 +331,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		E0F079E52A734CC800F02852 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E0F079E42A734CC800F02852 /* en */,
+				E0F079E62A734CCC00F02852 /* pt-BR */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -333,6 +347,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -393,6 +408,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -450,13 +466,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = H6ULSPHHN4;
+				DEVELOPMENT_TEAM = SRXHT55569;
 				GENERATE_INFOPLIST_FILE = YES;
-
-				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
-
 				INFOPLIST_FILE = ProjetoMini/Info.plist;
-
+				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -483,13 +496,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = H6ULSPHHN4;
+				DEVELOPMENT_TEAM = SRXHT55569;
 				GENERATE_INFOPLIST_FILE = YES;
-
-				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
-
 				INFOPLIST_FILE = ProjetoMini/Info.plist;
-
+				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

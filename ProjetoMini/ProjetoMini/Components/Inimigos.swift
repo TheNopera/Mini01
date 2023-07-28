@@ -65,7 +65,7 @@ class Inimigo:SKSpriteNode{
         physicsBody = SKPhysicsBody(rectangleOf: self.size)
         physicsBody?.categoryBitMask = physicsCategory.enemy.rawValue
         physicsBody?.contactTestBitMask = physicsCategory.player.rawValue | physicsCategory.playerBullet.rawValue
-        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue |  physicsCategory.playerBullet.rawValue
+        physicsBody?.collisionBitMask = physicsCategory.platform.rawValue |  physicsCategory.playerBullet.rawValue | physicsCategory.nofallplatform.rawValue
         physicsBody?.allowsRotation = false
         physicsBody?.affectedByGravity = true
         physicsBody?.isDynamic = true
@@ -78,7 +78,7 @@ class Inimigo:SKSpriteNode{
             self.mover()
         }
         
-        let shootOcurrance = Double.random(in: 1.5...2.0)
+        let shootOcurrance = Double.random(in: 2.0...2.5)
         
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
         self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")
@@ -97,7 +97,14 @@ class Inimigo:SKSpriteNode{
     }
     
     func inimigoTomouDano(){
+        let opacDown = SKAction.run {
+            self.alpha = 0.5
+        }
+        let opacityUp = SKAction.run {
+            self.alpha = 1
+        }
         self.vidas -= 1
+        self.run(.sequence([opacDown,.wait(forDuration: 0.2),opacityUp]))
     }
     
     func attack(){
@@ -116,7 +123,7 @@ class Inimigo:SKSpriteNode{
         if self.position.x > 0{
             
             if self.position.y > 0{
-                var dx = (bullet.position.x) + self.position.x
+                var dx = (bullet.position.x) - self.position.x
                 var dy = (bullet.position.y) - self.position.y
                 
                 
@@ -210,7 +217,7 @@ class Inimigo:SKSpriteNode{
         let dx = distanceX(a: target!.position, b: self.position)
         
         
-        if dx > CGFloat(self.safeDistance) + 100 && dx < 500 {
+        if dx > CGFloat(self.safeDistance) + 100 && dx < 300 {
             
             if target!.position.x < self.position.x{
                 self.position.x -= CGFloat(self.velocity)
@@ -285,6 +292,33 @@ class Inimigo:SKSpriteNode{
 
 
 class Chaser:Inimigo{
+    
+    override func mover() {
+        let dx = distanceX(a: target!.position, b: self.position)
+        
+        
+        if dx > CGFloat(self.safeDistance) + 100{
+            
+            if target!.position.x < self.position.x{
+                self.position.x -= 10
+            }
+            
+            if target!.position.x > self.position.x{
+                self.position.x += 10
+            }
+            
+        } else if dx < CGFloat(self.safeDistance){
+            
+            if target!.position.x < self.position.x{
+                self.position.x += 10
+            }
+            
+            if target!.position.x > self.position.x{
+                self.position.x -= 10
+            }
+        }
+    }
+    
     override func attack() {
         let bullet1 = SKSpriteNode(imageNamed: "enemyTiro")
         bullet1.name = "enemyBullet"
@@ -319,7 +353,7 @@ class Chaser:Inimigo{
         if self.position.x > 0{
             
             if self.position.y > 0{
-                var dx = (bullet1.position.x) + self.position.x
+                var dx = (bullet1.position.x) - self.position.x
                 var dy = (bullet1.position.y) - self.position.y
                 
                 

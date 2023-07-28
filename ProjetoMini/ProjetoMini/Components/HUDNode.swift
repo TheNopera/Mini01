@@ -102,6 +102,8 @@ class HUDNode: SKNode {
     var menuLogo = SKSpriteNode(imageNamed: "logo")
     var menuCloudEmitter1 = CloudEmitter(back: false, finalPos: CGPoint(x: screenWidth + 800, y: 0))
     var menuCloudEmitter2 = CloudEmitter(back: true, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var startFrontCLoud = SKSpriteNode(imageNamed: "nevoa1")
+    var startBackCloud = SKSpriteNode(imageNamed: "nevoa3")
     var starEmitter = SKEmitterNode(fileNamed: "Estrelas")
     // MARK: In touchesBegan, the buttons activate when pressed
     
@@ -187,7 +189,7 @@ class HUDNode: SKNode {
             if let _ = easeGameScene {
                 let scene = MenuScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
         
@@ -198,7 +200,7 @@ class HUDNode: SKNode {
             if let _ = easeGameScene {
                 let scene = MenuScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
         
@@ -208,7 +210,7 @@ class HUDNode: SKNode {
             if let _ = easeGameScene {
                 let scene = GameScene(size: CGSize(width: screenWidth, height: screenHeight))
                 scene.scaleMode = .aspectFill
-                skView.presentScene(scene, transition: .doorway(withDuration: 1.5))
+                skView.presentScene(scene, transition: .fade(withDuration: 1.5))
             }
         }
     }
@@ -308,11 +310,11 @@ extension HUDNode {
         scoreTitleLbl = SKLabelNode()
         scoreTitleLbl.fontSize = 30.0
         scoreTitleLbl.fontColor = .white
-        scoreTitleLbl.text = "Time:"
+        scoreTitleLbl.text = "Time:".localizaed()
         scoreTitleLbl.fontName = "JupiterCrashBRK"
         scoreTitleLbl.zPosition = 55.0
         scoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + scoreTitleLbl.frame.width * 6.8 + 2,
+            x: gameOverNode.frame.width * 0.33,
             y: screenHeight/2)
         addChild(scoreTitleLbl)
         
@@ -332,11 +334,11 @@ extension HUDNode {
         highscoreTitleLbl = SKLabelNode()
         highscoreTitleLbl.fontSize = 30.0
         highscoreTitleLbl.fontColor = .white
-        highscoreTitleLbl.text = "Best Time:"
+        highscoreTitleLbl.text = "Best Time:".localizaed()
         highscoreTitleLbl.fontName = "JupiterCrashBRK"
         highscoreTitleLbl.zPosition = 55.0
         highscoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + highscoreTitleLbl.frame.width * 3.5,
+            x: gameOverNode.frame.width * 0.33,
             y: screenHeight/2 - highscoreTitleLbl.frame.height*2)
         addChild(highscoreTitleLbl)
         
@@ -355,7 +357,7 @@ extension HUDNode {
         tituloLBL = SKLabelNode()
         tituloLBL.fontSize = 40.0
         tituloLBL.fontColor = .white
-        tituloLBL.text = "Game Over"
+        tituloLBL.text = "Game Over".localizaed()
         tituloLBL.fontName = "KarmaticArcade"
         tituloLBL.zPosition = 55.0
         tituloLBL.position = CGPoint(
@@ -366,7 +368,7 @@ extension HUDNode {
         tituloButtonMenu = SKLabelNode()
         tituloButtonMenu.fontSize = 20.0
         tituloButtonMenu.fontColor = .white
-        tituloButtonMenu.text = "Home"
+        tituloButtonMenu.text = "Menu".localizaed()
         tituloButtonMenu.fontName = "JupiterCrashBRK"
         tituloButtonMenu.zPosition = 55.0
         tituloButtonMenu.position = CGPoint(
@@ -377,7 +379,7 @@ extension HUDNode {
         tituloButtonRejogar = SKLabelNode()
         tituloButtonRejogar.fontSize = 20.0
         tituloButtonRejogar.fontColor = .white
-        tituloButtonRejogar.text = "Play again"
+        tituloButtonRejogar.text = "Play again".localizaed()
         tituloButtonRejogar.fontName = "JupiterCrashBRK"
         tituloButtonRejogar.zPosition = 55.0
         tituloButtonRejogar.position = CGPoint(
@@ -393,7 +395,6 @@ extension HUDNode {
     
     // MARK: Enter the Menu Panel
     func setupMenu() {
-        
         
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         menuShape.strokeColor = SKColor(ciColor: .clear)
@@ -428,6 +429,12 @@ extension HUDNode {
         menuBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuBehindSea)
         
+        let mover1 = SKAction.move(to: CGPoint(x: screenWidth + 300 , y: screenHeight*0.15), duration: 8.0)
+        startBackCloud.zPosition = 52.0
+        startBackCloud.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.15)
+        addChild(startBackCloud)
+        startBackCloud.run(.sequence([mover1,.removeFromParent()]))
+        
         menuCloudEmitter2.zPosition = 52.0
         menuCloudEmitter2.position = CGPoint(x: 0 - menuCloudEmitter2.size.width, y: screenWidth*0.15)
         addChild(menuCloudEmitter2)
@@ -443,6 +450,11 @@ extension HUDNode {
         menuFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuFrontSea)
         
+        let mover2 = SKAction.move(to: CGPoint(x: screenWidth + 300 , y: screenHeight*0.1), duration: 5.0)
+        startFrontCLoud.zPosition = 55.0
+        startFrontCLoud.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
+        addChild(startFrontCLoud)
+        startFrontCLoud.run(.sequence([mover2,.removeFromParent()]))
         
         menuCloudEmitter1.zPosition = 55.0
         menuCloudEmitter1.position = CGPoint(x: 0 - menuCloudEmitter1.size.width, y: screenHeight*0.1)
@@ -464,7 +476,8 @@ extension HUDNode {
         
         
         // MARK: Start LabelNode
-        startNode = SKLabelNode(text: "Toque em qualquer lugar da tela para começar")
+        startNode = SKLabelNode()
+        startNode.text = "Press to start".localizaed()
         startNode.fontName = "JupiterCrashBRK"
         startNode.zPosition = 59.0
         startNode.position = CGPoint(
@@ -528,7 +541,7 @@ extension HUDNode {
         tituloPause = SKLabelNode()
         tituloPause.fontSize = 40.0
         tituloPause.fontColor = .white
-        tituloPause.text = "Pause"
+        tituloPause.text = "Paused".localizaed()
         tituloPause.fontName = "KarmaticArcade"
         tituloPause.zPosition = 55.0
         tituloPause.position = CGPoint(
@@ -584,3 +597,4 @@ extension HUDNode {
         addChild(life)
     }
 }
+
