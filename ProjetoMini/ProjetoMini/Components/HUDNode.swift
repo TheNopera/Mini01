@@ -24,6 +24,7 @@ class HUDNode: SKNode {
     private var musicNode: SKSpriteNode!
     private var returnNode: SKSpriteNode!
     private var returnLabel: SKLabelNode!
+    private var inGameReturnNode: SKSpriteNode!
     
     private var isSoundOn = false
     private var isMusicOn = false
@@ -82,6 +83,16 @@ class HUDNode: SKNode {
     private var isConfig = false {
         didSet {
             updateBtn(node: menuSettings, event: isConfig)
+        }
+    }
+    private var inGameConfig = false {
+        didSet {
+            updateBtn(node: configNode, event: inGameConfig)
+        }
+    }
+    private var inGameReturn = false {
+        didSet {
+            updateBtn(node: inGameReturnNode, event: inGameReturn)
         }
     }
     private var isSound = false {
@@ -182,6 +193,12 @@ class HUDNode: SKNode {
           
         }
         
+        if node.name == "InGameConfig" && !inGameConfig {
+            inGameConfig = true
+        }
+        if node.name == "Return from InGameConfig" && !inGameReturn {
+            inGameReturn = true
+        }
         if node.name == "Restart" && !isRestart {
             isRestart = true
         }
@@ -264,7 +281,7 @@ class HUDNode: SKNode {
             tituloPause.removeFromParent()
             restartNode.removeFromParent()
             resumeNode.removeFromParent()
-            //configNode.removeFromParent()
+            configNode.removeFromParent()
             scene?.isPaused = false
             isResume = false
             print("is resume recebe false")
@@ -272,6 +289,30 @@ class HUDNode: SKNode {
             
         }
         
+        if inGameConfig {
+            pauseNode.removeFromParent()
+//            pauseNodeShape.removeFromParent()
+            quitNode.removeFromParent()
+            tituloPause.removeFromParent()
+            restartNode.removeFromParent()
+            configNode.removeFromParent()
+//            resumeNode.removeFromParent()
+            setupConfigInGame()
+            inGameConfig = false
+        }
+        
+        if inGameReturn {
+            configShape.removeFromParent()
+            configTitle.removeFromParent()
+            soundLabel.removeFromParent()
+            soundNode.removeFromParent()
+            musicLabel.removeFromParent()
+            musicNode.removeFromParent()
+            inGameReturnNode.removeFromParent()
+            returnLabel.removeFromParent()
+            inGameReturn = false
+            setupPausePanel()
+        }
         if isRestart {
             isRestart = false
             if let _ = easeGameScene {
@@ -658,6 +699,72 @@ extension HUDNode {
 
     }
     
+    func setupConfigInGame() {
+        
+        configShape = SKSpriteNode(imageNamed: "NevoaDoFundo")
+        configShape.zPosition = 60.0
+        configShape.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+        addChild(configShape)
+        
+        configTitle = SKLabelNode(text: "Settings")
+        configTitle.zPosition = 60.0
+        configTitle.fontName = "KarmaticArcade"
+        configTitle.fontSize = 40.0
+        configTitle.position = CGPoint(
+            x: screenWidth*(0.49) + 3,
+            y: screenHeight*(0.65))
+        addChild(configTitle)
+        
+        soundLabel = SKLabelNode(text: "sound effects")
+        soundLabel.zPosition = 60.0
+        soundLabel.fontName = "JupiterCrashBRK"
+        soundLabel.fontSize = 20.0
+        soundLabel.position = CGPoint(x: screenWidth*0.467, y: screenHeight*0.5)
+        addChild(soundLabel)
+        
+        soundNode = isSoundOn ? SKSpriteNode(imageNamed: "sound-on") : SKSpriteNode(imageNamed: "sound-off")
+        soundNode.size = CGSize(width: 28, height: 28)
+        soundNode.name = "Sound"
+        soundNode.zPosition = 60.0
+        soundNode.position = CGPoint(x: screenWidth*0.5 + 50, y: screenHeight*0.52)
+        addChild(soundNode)
+        
+        musicLabel = SKLabelNode(text: "music")
+        musicLabel.zPosition = 60.0
+        musicLabel.fontName = "JupiterCrashBRK"
+        musicLabel.fontSize = 20.0
+        musicLabel.position = CGPoint(x: screenWidth*0.47, y: screenHeight*0.4)
+        addChild(musicLabel)
+        
+        musicNode = isMusicOn ? SKSpriteNode(imageNamed: "music-on") : SKSpriteNode(imageNamed: "music-off")
+        musicNode.zPosition = 60.0
+        musicNode.name = "Music"
+        musicNode.size = CGSize(width: 28, height: 28)
+        musicNode.position = CGPoint(
+            x: screenWidth/2 + 50,
+            y: screenHeight*0.42)
+        addChild(musicNode)
+        
+        inGameReturnNode = SKSpriteNode(imageNamed: "Button")
+        inGameReturnNode.zPosition = 61.0
+        inGameReturnNode.name = "Return from InGameConfig"
+        inGameReturnNode.position = CGPoint(
+            x: screenWidth*(0.5),
+            y: screenHeight*0.25)
+        addChild(inGameReturnNode)
+        
+        returnLabel = SKLabelNode()
+        returnLabel.text = "return"
+        returnLabel.fontSize = 20.0
+        returnLabel.fontName = "JupiterCrashBRK"
+        returnLabel.color = .white
+        returnLabel.zPosition = 61.0
+        returnLabel.position = CGPoint(
+            x: screenWidth*(0.5),
+            y: screenHeight*0.23)
+        addChild(returnLabel)
+
+    }
     func toggleSound() {
         isSoundOn = !isSoundOn
         let soundToggle = childNode(withName: "Sound") as! SKSpriteNode
@@ -744,13 +851,13 @@ extension HUDNode {
             y: screenHeight*(0.65))
         addChild(tituloPause)
         
-//        menuSettings = SKSpriteNode(imageNamed: "menu-settings")
-//        menuSettings.zPosition = 55.0
-//        menuSettings.position = CGPoint(
-//            x: screenWidth*(0.49),
-//            y: screenHeight*(0.45))
-//        menuSettings.name = "Config"
-//        addChild(menuSettings)
+        configNode = SKSpriteNode(imageNamed: "menu-settings")
+        configNode.zPosition = 55.0
+        configNode.position = CGPoint(
+            x: screenWidth*(0.49),
+            y: screenHeight*(0.45))
+        configNode.name = "InGameConfig"
+        addChild(configNode)
     }
 }
 
