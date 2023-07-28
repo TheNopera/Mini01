@@ -95,7 +95,7 @@ class Player:SKSpriteNode{
             self.atirando()
         }
         
-        self.run(.repeatForever(.sequence([atirar,.wait(forDuration: 1.0)])))
+        self.run(.repeatForever(.sequence([atirar,.wait(forDuration: 0.6)])))
     }
     
     convenience init (){
@@ -124,12 +124,18 @@ class Player:SKSpriteNode{
             let newPosition = CGPoint(x: self.position.x + self.playerSpeed, y: self.position.y)
             self.position = newPosition
         }
-        
-        
-        
-        //
-        //        self.run(.repeatForever(walkAnimation))
-        
+        if self.playerSpeed == 5 {
+            enumerateChildNodes(withName: "leftBullet"){ node, _ in
+                let bullet = node as? SKSpriteNode
+                bullet!.position = CGPoint(x: bullet!.position.x - self.playerSpeed, y: bullet!.position.y)
+            }
+        }
+        if self.playerSpeed == -5{
+            enumerateChildNodes(withName: "rightBullet"){ node, _ in
+                let bullet = node as? SKSpriteNode
+                bullet!.position = CGPoint(x: bullet!.position.x - self.playerSpeed, y: bullet!.position.y)
+            }
+        }
     }
     
     //MARK: PLAYER JUMP FUNCTION
@@ -209,7 +215,7 @@ class Player:SKSpriteNode{
     func encostouNoInimigo(direção:Double){
         let impulse = direção > 0 ? -25 : 25
         if !self.isImortal{
-            self.physicsBody?.applyImpulse(CGVector(dx: impulse, dy: 25))
+            self.physicsBody?.applyImpulse(CGVector(dx: impulse, dy: 10))
             self.tomouDano()
         }
         
@@ -228,20 +234,20 @@ class Player:SKSpriteNode{
         bullet.physicsBody?.restitution = 0.0
         
         if self.isTurningLeft{
-            
+            bullet.name = "leftBullet"
             bullet.position.x = bullet.position.x - self.size.width/2 + 15
             let mover = SKAction.run {
-                bullet.physicsBody?.applyImpulse(CGVector(dx: -5, dy: 0))
+                bullet.physicsBody?.applyImpulse(CGVector(dx: -3, dy: 0))
             }
             let done = SKAction.removeFromParent()
             
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
         } else{
-            
+            bullet.name = "rightBullet"
             bullet.position.x = bullet.position.x + self.size.width/2 - 15
             let mover = SKAction.run {
-                bullet.physicsBody?.applyImpulse(CGVector(dx: 5, dy: 0))
+                bullet.physicsBody?.applyImpulse(CGVector(dx: 3, dy: 0))
             }
             let done = SKAction.removeFromParent()
             

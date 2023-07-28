@@ -30,8 +30,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hudNode = HUDNode()
     
     var inGamePauseNode: SKSpriteNode!
-    
-    
+
     
     var stateMachine: GKStateMachine?
     
@@ -91,13 +90,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let playerConstraint = SKConstraint.positionX(.init(lowerLimit: -platerBounds, upperLimit: platerBounds))
         self.camera?.constraints = [cameraWidthConstraint, cameraHeightConstraint] 
         self.player.constraints = [playerConstraint]
-        layerScenario.InimigoSpawn1(target: player)
-        layerScenario.InimigoSpawn2(target: player)
-        layerScenario.InimigoSpawn3(target: player)
-        layerScenario.InimigoSpawn4(target: player)
-        layerScenario.InimigoSpawn5(target: player)
-        
-        
+        let comecar = SKAction.run {
+            self.layerScenario.InimigoSpawn1(target: self.player)
+            self.layerScenario.InimigoSpawn2(target: self.player)
+            self.layerScenario.InimigoSpawn3(target: self.player)
+            self.layerScenario.InimigoSpawn4(target: self.player)
+            self.layerScenario.InimigoSpawn5(target: self.player)
+        }
+        self.run(.sequence([.wait(forDuration: 2.0),comecar]))
         layerScenario.addChild(backgroundNode)
         backgroundNode.position = CGPoint(x: -screenWidth*0.5, y: -screenHeight*0.5)
         
@@ -276,6 +276,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     i.inimigoTomouDano()
                     if i.vidas == 0{
                         i.morreu()
+                        if i == Chaser(){
+                            layerScenario.hasChaser = false
+                        }
                         layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
                         for j in 1...5{
                             switch j{

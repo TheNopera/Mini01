@@ -97,6 +97,8 @@ class HUDNode: SKNode {
     var menuLogo = SKSpriteNode(imageNamed: "logo")
     var menuCloudEmitter1 = CloudEmitter(back: false, finalPos: CGPoint(x: screenWidth + 800, y: 0))
     var menuCloudEmitter2 = CloudEmitter(back: true, finalPos: CGPoint(x: screenWidth + 800, y: 0))
+    var startFrontCLoud = SKSpriteNode(imageNamed: "nevoa1")
+    var startBackCloud = SKSpriteNode(imageNamed: "nevoa3")
     var starEmitter = SKEmitterNode(fileNamed: "Estrelas")
     // MARK: In touchesBegan, the buttons activate when pressed
     
@@ -384,7 +386,6 @@ extension HUDNode {
     // MARK: Enter the Menu Panel
     func setupMenu() {
         
-        
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         menuShape.strokeColor = SKColor(ciColor: .clear)
         menuShape.zPosition = 56.0
@@ -418,6 +419,12 @@ extension HUDNode {
         menuBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuBehindSea)
         
+        let mover1 = SKAction.move(to: CGPoint(x: screenWidth + 300 , y: screenHeight*0.15), duration: 8.0)
+        startBackCloud.zPosition = 52.0
+        startBackCloud.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.15)
+        addChild(startBackCloud)
+        startBackCloud.run(.sequence([mover1,.removeFromParent()]))
+        
         menuCloudEmitter2.zPosition = 52.0
         menuCloudEmitter2.position = CGPoint(x: 0 - menuCloudEmitter2.size.width, y: screenWidth*0.15)
         addChild(menuCloudEmitter2)
@@ -433,6 +440,11 @@ extension HUDNode {
         menuFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuFrontSea)
         
+        let mover2 = SKAction.move(to: CGPoint(x: screenWidth + 300 , y: screenHeight*0.1), duration: 5.0)
+        startFrontCLoud.zPosition = 55.0
+        startFrontCLoud.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
+        addChild(startFrontCLoud)
+        startFrontCLoud.run(.sequence([mover2,.removeFromParent()]))
         
         menuCloudEmitter1.zPosition = 55.0
         menuCloudEmitter1.position = CGPoint(x: 0 - menuCloudEmitter1.size.width, y: screenHeight*0.1)
