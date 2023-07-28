@@ -287,23 +287,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             let j = Int.random(in: 1...5)
                             switch j{
                             case 1:
-                                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn1(target: self.player)
                                 }
                             case 2:
-                                _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 4.5, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn2(target: self.player)
                                 }
                             case 3:
-                                _ = Timer.scheduledTimer(withTimeInterval: 7.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn3(target: self.player)
                                 }
                             case 4:
-                                _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 5.5, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn4(target: self.player)
                                 }
                             case 5:
-                                _ = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn5(target: self.player)
                                 }
                             default:

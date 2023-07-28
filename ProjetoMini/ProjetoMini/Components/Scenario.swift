@@ -32,7 +32,7 @@ class LayerScenario: SKNode {
                 return 3
             } else if tempo > 90 {
                 //return 8
-                return 5
+                return 4
             }
         }
         return 3
@@ -86,7 +86,7 @@ class LayerScenario: SKNode {
         spawnPoint4.size = CGSize(width: 64, height: 80)
         spawnPoint4.name = "spawnPoint4" // precisa do nome para conseguir coloca-los na scene
         spawnPoint4.zPosition = 21.0
-        spawnPoint4.position = CGPoint(x: frame.midX + 480, y: frame.minY + 160)
+        spawnPoint4.position = CGPoint(x: frame.midX + 480, y: frame.minY + 200)
         spawnPoints.append(spawnPoint4)
         addChild(spawnPoint4)
         
@@ -454,19 +454,23 @@ class LayerScenario: SKNode {
     }
     
     func verificaPosição(spawnNum:Int) -> Bool{
-        for inimigo in self.inimigosAR {
-            let dx = distanceX(a: inimigo.position, b: spawnPoints[spawnNum-1].position)
-            if dx < 200{
-                return false
+        if inimigosAR == []{
+            return true
+        }else{
+            for inimigo in self.inimigosAR {
+                let dx = distanceX(a: inimigo.position, b: spawnPoints[spawnNum-1].position)
+                if dx < 200{
+                    return false
+                }
             }
+            return true
         }
-        return true
     }
     
     func giveEnemy() -> Inimigo{
-        let decider = Int.random(in: 1...10)
+        let decider = Int.random(in: 1...100)
         
-        if decider > 4 {
+        if decider > 20 {
             return Inimigo()
         } else {
             return Chaser()
