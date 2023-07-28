@@ -173,7 +173,7 @@ class HUDNode: SKNode {
             //configNode.removeFromParent()
             scene?.isPaused = false
             isResume = false
-            print("is resume rcebe false")
+            print("is resume recebe false")
             
         }
         
@@ -473,6 +473,7 @@ extension HUDNode {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
         inGamePauseNode.zPosition = 49.0
         inGamePauseNode.name = "Pause"
+        inGamePauseNode.size = CGSize(width: 32, height: 32)
         inGamePauseNode.position = CGPoint(
             x: screenWidth*0.93,
             y: screenHeight*0.90)
@@ -517,7 +518,7 @@ extension HUDNode {
         tituloPause = SKLabelNode()
         tituloPause.fontSize = 40.0
         tituloPause.fontColor = .white
-        tituloPause.text = "Pause Title"
+        tituloPause.text = "Pause"
         tituloPause.fontName = "KarmaticArcade"
         tituloPause.zPosition = 55.0
         tituloPause.position = CGPoint(
