@@ -10,8 +10,9 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
+
     var player:Player = Player()
+    var playerLife = 3
     //var inimigo:Inimigo = Inimigo()
     var joystick:Joystick = Joystick()
     let cameraPlayer = SKCameraNode()
@@ -212,10 +213,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if contact.bodyA.node?.name == "player"{
                 _ = contact.bodyA.node
                 let enemyBullet = contact.bodyB.node
+                player.tomouTiro()
+
                 if !player.isImortal{
                     enemyBullet!.removeFromParent()
+                    
+                   // code that removes a lifenode
+                    if player.vidas <= 0 {player.vidas = 0}
+                    hudNode.lifeNodes[player.vidas].texture = SKTexture(imageNamed: "life-off")
                 }
-                player.tomouTiro()
                 print(player.vidas)
                 if player.vidas == 0{
                   
@@ -429,7 +435,7 @@ extension GameScene {
         return "\(minutosFormatados):\(segundosFormatados)"
     }
     
-private func gameOver() {
+    private func gameOver() {
         
         var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
         if timerInSeconds > highscore {
@@ -451,6 +457,7 @@ extension GameScene {
     private func startGame() {
         hudNode.setupPauseNode()
         hudNode.setupInGameTimer()
+        hudNode.setupLife()
         backgroundNode.setupBackgrounds()
     }
     
