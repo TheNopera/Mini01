@@ -13,12 +13,13 @@ import SpriteKit
 class LayerScenario: SKNode {
     
     var gameScene: GameScene?
-    var spawnPoint1: SKSpriteNode!
-    var spawnPoint2: SKSpriteNode!
-    var spawnPoint3: SKSpriteNode!
-    var spawnPoint4: SKSpriteNode!
-    var spawnPoint5: SKSpriteNode!
+    var spawnPoint1: SKSpriteNode = SKSpriteNode()
+    var spawnPoint2: SKSpriteNode = SKSpriteNode()
+    var spawnPoint3: SKSpriteNode =  SKSpriteNode()
+    var spawnPoint4: SKSpriteNode = SKSpriteNode()
+    var spawnPoint5: SKSpriteNode = SKSpriteNode()
     var inimigosAR: [Inimigo] = []
+    var hasChaser:Bool = false
     var spawnPoints: [SKSpriteNode] = []
     var tempoAtual:Int?
     var limiteInimigos:Int{
@@ -61,35 +62,35 @@ class LayerScenario: SKNode {
     override init() {
         super.init()
         
-        spawnPoint1 = SKSpriteNode(imageNamed: "spawnD1")
+        spawnPoint1.size = CGSize(width: 64, height: 80)
         spawnPoint1.name = "spawnPoint1" // precisa do nome para conseguir coloca-los na scene
         spawnPoint1.zPosition = 21.0
         spawnPoint1.position = CGPoint(x: frame.midX + 200, y: frame.minY)
         spawnPoints.append(spawnPoint1)
         addChild(spawnPoint1)
         
-        spawnPoint2 = SKSpriteNode(imageNamed: "spawnD1")
+        spawnPoint2.size = CGSize(width: 64, height: 80)
         spawnPoint2.name = "spawnPoint2" // precisa do nome para conseguir coloca-los na scene
         spawnPoint2.zPosition = 21.0
         spawnPoint2.position = CGPoint(x: frame.midX - 200, y: frame.minY)
         spawnPoints.append(spawnPoint2)
         addChild(spawnPoint2)
         
-        spawnPoint3 = SKSpriteNode(imageNamed: "spawnD1")
+        spawnPoint3.size = CGSize(width: 64, height: 80)
         spawnPoint3.name = "spawnPoint3" // precisa do nome para conseguir coloca-los na scene
         spawnPoint3.zPosition = 21.0
         spawnPoint3.position = CGPoint(x: frame.midX, y: frame.minY + 160)
         spawnPoints.append(spawnPoint3)
         addChild(spawnPoint3)
         
-        spawnPoint4 = SKSpriteNode(imageNamed: "spawnD5")
+        spawnPoint4.size = CGSize(width: 64, height: 80)
         spawnPoint4.name = "spawnPoint4" // precisa do nome para conseguir coloca-los na scene
         spawnPoint4.zPosition = 21.0
         spawnPoint4.position = CGPoint(x: frame.midX + 480, y: frame.minY + 160)
         spawnPoints.append(spawnPoint4)
         addChild(spawnPoint4)
         
-        spawnPoint5 = SKSpriteNode(imageNamed: "spawnD5")
+        spawnPoint5.size = CGSize(width: 64, height: 80)
         spawnPoint5.name = "spawnPoint5" // precisa do nome para conseguir coloca-los na scene
         spawnPoint5.zPosition = 21.0
         spawnPoint5.position = CGPoint(x: frame.midX - 320, y: frame.minY - 160)
@@ -196,7 +197,13 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Inimigo()
+                        var inimigo = self.giveEnemy()
+                        if inimigo == Chaser(){
+                            self.hasChaser = true
+                        }
+                        if self.hasChaser == true{
+                            inimigo = Inimigo()
+                        }
                         inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
@@ -244,7 +251,13 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Inimigo()
+                        var inimigo = self.giveEnemy()
+                        if inimigo == Chaser(){
+                            self.hasChaser = true
+                        }
+                        if self.hasChaser == true{
+                            inimigo = Inimigo()
+                        }
                         inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
@@ -291,7 +304,13 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Inimigo()
+                        var inimigo = self.giveEnemy()
+                        if inimigo == Chaser(){
+                            self.hasChaser = true
+                        }
+                        if self.hasChaser == true{
+                            inimigo = Inimigo()
+                        }
                         inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
@@ -337,7 +356,13 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Inimigo()
+                        var inimigo = self.giveEnemy()
+                        if inimigo == Chaser(){
+                            self.hasChaser = true
+                        }
+                        if self.hasChaser == true{
+                            inimigo = Inimigo()
+                        }
                         inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
@@ -384,7 +409,13 @@ class LayerScenario: SKNode {
                   
                     if verificaPos{
                         
-                        let inimigo = Inimigo()
+                        var inimigo = self.giveEnemy()
+                        if inimigo == Chaser(){
+                            self.hasChaser = true
+                        }
+                        if self.hasChaser == true{
+                            inimigo = Inimigo()
+                        }
                         inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
                         inimigo.position = spawnPoint.position
@@ -425,10 +456,21 @@ class LayerScenario: SKNode {
     func verificaPosição(spawnNum:Int) -> Bool{
         for inimigo in self.inimigosAR {
             let dx = distanceX(a: inimigo.position, b: spawnPoints[spawnNum-1].position)
-            if dx < 50{
+            if dx < 200{
                 return false
             }
         }
         return true
     }
+    
+    func giveEnemy() -> Inimigo{
+        let decider = Int.random(in: 1...10)
+        
+        if decider > 4 {
+            return Inimigo()
+        } else {
+            return Chaser()
+        }
+    }
 }
+
