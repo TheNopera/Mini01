@@ -456,7 +456,7 @@ class LayerScenario: SKNode {
     func verificaPosição(spawnNum:Int) -> Bool{
         for inimigo in self.inimigosAR {
             let dx = distanceX(a: inimigo.position, b: spawnPoints[spawnNum-1].position)
-            if dx < 50{
+            if dx < 200{
                 return false
             }
         }

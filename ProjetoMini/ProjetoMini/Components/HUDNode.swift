@@ -300,11 +300,11 @@ extension HUDNode {
         scoreTitleLbl = SKLabelNode()
         scoreTitleLbl.fontSize = 30.0
         scoreTitleLbl.fontColor = .white
-        scoreTitleLbl.text = "Time:"
+        scoreTitleLbl.text = "Time:".localizaed()
         scoreTitleLbl.fontName = "JupiterCrashBRK"
         scoreTitleLbl.zPosition = 55.0
         scoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + scoreTitleLbl.frame.width * 6.8 + 2,
+            x: gameOverNode.frame.width * 0.33,
             y: screenHeight/2)
         addChild(scoreTitleLbl)
         
@@ -324,11 +324,11 @@ extension HUDNode {
         highscoreTitleLbl = SKLabelNode()
         highscoreTitleLbl.fontSize = 30.0
         highscoreTitleLbl.fontColor = .white
-        highscoreTitleLbl.text = "Best Time:"
+        highscoreTitleLbl.text = "Best Time:".localizaed()
         highscoreTitleLbl.fontName = "JupiterCrashBRK"
         highscoreTitleLbl.zPosition = 55.0
         highscoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.minX + highscoreTitleLbl.frame.width * 3.5,
+            x: gameOverNode.frame.width * 0.33,
             y: screenHeight/2 - highscoreTitleLbl.frame.height*2)
         addChild(highscoreTitleLbl)
         
@@ -347,7 +347,7 @@ extension HUDNode {
         tituloLBL = SKLabelNode()
         tituloLBL.fontSize = 40.0
         tituloLBL.fontColor = .white
-        tituloLBL.text = "Game Over"
+        tituloLBL.text = "Game Over".localizaed()
         tituloLBL.fontName = "KarmaticArcade"
         tituloLBL.zPosition = 55.0
         tituloLBL.position = CGPoint(
@@ -358,7 +358,7 @@ extension HUDNode {
         tituloButtonMenu = SKLabelNode()
         tituloButtonMenu.fontSize = 20.0
         tituloButtonMenu.fontColor = .white
-        tituloButtonMenu.text = "Home"
+        tituloButtonMenu.text = "Menu".localizaed()
         tituloButtonMenu.fontName = "JupiterCrashBRK"
         tituloButtonMenu.zPosition = 55.0
         tituloButtonMenu.position = CGPoint(
@@ -369,7 +369,7 @@ extension HUDNode {
         tituloButtonRejogar = SKLabelNode()
         tituloButtonRejogar.fontSize = 20.0
         tituloButtonRejogar.fontColor = .white
-        tituloButtonRejogar.text = "Play again"
+        tituloButtonRejogar.text = "Play again".localizaed()
         tituloButtonRejogar.fontName = "JupiterCrashBRK"
         tituloButtonRejogar.zPosition = 55.0
         tituloButtonRejogar.position = CGPoint(
@@ -467,7 +467,7 @@ extension HUDNode {
         
         // MARK: Start LabelNode
         startNode = SKLabelNode()
-        startNode.text = "Aperte para começar"
+        startNode.text = "Press to start".localizaed()
         startNode.fontName = "JupiterCrashBRK"
         startNode.zPosition = 59.0
         startNode.position = CGPoint(
@@ -530,7 +530,7 @@ extension HUDNode {
         tituloPause = SKLabelNode()
         tituloPause.fontSize = 40.0
         tituloPause.fontColor = .white
-        tituloPause.text = "Pause Title"
+        tituloPause.text = "Paused".localizaed()
         tituloPause.fontName = "KarmaticArcade"
         tituloPause.zPosition = 55.0
         tituloPause.position = CGPoint(
@@ -560,3 +560,4 @@ extension HUDNode {
         addChild(timerLabel)
     }
 }
+

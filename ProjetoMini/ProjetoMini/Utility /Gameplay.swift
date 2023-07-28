@@ -22,3 +22,9 @@ enum physicsCategory:UInt32{
 // MARK: Setup screen size
 let screenWidth: CGFloat = UIScreen.main.bounds.width
 let screenHeight: CGFloat = UIScreen.main.bounds.height
+
+extension String{
+    func localizaed() -> String{
+        return NSLocalizedString(self,tableName: "Localizable",bundle: .main,value: self, comment: self)
+    }
+}

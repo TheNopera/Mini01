@@ -91,11 +91,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.camera?.constraints = [cameraWidthConstraint, cameraHeightConstraint] 
         self.player.constraints = [playerConstraint]
         let comecar = SKAction.run {
-            self.layerScenario.InimigoSpawn1(target: self.player)
-            self.layerScenario.InimigoSpawn2(target: self.player)
-            self.layerScenario.InimigoSpawn3(target: self.player)
-            self.layerScenario.InimigoSpawn4(target: self.player)
-            self.layerScenario.InimigoSpawn5(target: self.player)
+            for _ in 1...3{
+                self.ativaSpawn()
+            }
         }
         self.run(.sequence([.wait(forDuration: 2.0),comecar]))
         layerScenario.addChild(backgroundNode)
@@ -280,7 +278,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             layerScenario.hasChaser = false
                         }
                         layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
-                        for j in 1...5{
+                        for _ in 1...2{
+                            let j = Int.random(in: 1...5)
                             switch j{
                             case 1:
                                 _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
@@ -435,8 +434,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             hudNode.renderTime = currentTime + hudNode.changeTime
         }
-        
-        
     }
     
 }
@@ -486,5 +483,25 @@ extension GameScene {
     
 }
 
+extension GameScene{
+    private func ativaSpawn(){
+        let numSpawn = Int.random(in: 1...5)
+
+        switch numSpawn{
+        case 1:
+            layerScenario.InimigoSpawn1(target: self.player)
+        case 2:
+            layerScenario.InimigoSpawn2(target: self.player)
+        case 3:
+            layerScenario.InimigoSpawn3(target: self.player)
+        case 4:
+            layerScenario.InimigoSpawn4(target: self.player)
+        case 5:
+            layerScenario.InimigoSpawn5(target: self.player)
+        default:
+            print("spawn não encontrado")
+        }
+    }
+}
 
 

@@ -191,24 +191,25 @@ class Player:SKSpriteNode{
     }
     
     func tomouDano(){
-        
-        let imortal = SKAction.run {
-            self.isImortal = true
-        }
-        let mortal = SKAction.run {
-            self.isImortal = false
-        }
-        let opacDown = SKAction.run {
-            self.alpha = 0.5
-        }
-        let opacityUp = SKAction.run {
-            self.alpha = 1
-        }
+        if self.vidas > 0{
+            let imortal = SKAction.run {
+                self.isImortal = true
+            }
+            let mortal = SKAction.run {
+                self.isImortal = false
+            }
+            let opacDown = SKAction.run {
+                self.alpha = 0.5
+            }
+            let opacityUp = SKAction.run {
+                self.alpha = 1
+            }
             
-        if !isImortal{
-            self.vidas -= 1
-            self.run(.repeat(.sequence([opacDown,.wait(forDuration: 0.2),opacityUp,.wait(forDuration: 0.2)]), count: 4))
-            self.run(.sequence([imortal,.wait(forDuration: 1.5),mortal]))
+            if !isImortal{
+                self.vidas -= 1
+                self.run(.repeat(.sequence([opacDown,.wait(forDuration: 0.2),opacityUp,.wait(forDuration: 0.2)]), count: 4))
+                self.run(.sequence([imortal,.wait(forDuration: 1.5),mortal]))
+            }
         }
         
     }
