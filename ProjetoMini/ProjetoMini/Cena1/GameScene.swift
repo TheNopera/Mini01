@@ -318,6 +318,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
             player.encostouNoInimigo(direção: joystick.displacement)
+            // code that removes a lifenode
+             if player.vidas <= 0 {player.vidas = 0}
+             hudNode.lifeNodes[player.vidas].texture = SKTexture(imageNamed: "life-off")
+         
             if player.vidas == 0{
                 
                 let endgame = SKAction.run {
