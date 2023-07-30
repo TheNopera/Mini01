@@ -26,8 +26,8 @@ class HUDNode: SKNode {
     private var returnLabel: SKLabelNode!
     private var inGameReturnNode: SKSpriteNode!
     
-    private var isSoundOn = false
-    private var isMusicOn = false
+    var isSoundOn = false
+    var isMusicOn = true
     
     // MARK: Paused Properties
     private var inGamePauseNode: SKSpriteNode!
