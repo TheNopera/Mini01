@@ -34,7 +34,7 @@ class isIdleRight:GKState{
             gameScene?.stateMachine?.enter(movingLeftState.self)
         }
         
-        print("ESTOU VIVO")
+        
     }
 }
 

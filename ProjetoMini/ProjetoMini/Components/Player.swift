@@ -153,8 +153,8 @@ class Player:SKSpriteNode{
         if self.vidas > 0{
             if self.physicsBody!.velocity.dy == 0{
                 goDown = true
+                self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
             }
-            self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -30))
         }
         
         
