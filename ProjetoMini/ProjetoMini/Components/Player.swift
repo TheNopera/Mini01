@@ -159,7 +159,7 @@ class Player:SKSpriteNode{
         
         
     }
-    
+
     func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
         switch direction {
         case .right:
