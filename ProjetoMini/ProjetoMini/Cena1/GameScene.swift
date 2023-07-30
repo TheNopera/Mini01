@@ -449,9 +449,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.isPaused = true
             hudNode.seconds = hudNode.seconds - 1
         }
-        if !hudNode.isMusicOn{
-            backgroundMusic.run(SKAction.stop())
-        }
+//        if !hudNode.isMusicOn{
+//            backgroundMusic.run(SKAction.stop())
+//        }
     }
     
 }
