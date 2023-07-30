@@ -10,9 +10,8 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-
+    let backgroundMusic = SKAudioNode(fileNamed: "BGMusic.m4a")
     var player:Player = Player()
-    var playerLife = 3
     //var inimigo:Inimigo = Inimigo()
     var joystick:Joystick = Joystick()
     let cameraPlayer = SKCameraNode()
@@ -41,7 +40,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         print("teste")
-        
+        addChild(backgroundMusic)
+       
+        //backgroundSound.run(SKAction.play())
         // MARK: add physics to the world
         self.physicsWorld.contactDelegate = self
         
@@ -456,6 +457,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.isPaused = true
             hudNode.seconds = hudNode.seconds - 1
         }
+//        if !hudNode.isMusicOn{
+//            backgroundMusic.run(SKAction.stop())
+//        }
     }
     
 }
@@ -503,7 +507,6 @@ extension GameScene {
         hudNode.setupLife()
         backgroundNode.setupBackgrounds()
     }
-    
     
 }
 

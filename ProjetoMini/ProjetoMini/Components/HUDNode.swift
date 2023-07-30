@@ -22,12 +22,17 @@ class HUDNode: SKNode {
     private var soundNode: SKSpriteNode!
     private var musicLabel: SKLabelNode!
     private var musicNode: SKSpriteNode!
-    private var returnNode: SKSpriteNode!
     private var returnLabel: SKLabelNode!
+    private var returnNode: SKSpriteNode!
+    private var returnPressNode: SKSpriteNode!
     private var inGameReturnNode: SKSpriteNode!
+    private var InGameReturnPressNode: SKSpriteNode!
     
-    private var isSoundOn = false
+    private var SoundToggle = false
+    private let soundKey = "SoundKey"
     private var isMusicOn = false
+    private let musciKey = "MusicKey"
+
     
     // MARK: Paused Properties
     private var inGamePauseNode: SKSpriteNode!
@@ -46,12 +51,15 @@ class HUDNode: SKNode {
     private var gameOverNode: SKSpriteNode!
     
     private var homeNode: SKSpriteNode!
+    private var homePressNode: SKSpriteNode!
     private var againNode: SKSpriteNode!
+    private var againPressNode: SKSpriteNode!
+
     
-    private var tituloLBL: SKLabelNode!
+    private var gameOverLabel: SKLabelNode!
     
-    private var tituloButtonMenu: SKLabelNode!
-    private var tituloButtonRejogar: SKLabelNode!
+    private var homeLabel: SKLabelNode!
+    private var againLabel: SKLabelNode!
     
     private var scoreTitleLbl: SKLabelNode!
     var scoreLbl: SKLabelNode!
@@ -92,7 +100,7 @@ class HUDNode: SKNode {
     }
     private var inGameReturn = false {
         didSet {
-            updateBtn(node: inGameReturnNode, event: inGameReturn)
+            updateBtn(node: InGameReturnPressNode, event: inGameReturn)
         }
     }
     private var isSound = false {
@@ -107,7 +115,7 @@ class HUDNode: SKNode {
     }
     private var isReturn = false {
         didSet {
-            updateBtn(node: returnNode, event: isReturn)
+            updateBtn(node: returnPressNode, event: isReturn)
         }
     }
      var isPause = false {
@@ -132,13 +140,13 @@ class HUDNode: SKNode {
     }
     private var IsHome = false {
         didSet {
-        updateBtn(node: homeNode, event: IsHome)
+        updateBtn(node: homePressNode, event: IsHome)
         }
     }
     
     private var isAgain = false {
         didSet {
-            updateBtn(node: againNode, event: isAgain)
+            updateBtn(node: againPressNode, event: isAgain)
         }
     }
     
@@ -253,13 +261,15 @@ class HUDNode: SKNode {
         
         if isConfig {
             setupConfigMenu()
-            startNode.removeFromParent()
+            startNode.isHidden = true
             isConfig = false
         }
         
         if isSound {
+
             toggleSound()
             isSound = false
+            
         }
         
         if isMusic {
@@ -276,7 +286,7 @@ class HUDNode: SKNode {
             returnNode.removeFromParent()
             returnLabel.removeFromParent()
 
-            addChild(startNode)
+            startNode.isHidden = false
             isReturn = false
         }
         //PAUSED GAME
@@ -450,8 +460,17 @@ extension HUDNode {
         homeNode.position = CGPoint(
             x: screenWidth*(0.35),
             y: screenHeight*0.25)
-        homeNode.name = "Home"
         addChild(homeNode)
+        
+        // MARK: Home Press Node
+        homePressNode = SKSpriteNode()
+        homePressNode.name = "Home"
+        homePressNode.size = CGSize(width: homeNode.size.width, height: homeNode.size.height)
+        homePressNode.zPosition = 55.1
+        homePressNode.position = CGPoint(
+            x: screenWidth*(0.62),
+            y: screenHeight*0.25)
+        addChild(homePressNode)
         
         // MARK: PlayAgain Node
         againNode = SKSpriteNode(imageNamed: "Button")
@@ -459,8 +478,17 @@ extension HUDNode {
         againNode.position = CGPoint(
             x: screenWidth*(0.62),
             y: screenHeight*0.25)
-        againNode.name = "Again"
         addChild(againNode)
+        
+        // MARK: PlayAgain Press Node
+        againPressNode = SKSpriteNode()
+        againPressNode.name = "Again"
+        againPressNode.size = CGSize(width: againNode.size.width, height: againNode.size.height)
+        againPressNode.zPosition = 55.1
+        againPressNode.position = CGPoint(
+            x: screenWidth*(0.62),
+            y: screenHeight*0.25)
+        addChild(againPressNode)
         
         // MARK: ScoreTitleLbl Node
         scoreTitleLbl = SKLabelNode()
@@ -510,38 +538,38 @@ extension HUDNode {
             y: highscoreTitleLbl.position.y)
         addChild(highscoreLbl)
         
-        tituloLBL = SKLabelNode()
-        tituloLBL.fontSize = 40.0
-        tituloLBL.fontColor = .white
-        tituloLBL.text = "Game Over".localizaed()
-        tituloLBL.fontName = "KarmaticArcade"
-        tituloLBL.zPosition = 55.0
-        tituloLBL.position = CGPoint(
+        gameOverLabel = SKLabelNode()
+        gameOverLabel.fontSize = 40.0
+        gameOverLabel.fontColor = .white
+        gameOverLabel.text = "Game Over".localizaed()
+        gameOverLabel.fontName = "KarmaticArcade"
+        gameOverLabel.zPosition = 55.0
+        gameOverLabel.position = CGPoint(
             x: screenWidth/2 - 15,
             y: highscoreTitleLbl.position.y + 120)
-        addChild(tituloLBL)
+        addChild(gameOverLabel)
         
-        tituloButtonMenu = SKLabelNode()
-        tituloButtonMenu.fontSize = 20.0
-        tituloButtonMenu.fontColor = .white
-        tituloButtonMenu.text = "Menu".localizaed()
-        tituloButtonMenu.fontName = "JupiterCrashBRK"
-        tituloButtonMenu.zPosition = 55.0
-        tituloButtonMenu.position = CGPoint(
+        homeLabel = SKLabelNode()
+        homeLabel.fontSize = 20.0
+        homeLabel.fontColor = .white
+        homeLabel.text = "Menu".localizaed()
+        homeLabel.fontName = "JupiterCrashBRK"
+        homeLabel.zPosition = 55.0
+        homeLabel.position = CGPoint(
             x: screenWidth*(0.35),
             y: screenHeight*0.23)
-        addChild(tituloButtonMenu)
+        addChild(homeLabel)
         
-        tituloButtonRejogar = SKLabelNode()
-        tituloButtonRejogar.fontSize = 20.0
-        tituloButtonRejogar.fontColor = .white
-        tituloButtonRejogar.text = "Play again".localizaed()
-        tituloButtonRejogar.fontName = "JupiterCrashBRK"
-        tituloButtonRejogar.zPosition = 55.0
-        tituloButtonRejogar.position = CGPoint(
+        againLabel = SKLabelNode()
+        againLabel.fontSize = 20.0
+        againLabel.fontColor = .white
+        againLabel.text = "Play again".localizaed()
+        againLabel.fontName = "JupiterCrashBRK"
+        againLabel.zPosition = 55.0
+        againLabel.position = CGPoint(
             x: screenWidth*(0.62),
             y: screenHeight*0.23)
-        addChild(tituloButtonRejogar)
+        addChild(againLabel)
         
     }
 }
@@ -554,7 +582,7 @@ extension HUDNode {
         
         menuShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
         menuShape.strokeColor = SKColor(ciColor: .clear)
-        menuShape.zPosition = 53.0
+        menuShape.zPosition = 56.1
         menuShape.name = "Start"
         addChild(menuShape)
         
@@ -623,7 +651,7 @@ extension HUDNode {
         
         // MARK: Menu Settings
         menuSettings = SKSpriteNode(imageNamed: "menu-settings")
-        menuSettings.zPosition = 55.0
+        menuSettings.zPosition = 56.2
         menuSettings.setScale(0.75)
         menuSettings.name = "Configuration"
         menuSettings.position = CGPoint(x: screenWidth*0.93, y: screenHeight*0.90)
@@ -640,7 +668,7 @@ extension HUDNode {
         startNode = SKLabelNode()
         startNode.text = "Press to start".localizaed()
         startNode.fontName = "JupiterCrashBRK"
-        startNode.zPosition = 59.0
+        startNode.zPosition = 56.1
         startNode.position = CGPoint(
             x: screenWidth*0.5,
             y: screenHeight*0.25)
@@ -674,7 +702,9 @@ extension HUDNode {
         soundLabel.position = CGPoint(x: screenWidth*0.467, y: screenHeight*0.5)
         addChild(soundLabel)
         
-        soundNode = isSoundOn ? SKSpriteNode(imageNamed: "sound-on") : SKSpriteNode(imageNamed: "sound-off")
+        let savedSound: Bool = (UserDefaults.standard.integer(forKey: soundKey) != 0)
+        
+        soundNode = savedSound ? SKSpriteNode(imageNamed: "sound-on") : SKSpriteNode(imageNamed: "sound-off")
         soundNode.size = CGSize(width: 28, height: 28)
         soundNode.name = "Sound"
         soundNode.zPosition = 60.0
@@ -688,34 +718,44 @@ extension HUDNode {
         musicLabel.position = CGPoint(x: screenWidth*0.47, y: screenHeight*0.4)
         addChild(musicLabel)
         
-        musicNode = isMusicOn ? SKSpriteNode(imageNamed: "music-on") : SKSpriteNode(imageNamed: "music-off")
+        let savedMusic: Bool = (UserDefaults.standard.integer(forKey: musciKey) != 0)
+        
+        musicNode = savedMusic ? SKSpriteNode(imageNamed: "music-on") : SKSpriteNode(imageNamed: "music-off")
         musicNode.zPosition = 60.0
         musicNode.name = "Music"
         musicNode.size = CGSize(width: 28, height: 28)
         musicNode.position = CGPoint(
-            x: screenWidth/2 + 50,
+            x: screenWidth/2 + 45,
             y: screenHeight*0.42)
         addChild(musicNode)
-        
-        returnNode = SKSpriteNode(imageNamed: "Button")
-        returnNode.zPosition = 61.0
-        returnNode.name = "Return from Config"
-        returnNode.position = CGPoint(
-            x: screenWidth*(0.5),
-            y: screenHeight*0.25)
-        addChild(returnNode)
         
         returnLabel = SKLabelNode()
         returnLabel.text = "return".localizaed()
         returnLabel.fontSize = 20.0
         returnLabel.fontName = "JupiterCrashBRK"
         returnLabel.color = .white
-        returnLabel.zPosition = 61.0
+        returnLabel.zPosition = 61.1
         returnLabel.position = CGPoint(
             x: screenWidth*(0.5),
             y: screenHeight*0.23)
         addChild(returnLabel)
-
+        
+        returnNode = SKSpriteNode(imageNamed: "Button")
+        returnNode.zPosition = 61.0
+        returnNode.position = CGPoint(
+            x: screenWidth*(0.5),
+            y: screenHeight*0.25)
+        addChild(returnNode)
+        
+        returnPressNode = SKSpriteNode()
+        returnPressNode.name = "Return from Config"
+        returnPressNode.size = CGSize(width: returnNode.size.width, height: returnNode.size.height)
+        returnPressNode.zPosition = 61.2
+        returnPressNode.position = CGPoint(
+            x: screenWidth*(0.5),
+            y: screenHeight*0.25)
+        addChild(returnPressNode)
+        
     }
     
     func setupConfigInGame() {
@@ -741,7 +781,9 @@ extension HUDNode {
         soundLabel.position = CGPoint(x: screenWidth*0.467, y: screenHeight*0.5)
         addChild(soundLabel)
         
-        soundNode = isSoundOn ? SKSpriteNode(imageNamed: "sound-on") : SKSpriteNode(imageNamed: "sound-off")
+        let savedSound: Bool = (UserDefaults.standard.integer(forKey: soundKey) != 0)
+        
+        soundNode = savedSound ? SKSpriteNode(imageNamed: "sound-on") : SKSpriteNode(imageNamed: "sound-off")
         soundNode.size = CGSize(width: 28, height: 28)
         soundNode.name = "Sound"
         soundNode.zPosition = 60.0
@@ -755,7 +797,9 @@ extension HUDNode {
         musicLabel.position = CGPoint(x: screenWidth*0.47, y: screenHeight*0.4)
         addChild(musicLabel)
         
-        musicNode = isMusicOn ? SKSpriteNode(imageNamed: "music-on") : SKSpriteNode(imageNamed: "music-off")
+        let savedMusic: Bool = (UserDefaults.standard.integer(forKey: musciKey) != 0)
+        
+        musicNode = savedMusic ? SKSpriteNode(imageNamed: "music-on") : SKSpriteNode(imageNamed: "music-off")
         musicNode.zPosition = 60.0
         musicNode.name = "Music"
         musicNode.size = CGSize(width: 28, height: 28)
@@ -763,14 +807,6 @@ extension HUDNode {
             x: screenWidth/2 + 50,
             y: screenHeight*0.42)
         addChild(musicNode)
-        
-        inGameReturnNode = SKSpriteNode(imageNamed: "Button")
-        inGameReturnNode.zPosition = 61.0
-        inGameReturnNode.name = "Return from InGameConfig"
-        inGameReturnNode.position = CGPoint(
-            x: screenWidth*(0.5),
-            y: screenHeight*0.25)
-        addChild(inGameReturnNode)
         
         returnLabel = SKLabelNode()
         returnLabel.text = "return".localizaed()
@@ -782,22 +818,56 @@ extension HUDNode {
             x: screenWidth*(0.5),
             y: screenHeight*0.23)
         addChild(returnLabel)
-
+        
+        inGameReturnNode = SKSpriteNode(imageNamed: "Button")
+        inGameReturnNode.zPosition = 60.0
+        inGameReturnNode.position = CGPoint(
+            x: screenWidth*(0.5),
+            y: screenHeight*0.25)
+        addChild(inGameReturnNode)
+        
+        InGameReturnPressNode = SKSpriteNode()
+        InGameReturnPressNode.color = .clear
+        InGameReturnPressNode.zPosition = 61.0
+        InGameReturnPressNode.size = CGSize(width: inGameReturnNode.size.width, height: inGameReturnNode.size.height)
+        InGameReturnPressNode.name = "Return from InGameConfig"
+        InGameReturnPressNode.position = CGPoint(
+            x: screenWidth*(0.5),
+            y: screenHeight*0.25)
+        addChild(InGameReturnPressNode)
+        
+        
     }
+    
     func toggleSound() {
-        isSoundOn = !isSoundOn
+        SoundToggle = !SoundToggle
+                
+        let savedSound: Bool = (UserDefaults.standard.integer(forKey: soundKey) != 0)
+        
+        if savedSound != SoundToggle {
+            UserDefaults.standard.set(SoundToggle, forKey: soundKey)
+        }
+         
         let soundToggle = childNode(withName: "Sound") as! SKSpriteNode
-        soundToggle.texture = isSoundOn ? SKTexture(imageNamed: "sound-on") : SKTexture(imageNamed: "sound-off")
+        soundToggle.texture = SoundToggle ? SKTexture(imageNamed: "sound-on") : SKTexture(imageNamed: "sound-off")
+        
     }
     
     func toggleMusic() {
         isMusicOn = !isMusicOn
+        
+        let savedMusic: Bool = (UserDefaults.standard.integer(forKey: musciKey) != 0)
+        
+        if savedMusic != isMusicOn {
+            UserDefaults.standard.set(isMusicOn, forKey: musciKey)
+        }
+        
         let musicToggle = childNode(withName: "Music") as! SKSpriteNode
         musicToggle.texture = isMusicOn ? SKTexture(imageNamed: "music-on") : SKTexture(imageNamed: "music-off")
         
     }
 }
-
+    
 //MARK: Pause
 extension HUDNode {
     
@@ -812,7 +882,7 @@ extension HUDNode {
             y: screenHeight*0.90)
         addChild(inGamePauseNode)
         isUserInteractionEnabled = true
-
+        
     }
     
     func setupResumeNode() {
@@ -828,10 +898,6 @@ extension HUDNode {
     }
     // MARK: Enter the Paused Panel
     func setupPausePanel() {
-//        pauseNodeShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
-//        pauseNodeShape.zPosition = 50.0
-//        pauseNodeShape.fillColor = UIColor(red: 217, green: 217, blue: 217, alpha: 0.7)
-//        addChild(pauseNodeShape)
         
         isUserInteractionEnabled = true
         
@@ -908,9 +974,9 @@ extension HUDNode {
         lifeNodes.append(life2)
         lifeNodes.append(life3)
     }
-
+    
     func setupLifePosition(_ life: SKSpriteNode, j: CGFloat) {
-
+        
         life.zPosition = 49.0
         life.position = CGPoint(
             x: screenWidth * 0.1 + j,
@@ -918,4 +984,5 @@ extension HUDNode {
         addChild(life)
     }
 }
+
 
