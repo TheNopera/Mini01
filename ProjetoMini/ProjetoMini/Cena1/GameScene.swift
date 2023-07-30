@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var joystick:Joystick = Joystick()
     let cameraPlayer = SKCameraNode()
     var displacement:Double = 0
+    var lastUsedSpawn:Int = 0
     
     //MARK: file that contains all designed platforms
     let tileMapScenario: SKScene = SKScene(fileNamed: "ScenarioTileMap")!
@@ -285,26 +286,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
                         for _ in 1...2{
-                            let j = Int.random(in: 1...5)
+                            var j = Int.random(in: 1...5)
+                            if j == lastUsedSpawn{
+                                while j == lastUsedSpawn{
+                                    j = Int.random(in: 1...5)
+                                }
+                            }else{
+                                self.lastUsedSpawn = j
+                            }
                             switch j{
                             case 1:
-                                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn1(target: self.player)
                                 }
                             case 2:
-                                _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 4.5, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn2(target: self.player)
                                 }
                             case 3:
-                                _ = Timer.scheduledTimer(withTimeInterval: 7.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn3(target: self.player)
                                 }
                             case 4:
-                                _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 5.5, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn4(target: self.player)
                                 }
                             case 5:
-                                _ = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [self] timer in
+                                _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [self] timer in
                                     self.layerScenario.InimigoSpawn5(target: self.player)
                                 }
                             default:

@@ -41,6 +41,7 @@
 		E06B27A92A65C2B200B21DFD /* Inimigos.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27A82A65C2B200B21DFD /* Inimigos.swift */; };
 		E06B27AB2A65C2D900B21DFD /* Operadores.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06B27AA2A65C2D900B21DFD /* Operadores.swift */; };
 		E0F079E32A734CC800F02852 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E0F079E52A734CC800F02852 /* Localizable.strings */; };
+		E0F079E82A76D7DB00F02852 /* estrelasBolinha.sks in Resources */ = {isa = PBXBuildFile; fileRef = E0F079E72A76D7DB00F02852 /* estrelasBolinha.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		E0F079E02A734C7B00F02852 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Main.strings"; sourceTree = "<group>"; };
 		E0F079E42A734CC800F02852 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E0F079E62A734CCC00F02852 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E0F079E72A76D7DB00F02852 /* estrelasBolinha.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = estrelasBolinha.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 		E026D0B42A6F6A5A002E9990 /* Particle */ = {
 			isa = PBXGroup;
 			children = (
+				E0F079E72A76D7DB00F02852 /* estrelasBolinha.sks */,
 				E026D0B52A6F6A9B002E9990 /* Estrelas.sks */,
 				E026D0B62A6F6A9B002E9990 /* Assets.xcassets */,
 			);
@@ -278,6 +281,7 @@
 			files = (
 				62580CCA2A5764F6003A882C /* Main.storyboard in Resources */,
 				62580CCC2A5764F6003A882C /* Assets.xcassets in Resources */,
+				E0F079E82A76D7DB00F02852 /* estrelasBolinha.sks in Resources */,
 				E0F079E32A734CC800F02852 /* Localizable.strings in Resources */,
 				62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */,
 				E026D0B22A6F6993002E9990 /* jupiter-crash-brk.regular.ttf in Resources */,
