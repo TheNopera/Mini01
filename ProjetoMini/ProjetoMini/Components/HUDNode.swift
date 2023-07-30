@@ -32,6 +32,7 @@ class HUDNode: SKNode {
     private let soundKey = "SoundKey"
     private var isMusicOn = false
     private let musciKey = "MusicKey"
+
     
     // MARK: Paused Properties
     private var inGamePauseNode: SKSpriteNode!

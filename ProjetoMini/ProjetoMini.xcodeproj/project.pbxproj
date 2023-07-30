@@ -22,6 +22,7 @@
 		62580CCF2A5764F6003A882C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62580CCD2A5764F6003A882C /* LaunchScreen.storyboard */; };
 		62900EC12A71988700606ED9 /* DeadRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62900EC02A71988700606ED9 /* DeadRight.swift */; };
 		62900EC32A71C3D100606ED9 /* DeadLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62900EC22A71C3D100606ED9 /* DeadLeft.swift */; };
+		62900EC62A745E1200606ED9 /* BGMusic.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 62900EC52A745E1200606ED9 /* BGMusic.m4a */; };
 		62938E5D2A65CBE30028DB76 /* SwipeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */; };
 		62938E5F2A65CC330028DB76 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E5E2A65CC330028DB76 /* Joystick.swift */; };
 		62938E622A6F4D4F0028DB76 /* MovingRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62938E612A6F4D4F0028DB76 /* MovingRight.swift */; };
@@ -59,6 +60,7 @@
 		62580CCE2A5764F6003A882C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		62900EC02A71988700606ED9 /* DeadRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadRight.swift; sourceTree = "<group>"; };
 		62900EC22A71C3D100606ED9 /* DeadLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadLeft.swift; sourceTree = "<group>"; };
+		62900EC52A745E1200606ED9 /* BGMusic.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BGMusic.m4a; sourceTree = "<group>"; };
 		62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeHandler.swift; sourceTree = "<group>"; };
 		62938E5E2A65CC330028DB76 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		62938E612A6F4D4F0028DB76 /* MovingRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingRight.swift; sourceTree = "<group>"; };
@@ -126,9 +128,18 @@
 			path = ProjetoMini;
 			sourceTree = "<group>";
 		};
+		62900EC42A745D5600606ED9 /* AudioAssets */ = {
+			isa = PBXGroup;
+			children = (
+				62900EC52A745E1200606ED9 /* BGMusic.m4a */,
+			);
+			path = AudioAssets;
+			sourceTree = "<group>";
+		};
 		6291BB422A6064C4008DBFB9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				62900EC42A745D5600606ED9 /* AudioAssets */,
 				62938E5C2A65CBE30028DB76 /* SwipeHandler.swift */,
 				62938E5E2A65CC330028DB76 /* Joystick.swift */,
 				62CEF9382A5DD48F006F9784 /* Player.swift */,
@@ -274,6 +285,7 @@
 				02ED2B2A2A61B89E005C5D1B /* Assets.xcassets in Resources */,
 				E026D0B72A6F6A9B002E9990 /* Estrelas.sks in Resources */,
 				E026D0B82A6F6A9B002E9990 /* Assets.xcassets in Resources */,
+				62900EC62A745E1200606ED9 /* BGMusic.m4a in Resources */,
 				9C62C8FD2A704E5E000ABB6C /* ka1.ttf in Resources */,
 				02ED2B262A61B7C7005C5D1B /* ScenarioTileMap.sks in Resources */,
 			);
@@ -466,7 +478,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SRXHT55569;
+				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ProjetoMini/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
@@ -496,7 +508,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SRXHT55569;
+				DEVELOPMENT_TEAM = H6ULSPHHN4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ProjetoMini/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Forbidden Waters";
