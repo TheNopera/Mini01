@@ -143,7 +143,7 @@ class HUDNode: SKNode {
     }
     
     var menuSky = SKSpriteNode(imageNamed: "menu-ceu")
-    var menuStars = SKSpriteNode(imageNamed: "menu-estrela")
+    var menuStarsBack = SKEmitterNode(fileNamed: "estrelasBolinha")
     var menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
     var menuBoat = SKSpriteNode(imageNamed: "menu-barco")
     var menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
@@ -156,15 +156,18 @@ class HUDNode: SKNode {
     var starEmitter = SKEmitterNode(fileNamed: "Estrelas")
     var menuBoatTexture = [
         SKTexture(imageNamed: "menu-barco"),
-        SKTexture(imageNamed: "menu-barco2")
+        SKTexture(imageNamed: "menu-barco2"),
+        SKTexture(imageNamed: "menu-barco3")
     ]
     var menuOndasBack = [
         SKTexture(imageNamed: "menu-maratras"),
-        SKTexture(imageNamed: "menu-maratras2")
+        SKTexture(imageNamed: "menu-maratras2"),
+        SKTexture(imageNamed: "menu-maratras3")
     ]
     var menuOndasFront = [
         SKTexture(imageNamed: "menu-marfrente"),
-        SKTexture(imageNamed: "menu-marfrente2")
+        SKTexture(imageNamed: "menu-marfrente2"),
+        SKTexture(imageNamed: "menu-marfrente3")
     ]
     // MARK: In touchesBegan, the buttons activate when pressed
     
@@ -563,6 +566,13 @@ extension HUDNode {
         menuSky.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(menuSky)
         
+        menuStarsBack?.zPosition = 49.0
+        menuStarsBack?.position = CGPoint(x: 0, y: screenHeight)
+        if let emissor = menuStarsBack{
+            emissor.advanceSimulationTime(180.0)
+            addChild(emissor)
+        }
+        
         
         starEmitter?.zPosition = 50.0
         starEmitter?.position = CGPoint(x: 0, y: screenHeight)
@@ -589,11 +599,10 @@ extension HUDNode {
         
         menuBoat = SKSpriteNode(imageNamed: "menu-barco")
         menuBoat.zPosition = 53.0
-        menuBoat.size.width = 473.6
-        menuBoat.size.height = 344.0
+        menuBoat.setScale(0.75)
         menuBoat.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.45)
         addChild(menuBoat)
-        menuBoat.run(.repeatForever(.animate(with: menuBoatTexture, timePerFrame: 0.2)))
+        menuBoat.run(.repeatForever(.animate(with: menuBoatTexture, timePerFrame: 0.3)))
         
         menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
         menuFrontSea.zPosition = 54.0
@@ -650,7 +659,7 @@ extension HUDNode {
         configShape.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(configShape)
         
-        configTitle = SKLabelNode(text: "Settings")
+        configTitle = SKLabelNode(text: "Settings".localizaed())
         configTitle.zPosition = 60.0
         configTitle.fontName = "KarmaticArcade"
         configTitle.position = CGPoint(
@@ -658,7 +667,7 @@ extension HUDNode {
             y: screenHeight*(0.65))
         addChild(configTitle)
         
-        soundLabel = SKLabelNode(text: "sound effects")
+        soundLabel = SKLabelNode(text: "sound effects".localizaed())
         soundLabel.zPosition = 60.0
         soundLabel.fontName = "JupiterCrashBRK"
         soundLabel.fontSize = 20.0
@@ -672,7 +681,7 @@ extension HUDNode {
         soundNode.position = CGPoint(x: screenWidth*0.5 + 50, y: screenHeight*0.52)
         addChild(soundNode)
         
-        musicLabel = SKLabelNode(text: "music")
+        musicLabel = SKLabelNode(text: "music".localizaed())
         musicLabel.zPosition = 60.0
         musicLabel.fontName = "JupiterCrashBRK"
         musicLabel.fontSize = 20.0
@@ -697,7 +706,7 @@ extension HUDNode {
         addChild(returnNode)
         
         returnLabel = SKLabelNode()
-        returnLabel.text = "return"
+        returnLabel.text = "return".localizaed()
         returnLabel.fontSize = 20.0
         returnLabel.fontName = "JupiterCrashBRK"
         returnLabel.color = .white
@@ -716,7 +725,7 @@ extension HUDNode {
         configShape.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
         addChild(configShape)
         
-        configTitle = SKLabelNode(text: "Settings")
+        configTitle = SKLabelNode(text: "Settings".localizaed())
         configTitle.zPosition = 60.0
         configTitle.fontName = "KarmaticArcade"
         configTitle.fontSize = 40.0
@@ -725,7 +734,7 @@ extension HUDNode {
             y: screenHeight*(0.65))
         addChild(configTitle)
         
-        soundLabel = SKLabelNode(text: "sound effects")
+        soundLabel = SKLabelNode(text: "sound effects".localizaed())
         soundLabel.zPosition = 60.0
         soundLabel.fontName = "JupiterCrashBRK"
         soundLabel.fontSize = 20.0
@@ -739,7 +748,7 @@ extension HUDNode {
         soundNode.position = CGPoint(x: screenWidth*0.5 + 50, y: screenHeight*0.52)
         addChild(soundNode)
         
-        musicLabel = SKLabelNode(text: "music")
+        musicLabel = SKLabelNode(text: "music".localizaed())
         musicLabel.zPosition = 60.0
         musicLabel.fontName = "JupiterCrashBRK"
         musicLabel.fontSize = 20.0
@@ -764,7 +773,7 @@ extension HUDNode {
         addChild(inGameReturnNode)
         
         returnLabel = SKLabelNode()
-        returnLabel.text = "return"
+        returnLabel.text = "return".localizaed()
         returnLabel.fontSize = 20.0
         returnLabel.fontName = "JupiterCrashBRK"
         returnLabel.color = .white

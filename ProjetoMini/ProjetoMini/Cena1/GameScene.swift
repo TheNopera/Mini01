@@ -17,6 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var joystick:Joystick = Joystick()
     let cameraPlayer = SKCameraNode()
     var displacement:Double = 0
+    var lastUsedSpawn:Int = 0
     
     //MARK: file that contains all designed platforms
     let tileMapScenario: SKScene = SKScene(fileNamed: "ScenarioTileMap")!
@@ -284,7 +285,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
                         for _ in 1...2{
-                            let j = Int.random(in: 1...5)
+                            var j = Int.random(in: 1...5)
+                            if j == lastUsedSpawn{
+                                while j == lastUsedSpawn{
+                                    j = Int.random(in: 1...5)
+                                }
+                            }else{
+                                self.lastUsedSpawn = j
+                            }
                             switch j{
                             case 1:
                                 _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in

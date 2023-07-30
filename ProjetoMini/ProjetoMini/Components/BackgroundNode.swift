@@ -16,7 +16,19 @@ class BackgroundNode: SKNode {
     var gameBoat = SKSpriteNode(imageNamed: "game-boat")
     var gameFrontSea = SKSpriteNode(imageNamed: "game-frontsea")
     var frontCLouds = CloudEmitter(back: false, finalPos: CGPoint(x: 2000, y: 0))
-    
+    var marfrenteAnimation = [
+        SKTexture(imageNamed: "game-frontsea"),
+        SKTexture(imageNamed: "game-frontsea2")
+    ]
+    var marAtrasAnimation = [
+        SKTexture(imageNamed: "game_behindsea"),
+        SKTexture(imageNamed: "game-behindsea2")
+    ]
+    var barcoAnimation = [
+        SKTexture(imageNamed: "game-boat"),
+        SKTexture(imageNamed: "game-boat2"),
+        SKTexture(imageNamed: "game-boat3")
+    ]
     func setupBackgrounds() {
         
         gameSky.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
@@ -33,14 +45,17 @@ class BackgroundNode: SKNode {
         gameBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         gameBehindSea.zPosition = 3.0
         addChild(gameBehindSea)
+        gameBehindSea.run(.repeatForever(.animate(with: marAtrasAnimation, timePerFrame: 0.4)))
         
         gameBoat.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.45)
         gameBoat.zPosition = 4.0
         addChild(gameBoat)
+        gameBoat.run(.repeatForever(.animate(with: barcoAnimation, timePerFrame: 0.3)))
         
         gameFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*(-0.5))
         gameFrontSea.zPosition = 5.0
         addChild(gameFrontSea)
+        gameFrontSea.run(.repeatForever(.animate(with: marfrenteAnimation, timePerFrame: 0.4)))
         
         frontCLouds.position = CGPoint(x: -600 , y: screenHeight*(-0.3))
         frontCLouds.zPosition = 21.0

@@ -184,25 +184,23 @@ class LayerScenario: SKNode {
                 }
             }
         }
-        
     }
     
     func InimigoSpawn1(target: Player){
         enumerateChildNodes(withName: "spawnPoint1"){ node, _ in
             if let spawnPoint = node as? SKSpriteNode{
-
+                
                 if self.inimigosAR.count < self.limiteInimigos{
                     
                     let verificaPos = self.verificaPosição(spawnNum: 1)
-                  
+                    
                     if verificaPos{
                         
                         var inimigo = self.giveEnemy()
-                        if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
                         if self.hasChaser == true{
                             inimigo = Inimigo()
+                        } else if inimigo == Chaser(){
+                            self.hasChaser = true
                         }
                         inimigo.zPosition = 21.0
                         inimigo.numSpawn = 1
@@ -238,7 +236,6 @@ class LayerScenario: SKNode {
                     }
                 }
             }
-            
         }
     }
     func InimigoSpawn2(target: Player){
@@ -248,18 +245,17 @@ class LayerScenario: SKNode {
                 if self.inimigosAR.count < self.limiteInimigos{
                     
                     let verificaPos = self.verificaPosição(spawnNum: 2)
-                  
+                    
                     if verificaPos{
                         
                         var inimigo = self.giveEnemy()
-                        if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
                         if self.hasChaser == true{
                             inimigo = Inimigo()
+                        } else if inimigo == Chaser(){
+                            self.hasChaser = true
                         }
                         inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 1
+                        inimigo.numSpawn = 2
                         inimigo.position = spawnPoint.position
                         if target.position.x < spawnPoint.position.x{
                             spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
@@ -291,7 +287,6 @@ class LayerScenario: SKNode {
                     }
                 }
             }
-            
         }
     }
     func InimigoSpawn3(target: Player){
@@ -301,18 +296,17 @@ class LayerScenario: SKNode {
                 if self.inimigosAR.count < self.limiteInimigos{
                     
                     let verificaPos = self.verificaPosição(spawnNum: 3)
-                  
+                    
                     if verificaPos{
                         
                         var inimigo = self.giveEnemy()
-                        if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
                         if self.hasChaser == true{
                             inimigo = Inimigo()
+                        } else if inimigo == Chaser(){
+                            self.hasChaser = true
                         }
                         inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 1
+                        inimigo.numSpawn = 3
                         inimigo.position = spawnPoint.position
                         if target.position.x < spawnPoint.position.x{
                             spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
@@ -346,6 +340,7 @@ class LayerScenario: SKNode {
             }
         }
     }
+    
     func InimigoSpawn4(target: Player){
         enumerateChildNodes(withName: "spawnPoint4"){ node, _ in
             if let spawnPoint = node as? SKSpriteNode{
@@ -353,18 +348,17 @@ class LayerScenario: SKNode {
                 if self.inimigosAR.count < self.limiteInimigos{
                     
                     let verificaPos = self.verificaPosição(spawnNum: 4)
-                  
+                    
                     if verificaPos{
                         
                         var inimigo = self.giveEnemy()
-                        if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
                         if self.hasChaser == true{
                             inimigo = Inimigo()
+                        } else if inimigo == Chaser(){
+                            self.hasChaser = true
                         }
                         inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 1
+                        inimigo.numSpawn = 4
                         inimigo.position = spawnPoint.position
                         if target.position.x < spawnPoint.position.x{
                             spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
@@ -396,7 +390,6 @@ class LayerScenario: SKNode {
                     }
                 }
             }
-            
         }
     }
     func InimigoSpawn5(target: Player){
@@ -406,18 +399,16 @@ class LayerScenario: SKNode {
                 if self.inimigosAR.count < self.limiteInimigos{
                     
                     let verificaPos = self.verificaPosição(spawnNum: 5)
-                  
+                    
                     if verificaPos{
-                        
                         var inimigo = self.giveEnemy()
-                        if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
                         if self.hasChaser == true{
                             inimigo = Inimigo()
+                        } else if inimigo == Chaser(){
+                            self.hasChaser = true
                         }
                         inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 1
+                        inimigo.numSpawn = 5
                         inimigo.position = spawnPoint.position
                         if target.position.x < spawnPoint.position.x{
                             spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
@@ -449,7 +440,6 @@ class LayerScenario: SKNode {
                     }
                 }
             }
-            
         }
     }
     

@@ -78,11 +78,10 @@ class Inimigo:SKSpriteNode{
             self.mover()
         }
         
-        let shootOcurrance = Double.random(in: 2.0...2.5)
+        let shootOcurrance = Double.random(in: 1.5...2.0)
         
         self.run(.repeatForever(.sequence([mover,.wait(forDuration: 0.1)])), withKey: "vivo1")
-        self.run(.repeatForever(.sequence([ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")
-//        self.run(.repeatForever(.animate(with: animation, timePerFrame: 0.2)),withKey: "animacao")
+        self.run(.repeatForever(.sequence([.wait(forDuration: 0.5),ataque,SKAction.wait(forDuration: shootOcurrance)])),withKey: "vivo2")
     }
     
     convenience init (){
@@ -300,21 +299,21 @@ class Chaser:Inimigo{
         if dx > CGFloat(self.safeDistance) + 100{
             
             if target!.position.x < self.position.x{
-                self.position.x -= 10
+                self.position.x -= CGFloat(self.velocity)
             }
             
             if target!.position.x > self.position.x{
-                self.position.x += 10
+                self.position.x += CGFloat(self.velocity)
             }
             
         } else if dx < CGFloat(self.safeDistance){
             
             if target!.position.x < self.position.x{
-                self.position.x += 10
+                self.position.x += CGFloat(self.velocity)
             }
             
             if target!.position.x > self.position.x{
-                self.position.x -= 10
+                self.position.x -= CGFloat(self.velocity)
             }
         }
     }
