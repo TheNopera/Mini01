@@ -217,7 +217,7 @@ class Inimigo:SKSpriteNode{
         let dx = distanceX(a: target!.position, b: self.position)
         
         
-        if dx > CGFloat(self.safeDistance) + 100 && dx < 300 {
+        if dx > CGFloat(self.safeDistance) + 100 && dx < 450 {
             
             if target!.position.x < self.position.x{
                 self.position.x -= CGFloat(self.velocity)

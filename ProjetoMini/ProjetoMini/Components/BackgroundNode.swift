@@ -42,7 +42,7 @@ class BackgroundNode: SKNode {
         gameFrontSea.zPosition = 5.0
         addChild(gameFrontSea)
         
-        frontCLouds.position = CGPoint(x: -600 , y: screenHeight*(-0.4))
+        frontCLouds.position = CGPoint(x: -600 , y: screenHeight*(-0.3))
         frontCLouds.zPosition = 21.0
         addChild(frontCLouds)
     }
