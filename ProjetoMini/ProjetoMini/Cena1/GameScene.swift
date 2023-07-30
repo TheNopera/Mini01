@@ -201,6 +201,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
+            if player.physicsBody!.velocity.dy < 0 && !player.hasContact{
+                player.goDown = false
+            }
             player.hasContact = true
             player.jumps = 0
             
@@ -345,12 +348,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
-                player.goDown = false
+                
                 player.hasContact = false
+            }
+            if player.physicsBody!.velocity.dy >= 0{
+                player.goDown = false
             }
         case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue: //player and nofallplatform collision
             if player.physicsBody!.velocity.dy != 0{
-                player.goDown = false
+              
                 player.hasContact = false
             }
         default:
@@ -374,22 +380,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
                 body.collisionBitMask = physicsCategory.player.rawValue
-                //print("\((body.collisionBitMask))")
-                
-
-            } else if (dy < 0  && player.goDown) {
-
-                body.collisionBitMask = physicsCategory.nofallplatform.rawValue
-                
-                
+                print("jump")
             }
+            else if (dy < 0  && player.goDown) {
+                body.collisionBitMask = physicsCategory.nofallplatform.rawValue
+                print("GODOWN")
+            }
+            
             else {
                 // Allow collisions if the hero is falling
-                body.collisionBitMask |= physicsCategory.platform.rawValue
-                body.collisionBitMask |= physicsCategory.nofallplatform.rawValue
-                
-                // print("\((body.collisionBitMask))")
-                
+                body.collisionBitMask |= physicsCategory.nofallplatform.rawValue | physicsCategory.platform.rawValue
+                print("has contact = \(player.hasContact)")
+                print("godown = \(player.goDown)")
+                print("velocity = \(dy)")
             }
             
             
@@ -405,20 +408,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        //MARK: Checks if plyer is imortal and use respective Texture
-        //        if !player.isImortal{
-        //            if player.isTurningLeft{
-        //                player.texture = SKTexture(imageNamed: "PlayerE")
-        //            }else{
-        //                player.texture = SKTexture(imageNamed: "Player")
-        //            }
-        //        }else{
-        //            if player.isTurningLeft{
-        //                player.texture = SKTexture(imageNamed: "danoE")
-        //            }else{
-        //                player.texture = SKTexture(imageNamed: "danoD")
-        //            }
-        //        }
+     
         
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
