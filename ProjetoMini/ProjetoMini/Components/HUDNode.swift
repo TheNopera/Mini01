@@ -106,6 +106,18 @@ class HUDNode: SKNode {
     var startFrontCLoud = SKSpriteNode(imageNamed: "nevoa1")
     var startBackCloud = SKSpriteNode(imageNamed: "nevoa3")
     var starEmitter = SKEmitterNode(fileNamed: "Estrelas")
+    var menuBoatTexture = [
+        SKTexture(imageNamed: "menu-barco"),
+        SKTexture(imageNamed: "menu-barco2")
+    ]
+    var menuOndasBack = [
+        SKTexture(imageNamed: "menu-maratras"),
+        SKTexture(imageNamed: "menu-maratras2")
+    ]
+    var menuOndasFront = [
+        SKTexture(imageNamed: "menu-marfrente"),
+        SKTexture(imageNamed: "menu-marfrente2")
+    ]
     // MARK: In touchesBegan, the buttons activate when pressed
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -421,16 +433,11 @@ extension HUDNode {
             addChild(emissor)
         }
         
-//        menuStars = SKSpriteNode(imageNamed: "menu-estrelas")
-//        menuStars.zPosition = 50.0
-//        menuStars.setScale(0.90)
-//        menuStars.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
-//        addChild(menuStars)
-        
         menuBehindSea = SKSpriteNode(imageNamed: "menu-maratras")
         menuBehindSea.zPosition = 51.0
         menuBehindSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuBehindSea)
+        menuBehindSea.run(.repeatForever(.animate(with: menuOndasBack, timePerFrame: 0.5)))
         
         let mover1 = SKAction.move(to: CGPoint(x: screenWidth + 300 , y: screenHeight*0.15), duration: 8.0)
         startBackCloud.zPosition = 52.0
@@ -444,14 +451,17 @@ extension HUDNode {
         
         menuBoat = SKSpriteNode(imageNamed: "menu-barco")
         menuBoat.zPosition = 53.0
-        menuBoat.setScale(0.80)
+        menuBoat.size.width = 473.6
+        menuBoat.size.height = 344.0
         menuBoat.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.45)
         addChild(menuBoat)
+        menuBoat.run(.repeatForever(.animate(with: menuBoatTexture, timePerFrame: 0.2)))
         
         menuFrontSea = SKSpriteNode(imageNamed: "menu-marfrente")
         menuFrontSea.zPosition = 54.0
         menuFrontSea.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.1)
         addChild(menuFrontSea)
+        menuFrontSea.run(.repeatForever(.animate(with: menuOndasFront, timePerFrame: 0.5)))
         
         let mover2 = SKAction.move(to: CGPoint(x: screenWidth + 300 , y: screenHeight*0.1), duration: 5.0)
         startFrontCLoud.zPosition = 55.0
