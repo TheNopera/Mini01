@@ -399,9 +399,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Allow collisions if the hero is falling
                 
                 body.collisionBitMask |= physicsCategory.nofallplatform.rawValue | physicsCategory.platform.rawValue
-                print("has contact = \(player.hasContact)")
-                print("godown = \(player.goDown)")
-                print("velocity = \(dy)")
+           
             }
             
             
