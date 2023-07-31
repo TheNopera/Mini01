@@ -19,6 +19,8 @@ class Player:SKSpriteNode{
     var isTurningLeft:Bool = false
     var isJumping:Bool = false
     var isImortal = false
+    private let soundKey = "SoundKey"
+    private var SoundToggle = false
     let moveRightAnimation:[SKTexture] = [
         SKTexture(imageNamed: "player_move 1"),
         SKTexture(imageNamed: "player_move 2"),
@@ -234,6 +236,14 @@ class Player:SKSpriteNode{
         bullet.physicsBody?.collisionBitMask = physicsCategory.enemy.rawValue
         bullet.physicsBody?.restitution = 0.0
         
+        let audioNode = SKAudioNode(fileNamed: "Player_Gunshot4.mp3")
+        //audioNode.autoplayLooped = false
+        stopAudioAfterDuration(audioNode: audioNode, duration: 1)
+        //audioNode.gain = 0.8
+        let savedsound: Bool = (UserDefaults.standard.integer(forKey: soundKey) != 0)
+        if !savedsound{
+            audioNode.run(SKAction.stop())
+        }
         if self.isTurningLeft{
             bullet.name = "leftBullet"
             bullet.position.x = bullet.position.x - self.size.width/2 + 15
@@ -244,6 +254,8 @@ class Player:SKSpriteNode{
             
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
+            self.addChild(audioNode)
+        
         } else{
             bullet.name = "rightBullet"
             bullet.position.x = bullet.position.x + self.size.width/2 - 15
@@ -254,6 +266,12 @@ class Player:SKSpriteNode{
             
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
+            self.addChild(audioNode)
+        }
+    }
+    func stopAudioAfterDuration(audioNode: SKAudioNode, duration: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            audioNode.run(SKAction.stop()) // Pausa o áudio após o tempo especificado
         }
     }
 }
