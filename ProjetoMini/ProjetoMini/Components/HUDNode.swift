@@ -468,7 +468,7 @@ extension HUDNode {
         homePressNode.size = CGSize(width: homeNode.size.width, height: homeNode.size.height)
         homePressNode.zPosition = 55.1
         homePressNode.position = CGPoint(
-            x: screenWidth*(0.62),
+            x: screenWidth*(0.35),
             y: screenHeight*0.25)
         addChild(homePressNode)
         

@@ -389,15 +389,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
                 body.collisionBitMask = physicsCategory.player.rawValue
-                print("jump")
-            }
-            else if (dy < 0  && player.goDown) {
+                
+            } else if (dy < 0  && player.goDown) {
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
                 print("GODOWN")
             }
             
             else {
                 // Allow collisions if the hero is falling
+                
                 body.collisionBitMask |= physicsCategory.nofallplatform.rawValue | physicsCategory.platform.rawValue
                 print("has contact = \(player.hasContact)")
                 print("godown = \(player.goDown)")
@@ -417,8 +417,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-     
-        
+
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -447,6 +446,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.isPaused = true
             hudNode.seconds = hudNode.seconds - 1
         }
+
         
         let savedMusic: Bool = (UserDefaults.standard.integer(forKey: "MusicKey") != 0)
         if !savedMusic{
