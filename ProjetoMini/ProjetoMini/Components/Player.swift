@@ -254,7 +254,16 @@ class Player:SKSpriteNode{
             
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
-            self.addChild(audioNode)
+            let playAudio = SKAction.run {
+                self.addChild(audioNode)
+            }
+            
+            let stopAudio = SKAction.run {
+                audioNode.removeFromParent()
+            }
+            
+            let sequenceAudio = SKAction.sequence([playAudio,.wait(forDuration: 0.5), stopAudio])
+            self.run(sequenceAudio)
         
         } else{
             bullet.name = "rightBullet"
@@ -266,7 +275,16 @@ class Player:SKSpriteNode{
             
             self.addChild(bullet)
             bullet.run(.sequence([mover,.wait(forDuration: 10.0),done]))
-            self.addChild(audioNode)
+            let playAudio = SKAction.run {
+                self.addChild(audioNode)
+            }
+            
+            let stopAudio = SKAction.run {
+                audioNode.removeFromParent()
+            }
+            
+            let sequenceAudio = SKAction.sequence([playAudio,.wait(forDuration: 0.5), stopAudio])
+            self.run(sequenceAudio)
         }
     }
     func stopAudioAfterDuration(audioNode: SKAudioNode, duration: TimeInterval) {
