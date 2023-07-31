@@ -203,6 +203,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
+            if player.physicsBody!.velocity.dy < 0 && !player.hasContact{
+                player.goDown = false
+            }
             player.hasContact = true
             player.jumps = 0
             
@@ -354,12 +357,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
-                player.goDown = false
+                
                 player.hasContact = false
+            }
+            if player.physicsBody!.velocity.dy >= 0{
+                player.goDown = false
             }
         case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue: //player and nofallplatform collision
             if player.physicsBody!.velocity.dy != 0{
-                player.goDown = false
+              
                 player.hasContact = false
             }
         default:
@@ -382,19 +388,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let dy = body.velocity.dy
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
-                body.collisionBitMask = physicsCategory.player.rawValue                
-
+                body.collisionBitMask = physicsCategory.player.rawValue
+                
             } else if (dy < 0  && player.goDown) {
-
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
-                
-                
+                print("GODOWN")
             }
+            
             else {
                 // Allow collisions if the hero is falling
-                body.collisionBitMask |= physicsCategory.platform.rawValue
-                body.collisionBitMask |= physicsCategory.nofallplatform.rawValue
-                                
+                
+                body.collisionBitMask |= physicsCategory.nofallplatform.rawValue | physicsCategory.platform.rawValue
+                print("has contact = \(player.hasContact)")
+                print("godown = \(player.goDown)")
+                print("velocity = \(dy)")
             }
             
             
@@ -410,6 +417,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -439,6 +447,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hudNode.seconds = hudNode.seconds - 1
         }
 
+        
+        let savedMusic: Bool = (UserDefaults.standard.integer(forKey: "MusicKey") != 0)
+        if !savedMusic{
+            backgroundMusic.run(SKAction.stop())
+        }
     }
     
 }
