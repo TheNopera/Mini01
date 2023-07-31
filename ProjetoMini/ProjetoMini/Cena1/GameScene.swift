@@ -382,9 +382,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let dy = body.velocity.dy
             if dy > 0 {
                 // Prevent collisions if the hero is jumping
-                body.collisionBitMask = physicsCategory.player.rawValue
-                //print("\((body.collisionBitMask))")
-                
+                body.collisionBitMask = physicsCategory.player.rawValue                
 
             } else if (dy < 0  && player.goDown) {
 
@@ -396,9 +394,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Allow collisions if the hero is falling
                 body.collisionBitMask |= physicsCategory.platform.rawValue
                 body.collisionBitMask |= physicsCategory.nofallplatform.rawValue
-                
-                // print("\((body.collisionBitMask))")
-                
+                                
             }
             
             
@@ -413,21 +409,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemie.verificaTargetPosition()
             }
         }
-        
-        //MARK: Checks if plyer is imortal and use respective Texture
-        //        if !player.isImortal{
-        //            if player.isTurningLeft{
-        //                player.texture = SKTexture(imageNamed: "PlayerE")
-        //            }else{
-        //                player.texture = SKTexture(imageNamed: "Player")
-        //            }
-        //        }else{
-        //            if player.isTurningLeft{
-        //                player.texture = SKTexture(imageNamed: "danoE")
-        //            }else{
-        //                player.texture = SKTexture(imageNamed: "danoD")
-        //            }
-        //        }
         
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
@@ -457,9 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.isPaused = true
             hudNode.seconds = hudNode.seconds - 1
         }
-//        if !hudNode.isMusicOn{
-//            backgroundMusic.run(SKAction.stop())
-//        }
+
     }
     
 }
