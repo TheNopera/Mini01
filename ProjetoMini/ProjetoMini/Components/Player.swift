@@ -19,6 +19,8 @@ class Player:SKSpriteNode{
     var isTurningLeft:Bool = false
     var isJumping:Bool = false
     var isImortal = false
+    private let soundKey = "SoundKey"
+    private var SoundToggle = false
     let moveRightAnimation:[SKTexture] = [
         SKTexture(imageNamed: "player_move 1"),
         SKTexture(imageNamed: "player_move 2"),
@@ -238,7 +240,10 @@ class Player:SKSpriteNode{
         //audioNode.autoplayLooped = false
         stopAudioAfterDuration(audioNode: audioNode, duration: 1)
         //audioNode.gain = 0.8
-        
+        let savedsound: Bool = (UserDefaults.standard.integer(forKey: soundKey) != 0)
+        if !savedsound{
+            audioNode.run(SKAction.stop())
+        }
         if self.isTurningLeft{
             bullet.name = "leftBullet"
             bullet.position.x = bullet.position.x - self.size.width/2 + 15
