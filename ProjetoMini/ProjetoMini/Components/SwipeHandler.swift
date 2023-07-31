@@ -45,9 +45,10 @@ class CustomSwipeHandler: NSObject {
         // Handle the swipe here
         let touchLocation = gestureRecognizer.location(in: scene?.view)
         // Call the handler function in the player class to perform specific actions.
-        if touchLocation.x > (scene?.view?.bounds.width)! * 0.5{
-            player?.handleSwipe(gestureRecognizer.direction)
+        if let width = scene?.view?.bounds.width{
+            if touchLocation.x > width * 0.5{
+                player?.handleSwipe(gestureRecognizer.direction)
+            }
         }
-    
     }
 }
