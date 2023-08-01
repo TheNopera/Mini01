@@ -205,6 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
             if player.physicsBody!.velocity.dy < 0 && !player.hasContact{
                 player.goDown = false
+               
             }
             player.hasContact = true
             player.jumps = 0
@@ -357,10 +358,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue:// Player and platform collision
             if player.physicsBody!.velocity.dy != 0{
-                
                 player.hasContact = false
             }
-            if player.physicsBody!.velocity.dy >= 0{
+            if player.physicsBody!.velocity.dy < 0{
                 player.goDown = false
             }
         case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue: //player and nofallplatform collision
