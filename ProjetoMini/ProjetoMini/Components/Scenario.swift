@@ -186,16 +186,17 @@ class LayerScenario: SKNode {
         }
     }
     
-    func InimigoSpawn1(target: Player){
-        enumerateChildNodes(withName: "spawnPoint1"){ node, _ in
+    func inimigoSpawn(spawn:Int, target:Player){
+        enumerateChildNodes(withName: "spawnPoint\(spawn)"){ node, _ in
             if let spawnPoint = node as? SKSpriteNode{
-                
+                //verifica limite de inimigos
                 if self.inimigosAR.count < self.limiteInimigos{
                     
-                    let verificaPos = self.verificaPosição(spawnNum: 1)
-                    
+                    //verifica se existem inimigos proximos
+                    let verificaPos = self.verificaPosição(spawnNum: spawn)
                     if verificaPos{
                         
+                        //Recebe um inimigo de tipo aleatorio e passa suas configurações
                         var inimigo = self.giveEnemy()
                         if self.hasChaser == true{
                             inimigo = Inimigo()
@@ -203,9 +204,10 @@ class LayerScenario: SKNode {
                             self.hasChaser = true
                         }
                         inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 1
+                        inimigo.numSpawn = spawn
                         inimigo.position = spawnPoint.position
                         
+                        // verifica a posiçcão de player para fazer o inimigo encara-lo
                         if target.position.x < spawnPoint.position.x{
                             spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
                             
@@ -214,11 +216,13 @@ class LayerScenario: SKNode {
                                 spawnPoint.texture = nil
                             }
                             let createEnemy = SKAction.run {
+                                //adiciona o inimigo no array e passa o seu alvo
                                 self.addChild(inimigo)
                                 self.inimigosAR.append(inimigo)
                                 inimigo.target = target
                             }
                             spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
+                            
                         } else{
                             spawnPoint.texture = SKTexture(imageNamed: "spawnD1")
                             
@@ -227,215 +231,13 @@ class LayerScenario: SKNode {
                                 spawnPoint.texture = nil
                             }
                             let createEnemy = SKAction.run {
+                                //adiciona o inimigo no array e passa o seu alvo
                                 self.addChild(inimigo)
                                 self.inimigosAR.append(inimigo)
                                 inimigo.target = target
                             }
                             spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    func InimigoSpawn2(target: Player){
-        enumerateChildNodes(withName: "spawnPoint2"){ node, _ in
-            if let spawnPoint = node as? SKSpriteNode{
-                
-                if self.inimigosAR.count < self.limiteInimigos{
-                    
-                    let verificaPos = self.verificaPosição(spawnNum: 2)
-                    
-                    if verificaPos{
-                        
-                        var inimigo = self.giveEnemy()
-                        if self.hasChaser == true{
-                            inimigo = Inimigo()
-                        } else if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
-                        inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 2
-                        inimigo.position = spawnPoint.position
-                        if target.position.x < spawnPoint.position.x{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
                             
-                            let spawAnimation = SKAction.animate(with: self.spawnL, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        } else{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnD1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnR, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    func InimigoSpawn3(target: Player){
-        enumerateChildNodes(withName: "spawnPoint3"){ node, _ in
-            if let spawnPoint = node as? SKSpriteNode{
-                
-                if self.inimigosAR.count < self.limiteInimigos{
-                    
-                    let verificaPos = self.verificaPosição(spawnNum: 3)
-                    
-                    if verificaPos{
-                        
-                        var inimigo = self.giveEnemy()
-                        if self.hasChaser == true{
-                            inimigo = Inimigo()
-                        } else if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
-                        inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 3
-                        inimigo.position = spawnPoint.position
-                        if target.position.x < spawnPoint.position.x{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnL, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        } else{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnD1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnR, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    func InimigoSpawn4(target: Player){
-        enumerateChildNodes(withName: "spawnPoint4"){ node, _ in
-            if let spawnPoint = node as? SKSpriteNode{
-                
-                if self.inimigosAR.count < self.limiteInimigos{
-                    
-                    let verificaPos = self.verificaPosição(spawnNum: 4)
-                    
-                    if verificaPos{
-                        
-                        var inimigo = self.giveEnemy()
-                        if self.hasChaser == true{
-                            inimigo = Inimigo()
-                        } else if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
-                        inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 4
-                        inimigo.position = spawnPoint.position
-                        if target.position.x < spawnPoint.position.x{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnL, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        } else{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnD1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnR, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    func InimigoSpawn5(target: Player){
-        enumerateChildNodes(withName: "spawnPoint5"){ node, _ in
-            if let spawnPoint = node as? SKSpriteNode{
-                
-                if self.inimigosAR.count < self.limiteInimigos{
-                    
-                    let verificaPos = self.verificaPosição(spawnNum: 5)
-                    
-                    if verificaPos{
-                        var inimigo = self.giveEnemy()
-                        if self.hasChaser == true{
-                            inimigo = Inimigo()
-                        } else if inimigo == Chaser(){
-                            self.hasChaser = true
-                        }
-                        inimigo.zPosition = 21.0
-                        inimigo.numSpawn = 5
-                        inimigo.position = spawnPoint.position
-                        if target.position.x < spawnPoint.position.x{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnL1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnL, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
-                        } else{
-                            spawnPoint.texture = SKTexture(imageNamed: "spawnD1")
-                            
-                            let spawAnimation = SKAction.animate(with: self.spawnR, timePerFrame: 0.1)
-                            let animationEnded = SKAction.run {
-                                spawnPoint.texture = nil
-                            }
-                            let createEnemy = SKAction.run {
-                                self.addChild(inimigo)
-                                self.inimigosAR.append(inimigo)
-                                inimigo.target = target
-                            }
-                            spawnPoint.run(.sequence([spawAnimation,animationEnded,createEnemy]))
                         }
                     }
                 }
