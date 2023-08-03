@@ -9,13 +9,14 @@ import SpriteKit
 
 class HUDNode: SKNode {
     
-    // MARK: PROPERTIES
+    // MARK: Pre Game Properties
     
-    // MARK: Menu Properties
+    // Pre Game View
     private var menuShape: SKShapeNode!
     private var menuNode: SKSpriteNode!
     private var startNode: SKLabelNode!
     
+    // Settings
     private var configShape: SKSpriteNode!
     private var configTitle: SKLabelNode!
     private var soundLabel: SKLabelNode!
@@ -25,60 +26,76 @@ class HUDNode: SKNode {
     private var returnLabel: SKLabelNode!
     private var returnNode: SKSpriteNode!
     private var returnPressNode: SKSpriteNode!
+   
+    
+    // Sound and Music Properties
+    private var SoundToggle = false
+    private let soundKey = "SoundKey" // UserDefault key for sound
+    private var isMusicOn = false
+    private let musciKey = "MusicKey" // UserDefault key for music
+
+    
+    // MARK: In Game Properties
+    
+    // InGame Settings "Return" Button
     private var inGameReturnNode: SKSpriteNode!
     private var InGameReturnPressNode: SKSpriteNode!
     
-    private var SoundToggle = false
-    private let soundKey = "SoundKey"
-    private var isMusicOn = false
-    private let musciKey = "MusicKey"
-
-    
-    // MARK: Paused Properties
+    // Pause Panel Properties
     private var inGamePauseNode: SKSpriteNode!
-    
+    private var tituloPause: SKLabelNode!
     private var pauseNodeShape: SKShapeNode!
     private var pauseNode: SKSpriteNode!
-    private var restartNode: SKSpriteNode!
     private var resumeNode: SKSpriteNode!
-    private var quitNode: SKSpriteNode!
-    private var tituloPause: SKLabelNode!
+    private var restartNode: SKSpriteNode!
     private var configNode: SKSpriteNode!
+    private var quitNode: SKSpriteNode!
     var gamePaused = false
     
-    // MARK: GameOver Properties
-    private var gameOverShape: SKShapeNode!
-    private var gameOverNode: SKSpriteNode!
-    
-    private var homeNode: SKSpriteNode!
-    private var homePressNode: SKSpriteNode!
-    private var againNode: SKSpriteNode!
-    private var againPressNode: SKSpriteNode!
-
-    
-    private var gameOverLabel: SKLabelNode!
-    
-    private var homeLabel: SKLabelNode!
-    private var againLabel: SKLabelNode!
-    
-    private var scoreTitleLbl: SKLabelNode!
-    var scoreLbl: SKLabelNode!
-    private var highscoreLbl: SKLabelNode!
-    private var highscoreTitleLbl: SKLabelNode!
-    
-    // MARK: InGame Properties
+    // In Game Timer Properties
     var renderTime: TimeInterval = 0.0
     var changeTime: TimeInterval = 1.0
     var seconds: Int = 0
     var minutes: Int = 0
     var timerLabel: SKLabelNode!
     
+    // Player Life Nodes Properties
     var lifeNodes: [SKSpriteNode] = []
     var life1: SKSpriteNode!
     var life2: SKSpriteNode!
     var life3: SKSpriteNode!
+    
+    
+    // MARK: GameOver Properties
+    
+    // GameOver View Properties
+    private var gameOverShape: SKShapeNode!
+    private var gameOverNode: SKSpriteNode!
+    
+    // Score and HighScore Label
+    private var scoreTitleLbl: SKLabelNode!
+    private var scoreLbl: SKLabelNode!
+    private var highscoreLbl: SKLabelNode!
+    private var highscoreTitleLbl: SKLabelNode!
+    
+    // Home Button
+    private var homeNode: SKSpriteNode!
+    private var homeLabel: SKLabelNode!
+    private var homePressNode: SKSpriteNode!
+    
+    // Play Again Button
+    private var againNode: SKSpriteNode!
+    private var againLabel: SKLabelNode!
+    private var againPressNode: SKSpriteNode!
 
-    // MARK: TRANSITION Properties
+    
+    private var gameOverLabel: SKLabelNode!
+    
+    
+
+    // MARK: Transition Properties
+    
+    // Properties for SKScene Transition (MenuScene -> GameScene)
     var easeMenuScene: MenuScene?
     var easeGameScene: GameScene?
     var skView: SKView!
@@ -177,6 +194,8 @@ class HUDNode: SKNode {
         SKTexture(imageNamed: "menu-marfrente2"),
         SKTexture(imageNamed: "menu-marfrente3")
     ]
+    
+    
     // MARK: In touchesBegan, the buttons activate when pressed
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -301,7 +320,6 @@ class HUDNode: SKNode {
         
         if isResume {
             pauseNode.removeFromParent()
-//            pauseNodeShape.removeFromParent()
             quitNode.removeFromParent()
             tituloPause.removeFromParent()
             restartNode.removeFromParent()
@@ -316,12 +334,10 @@ class HUDNode: SKNode {
         
         if inGameConfig {
             pauseNode.removeFromParent()
-//            pauseNodeShape.removeFromParent()
             quitNode.removeFromParent()
             tituloPause.removeFromParent()
             restartNode.removeFromParent()
             configNode.removeFromParent()
-//            resumeNode.removeFromParent()
             setupConfigInGame()
             inGameConfig = false
         }
@@ -392,15 +408,6 @@ class HUDNode: SKNode {
         if let parent = menuSettings.parent {
             isConfig = menuSettings.contains(touch.location(in: parent))
         }
-//        if let parent = pauseNode?.parent {
-//            isPause = pauseNode.contains(touch.location(in: parent))
-//        } else
-        
-        /*
-         Salvar o node tocado no touches began
-         Se o node for diferente do update, cancela a funcao (comparação no touchesmoved)
-         
-         */
         if let parent = restartNode?.parent {
             isResume = restartNode.contains(touch.location(in: parent))
         } else
@@ -433,148 +440,7 @@ extension HUDNode {
     }
 }
 
-
-
-// MARK: GameOver
-
-extension HUDNode {
-    
-    // MARK: Enter the GameOver Panel
-    func setupGameOver(_ timer: String, _ hightimer: String) {
-        
-        gameOverShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
-        gameOverShape.zPosition = 49.0
-        addChild(gameOverShape)
-        
-        isUserInteractionEnabled = true
-        
-        // MARK: GameOver Node
-        gameOverNode = SKSpriteNode(imageNamed: "NevoaDoFundo")
-        gameOverNode.zPosition = 50.0
-        gameOverNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
-        addChild(gameOverNode)
-        
-        // MARK: Menu Node
-        homeNode = SKSpriteNode(imageNamed: "Button")
-        homeNode.zPosition = 55.0
-        homeNode.position = CGPoint(
-            x: screenWidth*(0.35),
-            y: screenHeight*0.25)
-        addChild(homeNode)
-        
-        // MARK: Home Press Node
-        homePressNode = SKSpriteNode()
-        homePressNode.name = "Home"
-        homePressNode.size = CGSize(width: homeNode.size.width, height: homeNode.size.height)
-        homePressNode.zPosition = 55.1
-        homePressNode.position = CGPoint(
-            x: screenWidth*(0.35),
-            y: screenHeight*0.25)
-        addChild(homePressNode)
-        
-        // MARK: PlayAgain Node
-        againNode = SKSpriteNode(imageNamed: "Button")
-        againNode.zPosition = 55.0
-        againNode.position = CGPoint(
-            x: screenWidth*(0.62),
-            y: screenHeight*0.25)
-        addChild(againNode)
-        
-        // MARK: PlayAgain Press Node
-        againPressNode = SKSpriteNode()
-        againPressNode.name = "Again"
-        againPressNode.size = CGSize(width: againNode.size.width, height: againNode.size.height)
-        againPressNode.zPosition = 55.1
-        againPressNode.position = CGPoint(
-            x: screenWidth*(0.62),
-            y: screenHeight*0.25)
-        addChild(againPressNode)
-        
-        // MARK: ScoreTitleLbl Node
-        scoreTitleLbl = SKLabelNode()
-        scoreTitleLbl.fontSize = 30.0
-        scoreTitleLbl.fontColor = .white
-        scoreTitleLbl.text = "Time:".localizaed()
-        scoreTitleLbl.fontName = "JupiterCrashBRK"
-        scoreTitleLbl.zPosition = 55.0
-        scoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.width * 0.33,
-            y: screenHeight/2)
-        addChild(scoreTitleLbl)
-        
-        // MARK: ScoreLbl Node
-        scoreLbl = SKLabelNode()
-        scoreLbl.fontSize = 30.0
-        scoreLbl.fontColor = .white
-        scoreLbl.text = "\(timer)"
-        scoreLbl.fontName = "JupiterCrashBRK"
-        scoreLbl.zPosition = 55.0
-        scoreLbl.position = CGPoint(
-            x: screenWidth/2 + 90,
-            y: screenHeight/2)
-        addChild(scoreLbl)
-        
-        // MARK: HighScoreTitleLbl Node
-        highscoreTitleLbl = SKLabelNode()
-        highscoreTitleLbl.fontSize = 30.0
-        highscoreTitleLbl.fontColor = .white
-        highscoreTitleLbl.text = "Best Time:".localizaed()
-        highscoreTitleLbl.fontName = "JupiterCrashBRK"
-        highscoreTitleLbl.zPosition = 55.0
-        highscoreTitleLbl.position = CGPoint(
-            x: gameOverNode.frame.width * 0.33,
-            y: screenHeight/2 - highscoreTitleLbl.frame.height*2)
-        addChild(highscoreTitleLbl)
-        
-        // MARK: HighScoreLbl Node
-        highscoreLbl = SKLabelNode()
-        highscoreLbl.fontSize = 30.0
-        highscoreLbl.fontColor = .white
-        highscoreLbl.text = "\(hightimer)"
-        highscoreLbl.fontName = "JupiterCrashBRK"
-        highscoreLbl.zPosition = 55.0
-        highscoreLbl.position = CGPoint(
-            x: screenWidth/2 + 90,
-            y: highscoreTitleLbl.position.y)
-        addChild(highscoreLbl)
-        
-        gameOverLabel = SKLabelNode()
-        gameOverLabel.fontSize = 40.0
-        gameOverLabel.fontColor = .white
-        gameOverLabel.text = "Game Over".localizaed()
-        gameOverLabel.fontName = "KarmaticArcade"
-        gameOverLabel.zPosition = 55.0
-        gameOverLabel.position = CGPoint(
-            x: screenWidth/2 - 15,
-            y: highscoreTitleLbl.position.y + 120)
-        addChild(gameOverLabel)
-        
-        homeLabel = SKLabelNode()
-        homeLabel.fontSize = 20.0
-        homeLabel.fontColor = .white
-        homeLabel.text = "Menu".localizaed()
-        homeLabel.fontName = "JupiterCrashBRK"
-        homeLabel.zPosition = 55.0
-        homeLabel.position = CGPoint(
-            x: screenWidth*(0.35),
-            y: screenHeight*0.23)
-        addChild(homeLabel)
-        
-        againLabel = SKLabelNode()
-        againLabel.fontSize = 20.0
-        againLabel.fontColor = .white
-        againLabel.text = "Play again".localizaed()
-        againLabel.fontName = "JupiterCrashBRK"
-        againLabel.zPosition = 55.0
-        againLabel.position = CGPoint(
-            x: screenWidth*(0.62),
-            y: screenHeight*0.23)
-        addChild(againLabel)
-        
-    }
-}
-
-// MARK: Menu
+// MARK: MENU
 extension HUDNode {
     
     // MARK: Enter the Menu Panel
@@ -677,9 +543,132 @@ extension HUDNode {
     }
 }
 
+
+// MARK: INGAME TIMER
+extension HUDNode {
+    /**
+     func setupInGameTimer( )
+     - returns: created Timer in top center of the screen
+     */
+    func setupInGameTimer() {
+        timerLabel = SKLabelNode()
+        timerLabel.zPosition = 49.0
+        timerLabel.fontName = "JupiterCrashBRK"
+        timerLabel.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.90)
+        timerLabel.name = "Timer-label"
+        addChild(timerLabel)
+    }
+}
+
+// MARK: PLAYER LIFE
 extension HUDNode {
     
-    // MARK: Configuration Panel
+    func setupLife() {
+        life1 = SKSpriteNode(imageNamed: "life-on")
+        life2 = SKSpriteNode(imageNamed: "life-on")
+        life3 = SKSpriteNode(imageNamed: "life-on")
+        
+        setupLifePosition(life1,j: 0.0)
+        setupLifePosition(life2,j: 50.0)
+        setupLifePosition(life3,j: 100.0)
+        
+        lifeNodes.append(life1)
+        lifeNodes.append(life2)
+        lifeNodes.append(life3)
+    }
+    
+    func setupLifePosition(_ life: SKSpriteNode, j: CGFloat) {
+        
+        life.zPosition = 49.0
+        life.position = CGPoint(
+            x: screenWidth * 0.1 + j,
+            y: screenHeight * 0.90)
+        addChild(life)
+    }
+}
+
+//MARK: PAUSE BUTTON AND PANEL
+extension HUDNode {
+    
+    // MARK: Enter the In Game Pause Button
+    func setupPauseNode() {
+        inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
+        inGamePauseNode.zPosition = 49.0
+        inGamePauseNode.name = "Pause"
+        inGamePauseNode.size = CGSize(width: 32, height: 32)
+        inGamePauseNode.position = CGPoint(
+            x: screenWidth*0.93,
+            y: screenHeight*0.90)
+        addChild(inGamePauseNode)
+        isUserInteractionEnabled = true
+        
+    }
+    
+    func setupResumeNode() {
+        resumeNode = SKSpriteNode(imageNamed: "resume-button")
+        resumeNode.name = "Resume"
+        resumeNode.size = CGSize(width: 32, height: 32)
+        resumeNode.zPosition = 55.0
+        resumeNode.position = CGPoint(
+            x: screenWidth*0.93,
+            y: screenHeight*0.90)
+        addChild(resumeNode)
+        isUserInteractionEnabled = true
+    }
+    // MARK: Enter the Paused Panel
+    func setupPausePanel() {
+        
+        isUserInteractionEnabled = true
+        
+        // MARK: Pause Node
+        pauseNode = SKSpriteNode(imageNamed: "NevoaDoFundo")
+        pauseNode.zPosition = 50.0
+        pauseNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+        addChild(pauseNode)
+        
+        // MARK: Quit Node
+        quitNode = SKSpriteNode(imageNamed: "home-button")
+        quitNode.zPosition = 55.0
+        quitNode.position = CGPoint(
+            x: screenWidth*(0.35),
+            y: screenHeight*(0.45))
+        quitNode.name = "Quit"
+        addChild(quitNode)
+        
+        // MARK: Restart Node
+        restartNode = SKSpriteNode(imageNamed: "back-button")
+        restartNode.zPosition = 55.0
+        restartNode.position = CGPoint(
+            x: screenWidth*(0.62),
+            y: screenHeight*(0.45))
+        restartNode.name = "Restart"
+        addChild(restartNode)
+        
+        tituloPause = SKLabelNode()
+        tituloPause.fontSize = 40.0
+        tituloPause.fontColor = .white
+        tituloPause.text = "Paused".localizaed()
+        tituloPause.fontName = "KarmaticArcade"
+        tituloPause.zPosition = 55.0
+        tituloPause.position = CGPoint(
+            x: screenWidth*(0.49) + 3,
+            y: screenHeight*(0.65))
+        addChild(tituloPause)
+        
+        configNode = SKSpriteNode(imageNamed: "menu-settings")
+        configNode.zPosition = 55.0
+        configNode.position = CGPoint(
+            x: screenWidth*(0.49),
+            y: screenHeight*(0.45))
+        configNode.name = "InGameConfig"
+        addChild(configNode)
+    }
+}
+
+
+extension HUDNode {
+    
+    // MARK: SETTINGS PANEL
     func setupConfigMenu() {
         
         configShape = SKSpriteNode(imageNamed: "NevoaDoFundo")
@@ -867,122 +856,145 @@ extension HUDNode {
         
     }
 }
-    
-//MARK: Pause
+
+// MARK: GAMEOVER
+
 extension HUDNode {
     
-    // MARK: Enter the In Game Pause Button
-    func setupPauseNode() {
-        inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
-        inGamePauseNode.zPosition = 49.0
-        inGamePauseNode.name = "Pause"
-        inGamePauseNode.size = CGSize(width: 32, height: 32)
-        inGamePauseNode.position = CGPoint(
-            x: screenWidth*0.93,
-            y: screenHeight*0.90)
-        addChild(inGamePauseNode)
-        isUserInteractionEnabled = true
+    // MARK: Enter the GameOver Panel
+    func setupGameOver(_ timer: String, _ hightimer: String) {
         
-    }
-    
-    func setupResumeNode() {
-        resumeNode = SKSpriteNode(imageNamed: "resume-button")
-        resumeNode.name = "Resume"
-        resumeNode.size = CGSize(width: 32, height: 32)
-        resumeNode.zPosition = 55.0
-        resumeNode.position = CGPoint(
-            x: screenWidth*0.93,
-            y: screenHeight*0.90)
-        addChild(resumeNode)
-        isUserInteractionEnabled = true
-    }
-    // MARK: Enter the Paused Panel
-    func setupPausePanel() {
+        gameOverShape = SKShapeNode(rect: CGRect(x: 0.0, y: 0.0, width: screenWidth, height: screenHeight))
+        gameOverShape.zPosition = 49.0
+        addChild(gameOverShape)
         
         isUserInteractionEnabled = true
         
-        // MARK: Pause Node
-        pauseNode = SKSpriteNode(imageNamed: "NevoaDoFundo")
-        pauseNode.zPosition = 50.0
-        pauseNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
-        addChild(pauseNode)
+        // MARK: GameOver Node
+        gameOverNode = SKSpriteNode(imageNamed: "NevoaDoFundo")
+        gameOverNode.zPosition = 50.0
+        gameOverNode.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
+        addChild(gameOverNode)
         
-        // MARK: Quit Node
-        quitNode = SKSpriteNode(imageNamed: "home-button")
-        quitNode.zPosition = 55.0
-        quitNode.position = CGPoint(
+        // MARK: Menu Node
+        homeNode = SKSpriteNode(imageNamed: "Button")
+        homeNode.zPosition = 55.0
+        homeNode.position = CGPoint(
             x: screenWidth*(0.35),
-            y: screenHeight*(0.45))
-        quitNode.name = "Quit"
-        addChild(quitNode)
+            y: screenHeight*0.25)
+        addChild(homeNode)
         
-        // MARK: Restart Node
-        restartNode = SKSpriteNode(imageNamed: "back-button")
-        restartNode.zPosition = 55.0
-        restartNode.position = CGPoint(
+        // MARK: Home Press Node
+        homePressNode = SKSpriteNode()
+        homePressNode.name = "Home"
+        homePressNode.size = CGSize(width: homeNode.size.width, height: homeNode.size.height)
+        homePressNode.zPosition = 55.1
+        homePressNode.position = CGPoint(
+            x: screenWidth*(0.35),
+            y: screenHeight*0.25)
+        addChild(homePressNode)
+        
+        // MARK: PlayAgain Node
+        againNode = SKSpriteNode(imageNamed: "Button")
+        againNode.zPosition = 55.0
+        againNode.position = CGPoint(
             x: screenWidth*(0.62),
-            y: screenHeight*(0.45))
-        restartNode.name = "Restart"
-        addChild(restartNode)
+            y: screenHeight*0.25)
+        addChild(againNode)
         
-        tituloPause = SKLabelNode()
-        tituloPause.fontSize = 40.0
-        tituloPause.fontColor = .white
-        tituloPause.text = "Paused".localizaed()
-        tituloPause.fontName = "KarmaticArcade"
-        tituloPause.zPosition = 55.0
-        tituloPause.position = CGPoint(
-            x: screenWidth*(0.49) + 3,
-            y: screenHeight*(0.65))
-        addChild(tituloPause)
+        // MARK: PlayAgain Press Node
+        againPressNode = SKSpriteNode()
+        againPressNode.name = "Again"
+        againPressNode.size = CGSize(width: againNode.size.width, height: againNode.size.height)
+        againPressNode.zPosition = 55.1
+        againPressNode.position = CGPoint(
+            x: screenWidth*(0.62),
+            y: screenHeight*0.25)
+        addChild(againPressNode)
         
-        configNode = SKSpriteNode(imageNamed: "menu-settings")
-        configNode.zPosition = 55.0
-        configNode.position = CGPoint(
-            x: screenWidth*(0.49),
-            y: screenHeight*(0.45))
-        configNode.name = "InGameConfig"
-        addChild(configNode)
+        // MARK: ScoreTitleLbl Node
+        scoreTitleLbl = SKLabelNode()
+        scoreTitleLbl.fontSize = 30.0
+        scoreTitleLbl.fontColor = .white
+        scoreTitleLbl.text = "Time:".localizaed()
+        scoreTitleLbl.fontName = "JupiterCrashBRK"
+        scoreTitleLbl.zPosition = 55.0
+        scoreTitleLbl.position = CGPoint(
+            x: gameOverNode.frame.width * 0.33,
+            y: screenHeight/2)
+        addChild(scoreTitleLbl)
+        
+        // MARK: ScoreLbl Node
+        scoreLbl = SKLabelNode()
+        scoreLbl.fontSize = 30.0
+        scoreLbl.fontColor = .white
+        scoreLbl.text = "\(timer)"
+        scoreLbl.fontName = "JupiterCrashBRK"
+        scoreLbl.zPosition = 55.0
+        scoreLbl.position = CGPoint(
+            x: screenWidth/2 + 90,
+            y: screenHeight/2)
+        addChild(scoreLbl)
+        
+        // MARK: HighScoreTitleLbl Node
+        highscoreTitleLbl = SKLabelNode()
+        highscoreTitleLbl.fontSize = 30.0
+        highscoreTitleLbl.fontColor = .white
+        highscoreTitleLbl.text = "Best Time:".localizaed()
+        highscoreTitleLbl.fontName = "JupiterCrashBRK"
+        highscoreTitleLbl.zPosition = 55.0
+        highscoreTitleLbl.position = CGPoint(
+            x: gameOverNode.frame.width * 0.33,
+            y: screenHeight/2 - highscoreTitleLbl.frame.height*2)
+        addChild(highscoreTitleLbl)
+        
+        // MARK: HighScoreLbl Node
+        highscoreLbl = SKLabelNode()
+        highscoreLbl.fontSize = 30.0
+        highscoreLbl.fontColor = .white
+        highscoreLbl.text = "\(hightimer)"
+        highscoreLbl.fontName = "JupiterCrashBRK"
+        highscoreLbl.zPosition = 55.0
+        highscoreLbl.position = CGPoint(
+            x: screenWidth/2 + 90,
+            y: highscoreTitleLbl.position.y)
+        addChild(highscoreLbl)
+        
+        gameOverLabel = SKLabelNode()
+        gameOverLabel.fontSize = 40.0
+        gameOverLabel.fontColor = .white
+        gameOverLabel.text = "Game Over".localizaed()
+        gameOverLabel.fontName = "KarmaticArcade"
+        gameOverLabel.zPosition = 55.0
+        gameOverLabel.position = CGPoint(
+            x: screenWidth/2 - 15,
+            y: highscoreTitleLbl.position.y + 120)
+        addChild(gameOverLabel)
+        
+        homeLabel = SKLabelNode()
+        homeLabel.fontSize = 20.0
+        homeLabel.fontColor = .white
+        homeLabel.text = "Menu".localizaed()
+        homeLabel.fontName = "JupiterCrashBRK"
+        homeLabel.zPosition = 55.0
+        homeLabel.position = CGPoint(
+            x: screenWidth*(0.35),
+            y: screenHeight*0.23)
+        addChild(homeLabel)
+        
+        againLabel = SKLabelNode()
+        againLabel.fontSize = 20.0
+        againLabel.fontColor = .white
+        againLabel.text = "Play again".localizaed()
+        againLabel.fontName = "JupiterCrashBRK"
+        againLabel.zPosition = 55.0
+        againLabel.position = CGPoint(
+            x: screenWidth*(0.62),
+            y: screenHeight*0.23)
+        addChild(againLabel)
+        
     }
 }
 
-// MARK: InGame Timer
-extension HUDNode {
-    
-    func setupInGameTimer() {
-        timerLabel = SKLabelNode()
-        timerLabel.zPosition = 49.0
-        timerLabel.fontName = "JupiterCrashBRK"
-        timerLabel.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.90)
-        timerLabel.name = "Timer-label"
-        addChild(timerLabel)
-    }
-}
 
-extension HUDNode {
     
-    func setupLife() {
-        life1 = SKSpriteNode(imageNamed: "life-on")
-        life2 = SKSpriteNode(imageNamed: "life-on")
-        life3 = SKSpriteNode(imageNamed: "life-on")
-        
-        setupLifePosition(life1,j: 0.0)
-        setupLifePosition(life2,j: 50.0)
-        setupLifePosition(life3,j: 100.0)
-        
-        lifeNodes.append(life1)
-        lifeNodes.append(life2)
-        lifeNodes.append(life3)
-    }
-    
-    func setupLifePosition(_ life: SKSpriteNode, j: CGFloat) {
-        
-        life.zPosition = 49.0
-        life.position = CGPoint(
-            x: screenWidth * 0.1 + j,
-            y: screenHeight * 0.90)
-        addChild(life)
-    }
-}
-
-
