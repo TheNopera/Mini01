@@ -8,35 +8,61 @@
 import Foundation
 import SpriteKit
 
+//Classe do segundo inimigo, ela herda do primeiro
 class Chaser:Inimigo{
     
+    //Ovverride da função mover, muda a distancia segura e velocidade do inimigo
     override func mover() {
+        //Distancia entre o inimigo e o player
         let dx = distanceX(a: target!.position, b: self.position)
         
-        
         if dx > CGFloat(self.safeDistance) + 100{
-            
+            //Move o inimigo de acordo com a posição do inimigo em relação ao player
             if target!.position.x < self.position.x{
                 self.position.x -= CGFloat(self.velocity)
+                
+                enumerateChildNodes(withName: "enemyBullet"){ node, _ in
+                    let bullet = node as? SKSpriteNode
+                    bullet!.position = CGPoint(x: bullet!.position.x + CGFloat(self.velocity), y: bullet!.position.y)
+                }
             }
             
             if target!.position.x > self.position.x{
                 self.position.x += CGFloat(self.velocity)
+                
+                enumerateChildNodes(withName: "enemyBullet"){ node, _ in
+                    let bullet = node as? SKSpriteNode
+                    bullet!.position = CGPoint(x: bullet!.position.x - CGFloat(self.velocity), y: bullet!.position.y)
+                }
+
             }
             
         } else if dx < CGFloat(self.safeDistance){
             
             if target!.position.x < self.position.x{
                 self.position.x += CGFloat(self.velocity)
+                
+                enumerateChildNodes(withName: "enemyBullet"){ node, _ in
+                    let bullet = node as? SKSpriteNode
+                    bullet!.position = CGPoint(x: bullet!.position.x - CGFloat(self.velocity), y: bullet!.position.y)
+                }
             }
             
             if target!.position.x > self.position.x{
                 self.position.x -= CGFloat(self.velocity)
+                
+                enumerateChildNodes(withName: "enemyBullet"){ node, _ in
+                    let bullet = node as? SKSpriteNode
+                    bullet!.position = CGPoint(x: bullet!.position.x + CGFloat(self.velocity), y: bullet!.position.y)
+                }
             }
         }
     }
     
+    //Funcão de ataque do segundo inimigo, ele atira tres tiros nessa função
     override func attack() {
+        
+        //Cria e declara as caracteristicas das balas do inimigo
         let bullet1 = SKSpriteNode(imageNamed: "enemyTiro")
         bullet1.name = "enemyBullet"
         
@@ -67,8 +93,10 @@ class Chaser:Inimigo{
         bullet3.physicsBody?.affectedByGravity = false
         bullet3.physicsBody?.isDynamic = true
         
+        //Verifica em qual quadrante do plano da layerScenario o inimigo se localiza em relação ao eixo X
         if self.position.x > 0{
             
+            //Verifica em qual quadrante do plano da layerScenario o inimigo se localiza em relação ao eixo Y
             if self.position.y > 0{
                 var dx = (bullet1.position.x) - self.position.x
                 var dy = (bullet1.position.y) - self.position.y
@@ -77,20 +105,31 @@ class Chaser:Inimigo{
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
                 
-                let angle = atan2(dy, dx)
-                let velocityX = cos(angle)
-                let velocityY = sin(angle)
+                let angle1 = atan2(dy, dx)
+                let velocityX1 = cos(angle1)
+                let velocityY1 = sin(angle1)
+                
+                var angle2 = atan2(dy, dx)
+                angle2 += 0.5
+                let velocityX2 = cos(angle2)
+                let velocityY2 = sin(angle2)
+                
+                var angle3 = atan2(dy, dx)
+                angle3 -= 0.5
+                let velocityX3 = cos(angle3)
+                let velocityY3 = sin(angle3)
+
                 
                 let movement1 = SKAction.run {
-                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX1, dy: velocityY1))
                 }
                 
                 let movement2 = SKAction.run {
-                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX2, dy: velocityY2))
                 }
                 
                 let movement3 = SKAction.run {
-                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.3))
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX3, dy: velocityY3))
                 }
                 
                 self.addChild(bullet1)
@@ -102,7 +141,8 @@ class Chaser:Inimigo{
                 bullet2.run(.sequence([.wait(forDuration: 0.05),movement2,.wait(forDuration: 10.0),done]))
                 bullet3.run(.sequence([.wait(forDuration: 0.05),movement3,.wait(forDuration: 10.0),done]))
             }
-            //Caso funciona
+            
+            //Verifica em qual quadrante do plano da layerScenario o inimigo se localiza em relação ao eixo Y
             if self.position.y < 0 {
                 
                 var dx = (bullet1.position.x) - self.position.x
@@ -111,20 +151,31 @@ class Chaser:Inimigo{
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
                 
-                let angle = atan2(dy, dx)
-                let velocityX = cos(angle)
-                let velocityY = sin(angle)
+                let angle1 = atan2(dy, dx)
+                let velocityX1 = cos(angle1)
+                let velocityY1 = sin(angle1)
+                
+                var angle2 = atan2(dy, dx)
+                angle2 += 0.5
+                let velocityX2 = cos(angle2)
+                let velocityY2 = sin(angle2)
+                
+                var angle3 = atan2(dy, dx)
+                angle3 -= 0.5
+                let velocityX3 = cos(angle3)
+                let velocityY3 = sin(angle3)
+
                 
                 let movement1 = SKAction.run {
-                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX1, dy: velocityY1))
                 }
                 
                 let movement2 = SKAction.run {
-                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX2, dy: velocityY2))
                 }
                 
                 let movement3 = SKAction.run {
-                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.3))
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX3, dy: velocityY3))
                 }
                 
                 self.addChild(bullet1)
@@ -139,8 +190,10 @@ class Chaser:Inimigo{
             }
         }
         
+        //Verifica em qual quadrante do plano da layerScenario o inimigo se localiza em relação ao eixo X
         if self.position.x < 0{
-            //Caso funciona
+            
+            //Verifica em qual quadrante do plano da layerScenario o inimigo se localiza em relação ao eixo Y
             if self.position.y > 0 {
                 
                 var dx = (bullet1.position.x) + self.position.x
@@ -149,21 +202,31 @@ class Chaser:Inimigo{
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
                 
-                let angle = atan2(dy, dx)
+                let angle1 = atan2(dy, dx)
+                let velocityX1 = cos(angle1)
+                let velocityY1 = sin(angle1)
                 
-                let velocityX = cos(angle)
-                let velocityY = sin(angle)
+                var angle2 = atan2(dy, dx)
+                angle2 += 0.5
+                let velocityX2 = cos(angle2)
+                let velocityY2 = sin(angle2)
+                
+                var angle3 = atan2(dy, dx)
+                angle3 -= 0.5
+                let velocityX3 = cos(angle3)
+                let velocityY3 = sin(angle3)
+
                 
                 let movement1 = SKAction.run {
-                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX1, dy: velocityY1))
                 }
                 
                 let movement2 = SKAction.run {
-                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX2, dy: velocityY2))
                 }
                 
                 let movement3 = SKAction.run {
-                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.3))
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX3, dy: velocityY3))
                 }
                 
                 self.addChild(bullet1)
@@ -176,7 +239,8 @@ class Chaser:Inimigo{
                 bullet3.run(.sequence([.wait(forDuration: 0.05),movement3,.wait(forDuration: 10.0),done]))
                 
             }
-            //caso funciona
+            
+            //Verifica em qual quadrante do plano da layerScenario o inimigo se localiza em relação ao eixo Y
             if self.position.y < 0 {
                 
                 var dx = (bullet1.position.x) - self.position.x
@@ -185,21 +249,31 @@ class Chaser:Inimigo{
                 dx = dx + target!.position.x
                 dy = dy + target!.position.y
                 
-                let angle = atan2(dy, dx)
+                let angle1 = atan2(dy, dx)
+                let velocityX1 = cos(angle1)
+                let velocityY1 = sin(angle1)
                 
-                let velocityX = cos(angle)
-                let velocityY = sin(angle)
+                var angle2 = atan2(dy, dx)
+                angle2 += 0.5
+                let velocityX2 = cos(angle2)
+                let velocityY2 = sin(angle2)
+                
+                var angle3 = atan2(dy, dx)
+                angle3 -= 0.5
+                let velocityX3 = cos(angle3)
+                let velocityY3 = sin(angle3)
+
                 
                 let movement1 = SKAction.run {
-                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY))
+                    bullet1.physicsBody?.applyImpulse(CGVector(dx: velocityX1, dy: velocityY1))
                 }
                 
                 let movement2 = SKAction.run {
-                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY + 0.3))
+                    bullet2.physicsBody?.applyImpulse(CGVector(dx: velocityX2, dy: velocityY2))
                 }
                 
                 let movement3 = SKAction.run {
-                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX, dy: velocityY - 0.2))
+                    bullet3.physicsBody?.applyImpulse(CGVector(dx: velocityX3, dy: velocityY3))
                 }
                 
                 self.addChild(bullet1)

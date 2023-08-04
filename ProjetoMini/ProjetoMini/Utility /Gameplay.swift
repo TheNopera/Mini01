@@ -23,6 +23,7 @@ enum physicsCategory:UInt32{
 let screenWidth: CGFloat = UIScreen.main.bounds.width
 let screenHeight: CGFloat = UIScreen.main.bounds.height
 
+//Essa extension cria uma nova funcao para o tipo string, essa funcao é utilizada para localizar os textos
 extension String{
     func localizaed() -> String{
         return NSLocalizedString(self,tableName: "Localizable",bundle: .main,value: self, comment: self)

@@ -27,7 +27,6 @@ class isDeadRight:GKState{
     }
     
     override func update(deltaTime seconds: TimeInterval) {
-        
     }
 }
 

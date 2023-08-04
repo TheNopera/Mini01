@@ -57,7 +57,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let nofallTile = tileMapScenario.childNode(withName: "NoFallTile") as? SKTileMapNode {
             
             layerScenario.createNonFallTile(nofallTile)
-            
         }
         
         // MARK: center the scenario position in GameScene
@@ -199,8 +198,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     //MARK: DidBegin
     func didBegin(_ contact: SKPhysicsContact) {
+        //Variável recebe o valor do category dos dois bodys do impacto
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
+        //O valor da variável é comparado com cada case do switch para descobrir qual foi o impacto
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
             if player.physicsBody!.velocity.dy < 0 && !player.hasContact{
@@ -237,9 +238,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.isPaused = true
                     }
                     self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1) ,endgame]))
-                    
-                    
-                    
                 }
                 
             } else{
@@ -278,18 +276,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             playerBullet.node?.removeFromParent()
             
-            
             for i in layerScenario.inimigosAR{
+                //Busca o inimigo que foi atingido dentro do layerScenario
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
+                        //Se o inimigo morreu realiza as funcoes necessarias para a morte do inimigo
                         i.morreu()
                         if i == Chaser(){
                             layerScenario.hasChaser = false
                         }
                         layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
-                        
-                        for _ in 1...2{
+                        //Se o inimigo morreu ele chama outros dois spawns
+                        for _ in 1...3{
                             self.spawnInmigos()
                         }
                     }
@@ -312,7 +311,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1), endgame]))
             }
             
-        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
+        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue://Inimigo e sua própria bala
             print("bala bateu no inimigo")
             
         default: // contato não corresponde a nenhum caso
@@ -322,6 +321,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
+        //Variável recebe o valor do category dos dois bodys do impacto
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         switch contactMask{
@@ -362,20 +362,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             } else if (dy < 0  && player.goDown) {
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
-                print("GODOWN")
             }
             
             else {
                 // Allow collisions if the hero is falling
                 
                 body.collisionBitMask |= physicsCategory.nofallplatform.rawValue | physicsCategory.platform.rawValue
-                
             }
-            
-            
         }
-        
-        
         
         stateMachine?.update(deltaTime: 0.01)
         
@@ -460,7 +454,7 @@ extension GameScene {
 
 
 extension GameScene {
-    
+    //Funcao chamada para inicializar o game
     private func startGame() {
         hudNode.setupPauseNode()
         hudNode.setupInGameTimer()
@@ -471,19 +465,26 @@ extension GameScene {
 }
 
 extension GameScene{
+    //Funcao utilizada para ativar os spawns pela gamescene
     func spawnInmigos(){
         
-        var j = Int.random(in: 1...5)
+        //Escolhe um spawn aleatorio
+        var j = Int.random(in: 1...6)
         
+        //Verifica se esse spawn foi o ultimo a ser utilizado e se for outro é escolhido
         while j == self.lastUsedSpawn{
-            j = Int.random(in: 1...5)
+                j = Int.random(in: 1...6)
         }
         
         self.lastUsedSpawn = j
         
+        let timeInterval = Float.random(in: 4...7)
+
+        //ativa o spawn
         _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
-            self.layerScenario.inimigoSpawn(spawn: j, target: self.player)
+            self.layerScenario.inimigoSpawn(spawn: j, target: player)
         }
     }
+    
 }
 

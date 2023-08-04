@@ -12,12 +12,14 @@ import SpriteKit
 
 class LayerScenario: SKNode {
     
+    //Variáveis da LayerScenario
     var gameScene: GameScene?
     var spawnPoint1: SKSpriteNode = SKSpriteNode()
     var spawnPoint2: SKSpriteNode = SKSpriteNode()
     var spawnPoint3: SKSpriteNode =  SKSpriteNode()
     var spawnPoint4: SKSpriteNode = SKSpriteNode()
     var spawnPoint5: SKSpriteNode = SKSpriteNode()
+    var spawnPoint6: SKSpriteNode = SKSpriteNode()
     var inimigosAR: [Inimigo] = []
     var hasChaser:Bool = false
     var spawnPoints: [SKSpriteNode] = []
@@ -37,6 +39,9 @@ class LayerScenario: SKNode {
         }
         return 3
     }
+    var hasDown:Bool = false
+    
+    //Texturas da animacao de spawn do inimigo
     var spawnR = [
         SKTexture(imageNamed: "spawnD1"),
         SKTexture(imageNamed: "spawnD2"),
@@ -59,6 +64,8 @@ class LayerScenario: SKNode {
         SKTexture(imageNamed: "spawnL8"),
         SKTexture(imageNamed: "spawnL9"),
     ]
+    
+    //Inicializador cria os spawpoints e dá suas características
     override init() {
         super.init()
         
@@ -96,6 +103,13 @@ class LayerScenario: SKNode {
         spawnPoint5.position = CGPoint(x: frame.midX - 320, y: frame.minY - 160)
         spawnPoints.append(spawnPoint5)
         addChild(spawnPoint5)
+        
+        spawnPoint6.size = CGSize(width: 64, height: 80)
+        spawnPoint6.name = "spawnPoint5" // precisa do nome para conseguir coloca-los na scene
+        spawnPoint6.zPosition = 21.0
+        spawnPoint6.position = CGPoint(x: frame.midX + 320, y: frame.minY - 160)
+        spawnPoints.append(spawnPoint5)
+        addChild(spawnPoint6)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -186,6 +200,7 @@ class LayerScenario: SKNode {
         }
     }
     
+    //Função utilizada para criar o inimigo na posição do spawnpoint
     func inimigoSpawn(spawn:Int, target:Player){
         enumerateChildNodes(withName: "spawnPoint\(spawn)"){ node, _ in
             if let spawnPoint = node as? SKSpriteNode{
@@ -245,6 +260,7 @@ class LayerScenario: SKNode {
         }
     }
     
+    //Funcao verifica se existem algum inimigo próximo do spawnPoint
     func verificaPosição(spawnNum:Int) -> Bool{
         if inimigosAR == []{
             return true
@@ -259,12 +275,15 @@ class LayerScenario: SKNode {
         }
     }
     
+    //Funcao que retorna o tipo de inimigo que vai ser criado \
     func giveEnemy() -> Inimigo{
         let decider = Int.random(in: 1...100)
         
-        if decider > 20 {
+        if decider > 50 {
             return Inimigo()
-        } else {
+        } else if decider > 25{
+            return InimigoB()
+        } else{
             return Chaser()
         }
     }
