@@ -8,6 +8,7 @@
 import Foundation
 import SpriteKit
 
+//Node que cria nuvens de nevoa e faz elas sequirem um path que é passado durante a inicialização
 
 class CloudEmitter: SKSpriteNode{
     var back:Bool?

@@ -27,7 +27,6 @@ class isDeadLeft:GKState{
     }
     
     override func update(deltaTime seconds: TimeInterval) {
-        print("ESTOU MORTO")
     }
 }
 
