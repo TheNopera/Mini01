@@ -26,6 +26,6 @@ class isDeadLeft:GKState{
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
          return stateClass == isDeadLeft.self
     }
-    
+
 }
 
