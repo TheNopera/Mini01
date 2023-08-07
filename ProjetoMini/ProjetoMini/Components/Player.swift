@@ -9,15 +9,21 @@ import Foundation
 import SpriteKit
 
 class Player:SKSpriteNode{
-    
+    ///PLAYER SPEED
     private(set) var playerSpeed:CGFloat = 0
+    ///PLAYER LIVES
     var vidas = 3
+
     var SwipeHandler: CustomSwipeHandler!
     var jumps:Int = 0
+    
+    //PLAYER INTIAL CONTACT STAT
     var hasContact:Bool = false
+    // Player direction and jump status
     var goDown:Bool = false
     var isTurningLeft:Bool = false
     var isJumping:Bool = false
+    
     var isImortal = false
     private let soundKey = "SoundKey"
     private var SoundToggle = false
@@ -81,7 +87,7 @@ class Player:SKSpriteNode{
     
     
     
-    
+    // MARK: Initialization
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
         
         super.init(texture: texture, color: color, size: size)
@@ -93,6 +99,7 @@ class Player:SKSpriteNode{
         self.name = "player"
         self.physicsBody?.allowsRotation = false
         
+        // Set up an action to repeat the atirando function to simulate shooting behavior
         let atirar = SKAction.run {
             self.atirando()
         }
@@ -108,6 +115,8 @@ class Player:SKSpriteNode{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // Setup the swipe handler for player movement
     func setupSwipeHandler() {
         guard let scene = scene else {
             return // The scene is not set yet, can't initialize the swipe handler
@@ -116,6 +125,7 @@ class Player:SKSpriteNode{
     }
     
     //MARK: PLAYER MOVEMENT FUNCTION
+    // Function to move the player horizontally
     func playerMove(displacement:Double){
         //let movementDistance = displacement * playerSpeed
         //DummyPlayer.physicsBody?.applyImpulse(CGVector(dx: movementDistance, dy: 0))
@@ -141,6 +151,7 @@ class Player:SKSpriteNode{
     }
     
     //MARK: PLAYER JUMP FUNCTION
+    // Function to make the player jump
     func playerJump(){
         if jumps < 1{
             if self.vidas > 0{
@@ -150,7 +161,7 @@ class Player:SKSpriteNode{
             }
         }
     }
-    
+    // Function to make the player go down
     func playerGodown(){
         if self.vidas > 0{
             if self.physicsBody!.velocity.dy == 0{
@@ -161,7 +172,8 @@ class Player:SKSpriteNode{
         
         
     }
-
+    
+    // Handle swipe gestures
     func handleSwipe(_ direction: UISwipeGestureRecognizer.Direction) {
         switch direction {
         case .right:
@@ -184,14 +196,16 @@ class Player:SKSpriteNode{
         }
         
     }
-    
+    // MARK: Player Damage Functions
+       
+    // Function to apply damage to the player when hit by enemy
     func tomouTiro(){
         if !isImortal{
             
         }
         self.tomouDano()
     }
-    
+    // Function to make the player take damage
     func tomouDano(){
         if self.vidas > 0{
             let imortal = SKAction.run {
@@ -215,6 +229,7 @@ class Player:SKSpriteNode{
         }
         
     }
+    // Function to apply an impulse when colliding with an enemy
     func encostouNoInimigo(direção:Double){
         let impulse = direção > 0 ? -25 : 25
         if !self.isImortal{
@@ -223,7 +238,7 @@ class Player:SKSpriteNode{
         }
         
     }
-    
+    // Function to create bullets when shooting
     func atirando(){
         
         let bullet = SKSpriteNode(imageNamed: "playertiro")
@@ -237,9 +252,7 @@ class Player:SKSpriteNode{
         bullet.physicsBody?.restitution = 0.0
         
         let audioNode = SKAudioNode(fileNamed: "Player_Gunshot4.mp3")
-        //audioNode.autoplayLooped = false
         stopAudioAfterDuration(audioNode: audioNode, duration: 1)
-        //audioNode.gain = 0.8
         let savedsound: Bool = (UserDefaults.standard.integer(forKey: soundKey) != 0)
         if !savedsound{
             audioNode.run(SKAction.stop())
@@ -262,6 +275,7 @@ class Player:SKSpriteNode{
                 audioNode.removeFromParent()
             }
             
+            // Function to stop audio after a specified duration
             let sequenceAudio = SKAction.sequence([playAudio,.wait(forDuration: 0.5), stopAudio])
             self.run(sequenceAudio)
         
