@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         print("teste")
         addChild(backgroundMusic)
-       
+        
         //backgroundSound.run(SKAction.play())
         // MARK: add physics to the world
         self.physicsWorld.contactDelegate = self
@@ -56,7 +56,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let nofallTile = tileMapScenario.childNode(withName: "NoFallTile") as? SKTileMapNode {
             
             layerScenario.createNonFallTile(nofallTile)
-            
         }
         
         // MARK: center the scenario position in GameScene
@@ -89,11 +88,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let platerBounds = self.calculateAccumulatedFrame().width / 2
         let playerConstraint = SKConstraint.positionX(.init(lowerLimit: -platerBounds, upperLimit: platerBounds))
-        self.camera?.constraints = [cameraWidthConstraint, cameraHeightConstraint] 
+        self.camera?.constraints = [cameraWidthConstraint, cameraHeightConstraint]
         self.player.constraints = [playerConstraint]
         let comecar = SKAction.run {
             for _ in 1...3{
-                self.ativaSpawn()
+                self.spawnInmigos()
             }
         }
         self.run(.sequence([.wait(forDuration: 2.0),comecar]))
@@ -198,8 +197,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     //MARK: DidBegin
     func didBegin(_ contact: SKPhysicsContact) {
+        //Variável recebe o valor do category dos dois bodys do impacto
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
+        //O valor da variável é comparado com cada case do switch para descobrir qual foi o impacto
         switch contactMask{
         case physicsCategory.player.rawValue | physicsCategory.platform.rawValue: // player e plataforma
             if player.physicsBody!.velocity.dy < 0 && !player.hasContact{
@@ -218,11 +219,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 _ = contact.bodyA.node
                 let enemyBullet = contact.bodyB.node
                 player.tomouTiro()
-
+                
                 if !player.isImortal{
                     enemyBullet!.removeFromParent()
                     
-                   // code that removes a lifenode
+                    // code that removes a lifenode
                     if player.vidas <= 0 {player.vidas = 0}
                     hudNode.lifeNodes[player.vidas].texture = SKTexture(imageNamed: "life-off")
                 }
@@ -236,9 +237,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.isPaused = true
                     }
                     self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1) ,endgame]))
-                    
-                    
-                    
                 }
                 
             } else{
@@ -277,49 +275,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             playerBullet.node?.removeFromParent()
             
-            
             for i in layerScenario.inimigosAR{
+                //Busca o inimigo que foi atingido dentro do layerScenario
                 if i.name == enemyBody.node?.name{
                     i.inimigoTomouDano()
                     if i.vidas == 0{
+                        //Se o inimigo morreu realiza as funcoes necessarias para a morte do inimigo
                         i.morreu()
                         if i == Chaser(){
                             layerScenario.hasChaser = false
                         }
                         layerScenario.inimigosAR.removeAll(where: {$0.name == i.name})
-                        for _ in 1...2{
-                            var j = Int.random(in: 1...5)
-                            if j == lastUsedSpawn{
-                                while j == lastUsedSpawn{
-                                    j = Int.random(in: 1...5)
-                                }
-                            }else{
-                                self.lastUsedSpawn = j
-                            }
-                            switch j{
-                            case 1:
-                                _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn1(target: self.player)
-                                }
-                            case 2:
-                                _ = Timer.scheduledTimer(withTimeInterval: 4.5, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn2(target: self.player)
-                                }
-                            case 3:
-                                _ = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn3(target: self.player)
-                                }
-                            case 4:
-                                _ = Timer.scheduledTimer(withTimeInterval: 5.5, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn4(target: self.player)
-                                }
-                            case 5:
-                                _ = Timer.scheduledTimer(withTimeInterval: 6.0, repeats: false) { [self] timer in
-                                    self.layerScenario.InimigoSpawn5(target: self.player)
-                                }
-                            default:
-                                print("caso não encontrado")
-                            }
+                        //Se o inimigo morreu ele chama outros dois spawns
+                        for _ in 1...3{
+                            self.spawnInmigos()
                         }
                     }
                 }
@@ -329,9 +298,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case physicsCategory.player.rawValue | physicsCategory.enemy.rawValue: // player e inimigo
             player.encostouNoInimigo(direção: joystick.displacement)
             // code that removes a lifenode
-             if player.vidas <= 0 {player.vidas = 0}
-             hudNode.lifeNodes[player.vidas].texture = SKTexture(imageNamed: "life-off")
-         
+            if player.vidas <= 0 {player.vidas = 0}
+            hudNode.lifeNodes[player.vidas].texture = SKTexture(imageNamed: "life-off")
+            
             if player.vidas == 0{
                 
                 let endgame = SKAction.run {
@@ -341,7 +310,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.run(.sequence([.wait(forDuration:0.8),.wait(forDuration:1), endgame]))
             }
             
-        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue:
+        case physicsCategory.enemy.rawValue | physicsCategory.enemyBullet.rawValue://Inimigo e sua própria bala
             print("bala bateu no inimigo")
             
         default: // contato não corresponde a nenhum caso
@@ -351,6 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //MARK: DidEnd
     func didEnd(_ contact: SKPhysicsContact) {
+        //Variável recebe o valor do category dos dois bodys do impacto
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         switch contactMask{
@@ -364,7 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         case physicsCategory.player.rawValue | physicsCategory.nofallplatform.rawValue: //player and nofallplatform collision
             if player.physicsBody!.velocity.dy != 0{
-              
+                
                 player.hasContact = false
             }
         default:
@@ -391,20 +361,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             } else if (dy < 0  && player.goDown) {
                 body.collisionBitMask = physicsCategory.nofallplatform.rawValue
-                print("GODOWN")
             }
             
             else {
                 // Allow collisions if the hero is falling
                 
                 body.collisionBitMask |= physicsCategory.nofallplatform.rawValue | physicsCategory.platform.rawValue
-           
             }
-            
-            
         }
-        
-        
         
         stateMachine?.update(deltaTime: 0.01)
         
@@ -414,7 +378,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+
         // MARK: This part is the In Game Timer
+
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -444,7 +410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene?.isPaused = true
             hudNode.seconds = hudNode.seconds - 1
         }
-
+        
         
         let savedMusic: Bool = (UserDefaults.standard.integer(forKey: "MusicKey") != 0)
         if !savedMusic{
@@ -504,24 +470,26 @@ extension GameScene {
 }
 
 extension GameScene{
-    private func ativaSpawn(){
-        let numSpawn = Int.random(in: 1...5)
+    //Funcao utilizada para ativar os spawns pela gamescene
+    func spawnInmigos(){
+        
+        //Escolhe um spawn aleatorio
+        var j = Int.random(in: 1...6)
+        
+        //Verifica se esse spawn foi o ultimo a ser utilizado e se for outro é escolhido
+        while j == self.lastUsedSpawn{
+                j = Int.random(in: 1...6)
+        }
+        
+        self.lastUsedSpawn = j
+        
+        let timeInterval = Float.random(in: 4...7)
 
-        switch numSpawn{
-        case 1:
-            layerScenario.InimigoSpawn1(target: self.player)
-        case 2:
-            layerScenario.InimigoSpawn2(target: self.player)
-        case 3:
-            layerScenario.InimigoSpawn3(target: self.player)
-        case 4:
-            layerScenario.InimigoSpawn4(target: self.player)
-        case 5:
-            layerScenario.InimigoSpawn5(target: self.player)
-        default:
-            print("spawn não encontrado")
+        //ativa o spawn
+        _ = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: false) { [self] timer in
+            self.layerScenario.inimigoSpawn(spawn: j, target: player)
         }
     }
+    
 }
-
 

@@ -9,7 +9,8 @@ import GameplayKit
 
 class isIdleRight:GKState{
     weak var gameScene: GameScene?
-    
+    //MARK: DID ENTER
+    ///This function runs everytime this state is called.
     override func didEnter(from previousState: GKState?) {
         gameScene?.player.removeAction(forKey: "animation")
         let idleAnimation = SKAction.animate(with: (gameScene?.player.idleAnimationR)! , timePerFrame: 0.1)
