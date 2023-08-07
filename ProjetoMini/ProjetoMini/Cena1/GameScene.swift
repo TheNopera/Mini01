@@ -12,7 +12,6 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     let backgroundMusic = SKAudioNode(fileNamed: "BGMusic.m4a")
     var player:Player = Player()
-    //var inimigo:Inimigo = Inimigo()
     var joystick:Joystick = Joystick()
     let cameraPlayer = SKCameraNode()
     var displacement:Double = 0
@@ -415,7 +414,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-
+        // MARK: This part is the In Game Timer
         if currentTime > hudNode.renderTime {
             if hudNode.renderTime > 0 {
                 hudNode.seconds += 1
@@ -431,6 +430,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 timerInSeconds += 1
                 layerScenario.tempoAtual = timerInSeconds
                 
+                // let highscore saves the highscore by using UserDefaults
                 let highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
                 if timerInSeconds > highscore {
                     UserDefaults.standard.set(timerInSeconds, forKey: easeScoreKey)
@@ -459,8 +459,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 // MARK: - GameOver
 extension GameScene {
     
-    // Function that format timeINSeconds to a custom string
-    func formatarTempo(timerInSeconds: Int) -> String {
+    /// Function that format timeInSeconds to a custom string
+    func formatTime(timerInSeconds: Int) -> String {
         let minutos = timerInSeconds / 60
         let segundos = timerInSeconds % 60
         
@@ -471,15 +471,17 @@ extension GameScene {
         return "\(minutosFormatados):\(segundosFormatados)"
     }
     
+    /// Function that executes multiples essential functions to end the gameplay
     private func gameOver() {
         
+        // Compares the saved highscore and the gameplay total time
         var highscore = UserDefaults.standard.integer(forKey: easeScoreKey)
         if timerInSeconds > highscore {
             highscore = timerInSeconds
         }
         
-        let formattedTime = formatarTempo(timerInSeconds: timerInSeconds)
-        let formattedHighTime = formatarTempo(timerInSeconds: highscore)
+        let formattedTime = formatTime(timerInSeconds: timerInSeconds)
+        let formattedHighTime = formatTime(timerInSeconds: highscore)
         
         hudNode.setupGameOver(formattedTime, formattedHighTime)
         hudNode.timerLabel.removeFromParent()
@@ -491,6 +493,7 @@ extension GameScene {
 
 extension GameScene {
     
+    /// executes multiple funcs to start the Forbidden Waters gameplay
     private func startGame() {
         hudNode.setupPauseNode()
         hudNode.setupInGameTimer()

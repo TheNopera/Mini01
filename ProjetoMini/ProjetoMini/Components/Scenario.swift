@@ -102,6 +102,7 @@ class LayerScenario: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Function that creates a TileMap, so the player can go up and down in the tiles
     func createTileMapColliders(_ tilemap: SKTileMapNode) {
         let tileSize = CGSize(width: tilemap.numberOfColumns, height: tilemap.numberOfRows)
         
@@ -144,6 +145,7 @@ class LayerScenario: SKNode {
         
     }
     
+    /// Function that create a TileMap with a different categoryBitMask, so the player can't go down in this tile
     func createNonFallTile(_ tilemap: SKTileMapNode) {
         let tileSize = CGSize(width: tilemap.numberOfColumns, height: tilemap.numberOfRows)
         
