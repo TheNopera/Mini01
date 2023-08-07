@@ -7,10 +7,10 @@
 
 import Foundation
 import SpriteKit
-//Node que cria o background da fase
+
 class BackgroundNode: SKNode {
     
-    //Objetos da fase e suas animacoes
+    // MARK: SpriteNode Properties
     var gameSky = SKSpriteNode(imageNamed: "game-sky")
     var gameStars = SKEmitterNode(fileNamed: "Estrelas")
     var gameBehindSea = SKSpriteNode(imageNamed: "game_behindsea")
@@ -31,7 +31,7 @@ class BackgroundNode: SKNode {
         SKTexture(imageNamed: "game-boat3")
     ]
     
-    //Funcao que cria e posiciona os objetos do cenario da fase 
+    /// Creates and setup a position for each scenario element
     func setupBackgrounds() {
         
         gameSky.position = CGPoint(x: screenWidth*0.5, y: screenHeight*0.5)
