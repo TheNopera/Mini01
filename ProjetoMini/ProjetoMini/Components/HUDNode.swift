@@ -548,9 +548,9 @@ extension HUDNode {
 }
 // MARK: IN GAME
 
-// MARK: INGAME TIMER
 extension HUDNode {
  
+    /// Creates and initializes the Game Timer
     func setupInGameTimer() {
         timerLabel = SKLabelNode()
         timerLabel.zPosition = 49.0
@@ -564,7 +564,7 @@ extension HUDNode {
 
 extension HUDNode {
     
-    // Create Hearts for Player Life
+    /// Create Hearts for Player Life
     func setupLife() {
         life1 = SKSpriteNode(imageNamed: "life-on")
         life2 = SKSpriteNode(imageNamed: "life-on")
@@ -579,7 +579,7 @@ extension HUDNode {
         lifeNodes.append(life3)
     }
     
-    // Setup Positions for the Hearts
+    /// Setup Positions for the Hearts
     func setupLifePosition(_ life: SKSpriteNode, j: CGFloat) {
         
         life.zPosition = 49.0
@@ -593,7 +593,7 @@ extension HUDNode {
 
 extension HUDNode {
     
-    // Create Pause Button in GameScene
+    /// Create Pause Button in GameScene
     func setupPauseNode() {
         inGamePauseNode = SKSpriteNode(imageNamed: "pause-button")
         inGamePauseNode.zPosition = 49.0
@@ -607,7 +607,7 @@ extension HUDNode {
         
     }
     
-    // Create Resume Button over the Pause Button when the Pause Button is pressed
+    /// Create Resume Button over the Pause Button when the Pause Button is pressed
     func setupResumeNode() {
         resumeNode = SKSpriteNode(imageNamed: "resume-button")
         resumeNode.name = "Resume"
